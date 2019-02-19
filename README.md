@@ -3,10 +3,15 @@
 ## Group Name: COGENE
 
 Osman Orhan Uysal
+
 Samet Özcan
+
 Mehmet Alper Karadağ
+
 Ziya Erkoç
+
 Talha Murathan Göktaş
+
 
 ## Quadrillion Game Description
 
