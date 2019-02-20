@@ -1,0 +1,21 @@
+                                                      20/02/2019
+Class diagram was discussed, and reviweved, necessary changes were done.
+
+Additional features and some details about the game were discussed.
+
+  * Placement of peaces on the interface
+  * Shift of boards' face
+  * Moving of peaces
+  * Competitive section
+    * Level Preparement section for users
+    * Random maching and time limit in order to hinder cheating
+  * Counting of moves
+  * Design
+  
+The work was distrubited
+
+  * Alper, Orhan: sequence diagram
+  * Murathan: activity diagram
+  * Samet: use case diagram
+  * Ziya, Orhan: class diagram
+  
