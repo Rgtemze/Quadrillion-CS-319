@@ -25,7 +25,7 @@ Visual Paradigm project was created,
 all members joined Visual Paradigm project  
 and started to work online on the project platform. 
 
-Draft of the Use Case Diagram was finished. 
-Sequence diagram was discussed and improved.
+ * Draft of the Use Case Diagram was finished. 
+ * Sequence diagram was discussed and improved.
 
-Additional features and details of the game were decided. 
+Additional features and details of the game(see 20/02/2019) were decided. 
