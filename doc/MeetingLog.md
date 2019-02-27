@@ -29,3 +29,14 @@ and started to work online on the project platform.
  * Sequence diagram was discussed and improved.
 
 Additional features and details of the game(see 20/02/2019) were decided. 
+
+                                                      27/02/2019
+
+Members developed their diagrams and togegther discussed over the diagrams each member created. Eliminated most of the contradictions between them and coherence is created.
+
+ * Methods for receiving online payment is searched. Concluded on few options. 
+ * Activity diagram is shaped over the previous diagrams.
+
+ 
+
+
