@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="com.iyzipay:iyzipay-java:2.0.61" type="repository">
+    <properties maven-id="com.iyzipay:iyzipay-java:2.0.61" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/iyzipay/iyzipay-java/2.0.61/iyzipay-java-2.0.61.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.5/gson-2.5.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.4/commons-lang3-3.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
