@@ -1,47 +1,37 @@
 package sample;
 
+import javafx.scene.Group;
+
 import java.awt.*;
 
-public class Drawable {
+public abstract class Drawable {
 
-    private Point location;
-
+    protected Point location;
+    protected Group root;
 
     /*
        Rotates its components
     */
-    public void rotate() {
-    }
+    public abstract void rotate();
 
     /*
         Draws its components
      */
-    public void draw() {
-
-    }
+    public abstract void draw();
 
     /*
         Removes components that are drawed
      */
-    public void remove() {
-
-
-    }
+    public abstract void remove();
 
     /*
         Executes actions when object is dragged
      */
-    public void onDrag() {
-
-
-    }
+    public abstract  void onDrag();
 
 
     /*
         Executes actions when object is clicked
      */
-    public void onClick() {
-
-
-    }
+    public abstract void onClick();
 }
