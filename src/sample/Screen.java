@@ -2,12 +2,12 @@ package sample;
 
 public class Screen {
 
-    public static void main( String[] args ) {
+    public void switchPage() {
 
-
-        System.out.println("asdasd\n");
     }
 
-
+    public static void main( String[] args ) {
+        System.out.println("The App Has Started!!!\n");
+    }
 
 }

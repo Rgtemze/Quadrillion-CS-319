@@ -7,7 +7,6 @@ public class Ground {
     private boolean isFront = true;
 
     public Ground() {
-
     }
 
     public int[][] getActiveBoard() {
