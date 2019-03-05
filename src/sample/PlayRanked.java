@@ -1,6 +1,7 @@
 package sample;
 
-public class PlayRanked {
+public class PlayRanked extends PlayGame {
+
 
     public void uploadResults() {
 

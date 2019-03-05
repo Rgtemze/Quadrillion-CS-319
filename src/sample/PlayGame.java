@@ -1,10 +1,14 @@
 package sample;
 
-public class PlayGame {
+public class PlayGame extends Page {
     private boolean isGamePused;
     private Level currentLevel;
     private int numberOfMoves;
     private int timeElapsed;
+
+    public PlayGame(  ) {
+
+    }
 
     public PlayGame( Level currentLevel ) {
         this.currentLevel = currentLevel;

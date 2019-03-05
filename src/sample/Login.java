@@ -1,6 +1,6 @@
 package sample;
 
-public class Login {
+public class Login extends Page {
 
 
     //using MySql, users can login.

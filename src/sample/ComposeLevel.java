@@ -1,6 +1,6 @@
 package sample;
 
-public class ComposeLevel {
+public class ComposeLevel extends Page {
 
     private GameComponent gameComp;
 

@@ -1,6 +1,6 @@
 package sample;
 
-public class MainMenu {
+public class MainMenu extends Page {
 
     public void startGame() {
 

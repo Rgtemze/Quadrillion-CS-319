@@ -1,6 +1,6 @@
 package sample;
 
-public class SelectLevel {
+public class SelectLevel extends Page {
     private int selectedLevel;
 
     public void openLevel() {
