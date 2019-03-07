@@ -15,7 +15,7 @@ public class GameComponent {
     }
 
     void initPieces() {
-        Piece p = new Piece(root);
+        Piece p = (new Piece.PieceBuilder(root)).addOffset(5, 5).build();
 
         pieces[0] = p;
     }

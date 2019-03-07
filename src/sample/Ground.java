@@ -26,7 +26,7 @@ public class Ground extends Drawable{
         return backBoard;
     }
 
-    public void flipBoard() {
+    public void flip() {
         isFront = !isFront;
     }
 

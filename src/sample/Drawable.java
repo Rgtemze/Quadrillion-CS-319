@@ -34,4 +34,6 @@ public abstract class Drawable {
         Executes actions when object is clicked
      */
     public abstract void onClick();
+
+    public abstract void flip();
 }

@@ -1,8 +1,6 @@
 package sample;
 
-public class Page {
+public abstract class Page {
 
-    public void prepareDesign() {
-    }
-
+    public abstract void prepareDesign();
 }

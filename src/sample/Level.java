@@ -16,8 +16,8 @@ public class Level {
         this.pieces = pieces;
         this.grounds = grounds;
 
-        adjustPieces();
         combineGrounds();
+        adjustPieces();
     }
 
     private void adjustPieces() {

@@ -17,8 +17,9 @@ public class Piece extends Drawable {
     private double minY;
     private Level level;
 
-    public Piece(Group root) {
-        this.minX = minX;
+    private Piece(PieceBuilder builder) {
+        this.circleOffsets = builder.circleOffsets;
+        this.root = builder.root;
     }
 
     public void setLevel(Level level){
@@ -82,6 +83,11 @@ public class Piece extends Drawable {
 
     }
 
+    @Override
+    public void flip() {
+
+    }
+
     public void setMinX(int minX) {
         this.minX = minX;
     }
@@ -89,6 +95,7 @@ public class Piece extends Drawable {
     public void setMinY(int minY) {
         this.minY = minY;
     }
+
     private class DragHandler implements EventHandler<MouseEvent> {
 
         @Override
@@ -108,6 +115,26 @@ public class Piece extends Drawable {
             if(!hasNotValid) {
                 System.out.println("found");
             }
+        }
+    }
+
+    public static class PieceBuilder{
+
+        private Group root;
+        private ArrayList<Point> circleOffsets;
+
+        public PieceBuilder(Group root){
+            this.root = root;
+            circleOffsets = new ArrayList<>();
+        }
+
+        public PieceBuilder addOffset(int x, int y){
+            circleOffsets.add(new Point(x, y));
+            return this;
+        }
+
+        public Piece build(){
+            return new Piece(this);
         }
     }
 }
