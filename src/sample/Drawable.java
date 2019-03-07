@@ -9,6 +9,11 @@ public abstract class Drawable {
     protected Point location;
     protected Group root;
 
+    public Drawable(){
+        location = new Point();
+        root = new Group();
+    }
+
     /*
        Rotates its components
     */

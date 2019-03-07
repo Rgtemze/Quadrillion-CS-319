@@ -15,7 +15,7 @@ public class Level {
     public Level( Ground[] grounds, Piece[] pieces ) {
         this.pieces = pieces;
         this.grounds = grounds;
-
+        combination = new int[16][16];
         combineGrounds();
         adjustPieces();
     }

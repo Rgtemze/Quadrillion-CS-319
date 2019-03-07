@@ -15,10 +15,12 @@ public class Ground extends Drawable{
     private final static int WIDTH = EDGE_LENGTH * NUMBER_OF_EDGE;
     private final static int HEIGHT = EDGE_LENGTH * NUMBER_OF_EDGE;
 
-    public Ground(Group root, int x, int y) {
-        location.x = x;
-        location.y = y;
-        this.root = root;
+    private Ground(GroundBuilder builder) {
+        location.x = builder.x;
+        location.y = builder.y;
+        frontBoard = builder.frontBoard;
+        backBoard = builder.backBoard;
+        this.root = builder.root;
     }
 
     public int[][] getActiveBoard() {
@@ -51,15 +53,10 @@ public class Ground extends Drawable{
 
                 Circle c = new Circle();
                 c.setRadius(Piece.RADIUS);
+                c.setFill((getActiveBoard()[i][j] == 1 ? Paint.valueOf("black") : Paint.valueOf("white")));
+                c.setStroke(Paint.valueOf("white"));
                 c.setCenterX(location.getX() + EDGE_LENGTH / 2.0 + EDGE_LENGTH * i);
                 c.setCenterY(location.getY() + EDGE_LENGTH / 2.0 + EDGE_LENGTH * j);
-                if(i == j){
-                    c.setFill(Paint.valueOf("black"));
-                    c.setStroke(Paint.valueOf("white"));
-                } else {
-                    c.setFill(Paint.valueOf("white"));
-                    getActiveBoard()[i][j] = 1;
-                }
                 root.getChildren().add(c);
             }
         }
@@ -77,6 +74,45 @@ public class Ground extends Drawable{
 
     @Override
     public void onClick() {
+
+    }
+
+    public static class GroundBuilder{
+        private Group root;
+        private int x;
+        private int y;
+        private int[][] frontBoard;
+        private int[][] backBoard;
+        public GroundBuilder(Group root){
+            this.root = root;
+            frontBoard = new int[4][4];
+            backBoard = new int[4][4];
+        }
+
+        public GroundBuilder setX(int x){
+            this.x = x;
+            return this;
+        }
+
+        public GroundBuilder setY(int y){
+            this.y = y;
+            return this;
+        }
+
+        public GroundBuilder setOccupied(boolean isFront, int x, int y){
+
+            if(isFront){
+                frontBoard[x][y] = 1;
+            } else {
+                backBoard[x][y] = 1;
+            }
+            return this;
+        }
+
+        public Ground build(){
+            return new Ground(this);
+        }
+
 
     }
 }

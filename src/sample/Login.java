@@ -13,4 +13,8 @@ public class Login extends Page {
 
     }
 
+    @Override
+    public void prepareDesign() {
+
+    }
 }
