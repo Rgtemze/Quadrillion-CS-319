@@ -17,4 +17,8 @@ public class ComposeLevel extends Page {
 
     }
 
+    @Override
+    public void prepareDesign() {
+
+    }
 }

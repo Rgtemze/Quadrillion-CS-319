@@ -1,17 +1,18 @@
 package sample;
 
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
+
 public class PlayGame extends Page {
     private boolean isGamePused;
     private Level currentLevel;
     private int numberOfMoves;
     private int timeElapsed;
-
-    public PlayGame(  ) {
-
+    @Override
+    public void prepareDesign() {
     }
 
-    public PlayGame( Level currentLevel ) {
-        this.currentLevel = currentLevel;
+    public PlayGame() {
     }
 
     private void goNextLevel() {
@@ -32,4 +33,8 @@ public class PlayGame extends Page {
         // to see hints
     }
 
+    public void setLevel(Level l) {
+        this.currentLevel = l;
+        currentLevel.drawLevel();
+    }
 }

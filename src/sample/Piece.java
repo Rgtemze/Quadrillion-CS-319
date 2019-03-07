@@ -19,6 +19,7 @@ public class Piece extends Drawable {
 
     public Piece(Group root) {
         this.minX = minX;
+        circleOffsets = new ArrayList<>();
     }
 
     public void setLevel(Level level){
