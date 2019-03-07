@@ -31,6 +31,8 @@ public class Screen extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+        PosService pos = new PosService();
+        pos.pay();
 
         MainMenu menu = new MainMenu();
         gameScene = new Scene(menu.getRoot(), 1600, 800);
