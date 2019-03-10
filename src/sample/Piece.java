@@ -20,6 +20,7 @@ public class Piece extends Drawable {
     private Piece(PieceBuilder builder) {
         this.circleOffsets = builder.circleOffsets;
         this.root = builder.root;
+        circles = new ArrayList<>();
     }
 
     public void setLevel(Level level){

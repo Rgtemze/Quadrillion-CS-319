@@ -17,7 +17,9 @@ public class Screen extends Application {
     }
 
     public static void main( String[] args ) {
-        launch(args);
+        //launch(args);
+        DatabaseConnection db = DatabaseConnection.getInstance();
+
     }
 
     public static double getSceneWidth(){
@@ -31,8 +33,8 @@ public class Screen extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        PosService pos = new PosService();
-        pos.pay();
+        //PosService pos = new PosService();
+        //pos.pay();
 
         MainMenu menu = new MainMenu();
         gameScene = new Scene(menu.getRoot(), 1600, 800);
