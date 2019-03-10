@@ -37,18 +37,6 @@ public class DatabaseConnection {
             String dbUrl = "jdbc:mysql://localhost/quadrillion?useLegacyDatetimeCode=false&serverTimezone=Turkey";
             conn = DriverManager.getConnection(dbUrl, "root", "12345678q");
 
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM combinations");
-
-
-
-            while(rs.next()){
-
-
-                System.out.println((rs.getString("ROTATIONS")));
-
-
-            }
 
         } catch (IllegalAccessException e) {
             e.printStackTrace();
@@ -61,9 +49,20 @@ public class DatabaseConnection {
         }
     }
 
-    public ResultSet executeSQL(String sql){
+    public String executeSQL(String sql, String column){
 
-        ResultSet rs = null;
+
+        Statement st = null;
+        try {
+            st = conn.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM combinations");
+
+            if(rs.next()){
+                return rs.getString(column);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
         return null;

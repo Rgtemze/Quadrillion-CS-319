@@ -23,8 +23,6 @@ public class Level {
     private void adjustPieces() {
         for(Piece p : pieces){
             p.setLevel(this);
-            p.setMinX(minX);
-            p.setMinY(minY);
         }
     }
 
@@ -61,6 +59,14 @@ public class Level {
     */
     public boolean isGameWon() {
         return isGameFinished;
+    }
+
+    public int getMinX() {
+        return minX;
+    }
+
+    public int getMinY() {
+        return minY;
     }
 
     /*

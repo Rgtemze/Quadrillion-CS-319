@@ -2,6 +2,7 @@ package sample;
 
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 
@@ -13,8 +14,7 @@ public class Piece extends Drawable {
 
     private ArrayList<Point> circleOffsets;
     private ArrayList<Circle> circles;
-    private double minX;
-    private double minY;
+
     private Level level;
 
     private Piece(PieceBuilder builder) {
@@ -25,13 +25,6 @@ public class Piece extends Drawable {
 
     public void setLevel(Level level){
         this.level = level;
-    }
-    public ArrayList<Point> getCircleOffsets() {
-        return circleOffsets;
-    }
-
-    public void setCircleOffsets(ArrayList<Point> circleOffsets) {
-        this.circleOffsets = circleOffsets;
     }
 
     public static final int RADIUS = 30;
@@ -57,12 +50,7 @@ public class Piece extends Drawable {
             root.getChildren().add(c);
 
             c.setOnMouseDragged(new DragHandler());
-            c.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    rotate();
-                }
-            });
+            c.setOnMouseClicked(new ClickHandler());
         }
     }
 
@@ -89,12 +77,16 @@ public class Piece extends Drawable {
 
     }
 
-    public void setMinX(int minX) {
-        this.minX = minX;
-    }
+    private class ClickHandler implements EventHandler<MouseEvent>{
 
-    public void setMinY(int minY) {
-        this.minY = minY;
+        @Override
+        public void handle(MouseEvent event) {
+            if (event.getButton() == MouseButton.MIDDLE) {
+                rotate();
+            } else if (event.getButton() == MouseButton.SECONDARY) {
+                flip();
+            }
+        }
     }
 
     private class DragHandler implements EventHandler<MouseEvent> {
@@ -105,8 +97,8 @@ public class Piece extends Drawable {
             for (Circle c : circles) {
                 c.setCenterX(c.getCenterX() + event.getX() - location.getX());
                 c.setCenterY(c.getCenterY() + event.getY() - location.getY());
-                int x = (int) Math.floor((c.getCenterX() - RADIUS - minX) / Ground.EDGE_LENGTH);
-                int y = (int) Math.floor((c.getCenterY() - RADIUS -  minY) / Ground.EDGE_LENGTH);
+                int x = (int) Math.floor((c.getCenterX() - RADIUS - level.getMinX()) / Ground.EDGE_LENGTH);
+                int y = (int) Math.floor((c.getCenterY() - RADIUS -  level.getMinY()) / Ground.EDGE_LENGTH);
 
                 if( y < 0 || x < 0 || y >= 16 || x >= 16 || level.isOccupied(y,x)){
                     hasNotValid = true;

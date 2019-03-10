@@ -17,8 +17,7 @@ public class Screen extends Application {
     }
 
     public static void main( String[] args ) {
-        //launch(args);
-        DatabaseConnection db = DatabaseConnection.getInstance();
+        launch(args);
 
     }
 

@@ -12,17 +12,20 @@ public class GameComponent {
         this.root = root;
         pieces = new Piece[1];
         grounds = new Ground[4];
+    }
+
+    public void init(){
         initPieces();
         initGrounds();
     }
 
-    void initPieces() {
+    private void initPieces() {
         Piece p = (new Piece.PieceBuilder(root)).addOffset(5, 5).build();
 
         pieces[0] = p;
     }
 
-    void initGrounds() {
+    private void initGrounds() {
         Ground g1 = (new Ground.GroundBuilder(root))
                     .setX(100)
                     .setY(100)
