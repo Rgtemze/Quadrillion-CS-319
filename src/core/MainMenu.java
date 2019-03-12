@@ -1,11 +1,12 @@
-package sample;
+package core;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
+import ui.Page;
+import ui.Screen;
+import ui.SelectLevel;
 
 public class MainMenu extends Page {
 

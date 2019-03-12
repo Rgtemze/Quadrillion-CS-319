@@ -1,5 +1,7 @@
-package sample;
+package ui;
 
+import core.FetchLevel;
+import core.Level;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;

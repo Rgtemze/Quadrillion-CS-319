@@ -1,26 +1,35 @@
-package sample;
+package core;
 
+import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+
+import java.util.ArrayList;
+
+import static core.Piece.RADIUS;
 
 public class Ground extends Drawable{
 
     private int[][] frontBoard;
     private int[][] backBoard;
     private boolean isFront = true;
-    public static final int EDGE_LENGTH = 2 * Piece.RADIUS;
+    public static final int EDGE_LENGTH = 2 * RADIUS;
     private final static int NUMBER_OF_EDGE = 4;
     private final static int WIDTH = EDGE_LENGTH * NUMBER_OF_EDGE;
     private final static int HEIGHT = EDGE_LENGTH * NUMBER_OF_EDGE;
-
+    private ArrayList<Circle> circles;
+    private Rectangle rect;
     private Ground(GroundBuilder builder) {
         location.x = builder.x;
         location.y = builder.y;
         frontBoard = builder.frontBoard;
         backBoard = builder.backBoard;
         this.root = builder.root;
+        circles = new ArrayList<>();
+        rect = new Rectangle();
     }
 
     public int[][] getActiveBoard() {
@@ -39,7 +48,6 @@ public class Ground extends Drawable{
 
     @Override
     public void draw() {
-        Rectangle rect = new Rectangle();
         rect.setX(location.getX());
         rect.setY(location.getY());
         rect.setWidth(WIDTH);
@@ -50,14 +58,16 @@ public class Ground extends Drawable{
         //Draw circle slots
         for(int i = 0; i < NUMBER_OF_EDGE; i++){
             for(int j = 0; j < NUMBER_OF_EDGE; j++){
-
                 Circle c = new Circle();
-                c.setRadius(Piece.RADIUS);
+                c.setRadius(RADIUS);
                 c.setFill((getActiveBoard()[i][j] == 1 ? Paint.valueOf("black") : Paint.valueOf("white")));
                 c.setStroke(Paint.valueOf("white"));
                 c.setCenterX(location.getX() + EDGE_LENGTH / 2.0 + EDGE_LENGTH * i);
                 c.setCenterY(location.getY() + EDGE_LENGTH / 2.0 + EDGE_LENGTH * j);
+                circles.add(c);
                 root.getChildren().add(c);
+
+                c.setOnMouseDragged(new DragHandler());
             }
         }
     }
@@ -67,16 +77,38 @@ public class Ground extends Drawable{
 
     }
 
-    @Override
-    public void onDrag() {
+    private class DragHandler implements EventHandler<MouseEvent> {
 
+        @Override
+        public void handle(MouseEvent event) {
+            int previousX = location.x;
+            int previousY = location.y;
+
+            double bottom = location.getY() + HEIGHT;
+            double top = location.getY();
+            double left = location.getX();
+            double right = location.getX() + WIDTH;
+            if(event.getY() <= bottom && event.getY() >= bottom - EDGE_LENGTH){
+                location.y += EDGE_LENGTH;
+            }
+            if(event.getY() >= top && event.getY() <= top + EDGE_LENGTH){
+                location.y -= EDGE_LENGTH;
+            }
+            if(event.getX() >= left && event.getX() <= left + EDGE_LENGTH){
+                location.x -= EDGE_LENGTH;
+            }
+            if(event.getX() <= right && event.getX() >= right - EDGE_LENGTH){
+                location.x += EDGE_LENGTH;
+            }
+            rect.setX(location.getX());
+            rect.setY(location.getY());
+
+            for (Circle c : circles) {
+                c.setCenterX(c.getCenterX() + location.getX() - previousX);
+                c.setCenterY(c.getCenterY() + location.getY() - previousY);
+            }
+        }
     }
-
-    @Override
-    public void onClick() {
-
-    }
-
     public static class GroundBuilder{
         private Group root;
         private int x;

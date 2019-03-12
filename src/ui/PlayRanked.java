@@ -1,4 +1,4 @@
-package sample;
+package ui;
 
 public class PlayRanked extends PlayGame {
 

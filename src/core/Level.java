@@ -1,4 +1,6 @@
-package sample;
+package core;
+
+import data.Record;
 
 import java.util.Arrays;
 
@@ -16,6 +18,13 @@ public class Level {
         this.pieces = pieces;
         this.grounds = grounds;
         combination = new int[16][16];
+
+        for(int i = 0; i < 16; i++){
+            for(int j = 0; j < 16; j++){
+                combination[i][j] = 1;
+            }
+        }
+
         combineGrounds();
         adjustPieces();
     }
@@ -73,11 +82,12 @@ public class Level {
     * Draw all pieces and grounds of the game
     */
     public void drawLevel() {
-        for(Piece p : pieces){
-            p.draw();
-        }
+
         for(Ground g : grounds){
             g.draw();
+        }
+        for(Piece p : pieces){
+            p.draw();
         }
     }
 
@@ -91,6 +101,6 @@ public class Level {
     }
 
     public boolean isOccupied(int x, int y) {
-        return combination[x][y] == 0;
+        return combination[x][y] == 1;
     }
 }

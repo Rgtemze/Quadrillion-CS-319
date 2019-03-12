@@ -1,4 +1,4 @@
-package sample;
+package core;
 
 import javafx.scene.Group;
 
@@ -10,7 +10,7 @@ public class GameComponent {
 
     public GameComponent(Group root){
         this.root = root;
-        pieces = new Piece[1];
+        pieces = new Piece[2];
         grounds = new Ground[4];
     }
 
@@ -20,9 +20,12 @@ public class GameComponent {
     }
 
     private void initPieces() {
-        Piece p = (new Piece.PieceBuilder(root)).addOffset(5, 5).build();
-
+        Piece p = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(1,1).addOffset(1,0)
+                .addOffset(1,0).setX(600).setY(50).build();
+        Piece p2 = (new Piece.PieceBuilder(root)).addOffset(1, 1).addOffset(0,0).addOffset(1,2)
+                .addOffset(1,0).setX(600).setY(90).build();
         pieces[0] = p;
+        pieces[1] = p2;
     }
 
     private void initGrounds() {
