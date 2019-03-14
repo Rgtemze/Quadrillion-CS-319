@@ -40,8 +40,8 @@ public class PosService {
 
         Buyer buyer = new Buyer();
         buyer.setId("BY789");
-        buyer.setName("Malper");
-        buyer.setSurname("Karadagli");
+        buyer.setName("John");
+        buyer.setSurname("Doe");
         buyer.setGsmNumber("+905350000000");
         buyer.setEmail("email@email.com");
         buyer.setIdentityNumber("74300864791");
@@ -95,10 +95,11 @@ public class PosService {
         thirdBasketItem.setCategory1("Electronics");
         thirdBasketItem.setCategory2("Usb / Cable");
         thirdBasketItem.setItemType(BasketItemType.PHYSICAL.name());
-        thirdBasketItem.setPrice(new BigDecimal("100"));
+        thirdBasketItem.setPrice(new BigDecimal("0.2"));
         basketItems.add(thirdBasketItem);
         request.setBasketItems(basketItems);
-
+        System.out.println("Here");
         Payment payment = Payment.create(request, options);
+        System.out.println("Here");
     }
 }

@@ -4,7 +4,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
 public class PlayGame extends Page {
-    private boolean isGamePused;
+    private boolean isGamePaused;
     private Level currentLevel;
     private int numberOfMoves;
     private int timeElapsed;
