@@ -1,8 +1,7 @@
-package sample;
+package core;
 
+import database.DatabaseConnection;
 import javafx.scene.Group;
-
-import java.sql.ResultSet;
 
 public class FetchLevel {
     private int levelNo;

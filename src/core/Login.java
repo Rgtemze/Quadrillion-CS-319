@@ -1,4 +1,6 @@
-package sample;
+package core;
+
+import ui.Page;
 
 public class Login extends Page {
 

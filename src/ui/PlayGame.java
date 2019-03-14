@@ -1,7 +1,6 @@
-package sample;
+package ui;
 
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
+import core.Level;
 
 public class PlayGame extends Page {
     private boolean isGamePaused;

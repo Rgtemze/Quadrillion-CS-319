@@ -1,4 +1,6 @@
-package sample;
+package ui;
+
+import core.GameComponent;
 
 public class ComposeLevel extends Page {
 

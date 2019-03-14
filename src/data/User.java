@@ -1,4 +1,4 @@
-package sample;
+package data;
 
 public class User {
     private int totalHints;

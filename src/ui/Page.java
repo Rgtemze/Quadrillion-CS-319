@@ -1,4 +1,4 @@
-package sample;
+package ui;
 
 import javafx.scene.Group;
 

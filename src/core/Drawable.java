@@ -1,4 +1,4 @@
-package sample;
+package core;
 
 import javafx.scene.Group;
 
@@ -28,17 +28,6 @@ public abstract class Drawable {
         Removes components that are drawn
      */
     public abstract void remove();
-
-    /*
-        Executes actions when object is dragged
-     */
-    public abstract  void onDrag();
-
-
-    /*
-        Executes actions when object is clicked
-     */
-    public abstract void onClick();
 
     public abstract void flip();
 }

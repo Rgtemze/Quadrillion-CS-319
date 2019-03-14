@@ -1,4 +1,4 @@
-package sample;
+package core;
 
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -8,7 +8,6 @@ import javafx.scene.shape.Circle;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Queue;
 
 public class Piece extends Drawable {
 
@@ -20,6 +19,8 @@ public class Piece extends Drawable {
     private Piece(PieceBuilder builder) {
         this.circleOffsets = builder.circleOffsets;
         this.root = builder.root;
+        location.x = builder.x;
+        location.y = builder.y;
         circles = new ArrayList<>();
     }
 
@@ -60,16 +61,6 @@ public class Piece extends Drawable {
             root.getChildren().remove(c);
         }
         circles.clear();
-    }
-
-    @Override
-    public void onDrag() {
-
-    }
-
-    @Override
-    public void onClick() {
-
     }
 
     @Override
@@ -115,6 +106,8 @@ public class Piece extends Drawable {
 
         private Group root;
         private ArrayList<Point> circleOffsets;
+        private int x;
+        private int y;
 
         public PieceBuilder(Group root){
             this.root = root;
@@ -123,6 +116,15 @@ public class Piece extends Drawable {
 
         public PieceBuilder addOffset(int x, int y){
             circleOffsets.add(new Point(x, y));
+            return this;
+        }
+        public PieceBuilder setX(int x){
+            this.x = x;
+            return this;
+        }
+
+        public PieceBuilder setY(int y){
+            this.y = y;
             return this;
         }
 
