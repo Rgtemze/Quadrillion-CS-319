@@ -10,7 +10,7 @@ public class GameComponent {
 
     public GameComponent(Group root){
         this.root = root;
-        pieces = new Piece[2];
+        pieces = new Piece[8];
         grounds = new Ground[4];
     }
 
@@ -20,12 +20,22 @@ public class GameComponent {
     }
 
     private void initPieces() {
-        Piece p = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(1,1).addOffset(1,0)
-                .addOffset(1,0).setX(600).setY(50).build();
-        Piece p2 = (new Piece.PieceBuilder(root)).addOffset(1, 1).addOffset(0,0).addOffset(1,2)
-                .addOffset(1,0).setX(600).setY(90).build();
-        pieces[0] = p;
-        pieces[1] = p2;
+        pieces[0] = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(1,1).addOffset(1,0)
+                .addOffset(1,0).setX(700).setY(50).build();
+        pieces[1] = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(1,1).addOffset(1,2)
+                .addOffset(1,0).addOffset(1,3).setX(700).setY(250).build();
+        pieces[2] = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(2,1).addOffset(1,0)
+                .addOffset(1,1).setX(700).setY(450).build();
+        pieces[3] = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(1,0).addOffset(2,0)
+                .addOffset(1,1).addOffset(1,2).setX(900).setY(50).build();
+        pieces[4] = (new Piece.PieceBuilder(root)).addOffset(1, 1).addOffset(0,0).addOffset(1,2)
+                .addOffset(0,1).addOffset(1,3).setX(900).setY(250).build();
+        pieces[5] = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(1,0).addOffset(1,1)
+                .addOffset(2,1).addOffset(2,2).setX(900).setY(450).build();
+        pieces[6] = (new Piece.PieceBuilder(root)).addOffset(0,0).addOffset(1,0).addOffset(0,1)
+                .addOffset(1,1).addOffset(2,1).setX(1100).setY(50).build();
+        pieces[7] = (new Piece.PieceBuilder(root)).addOffset(0,0).addOffset(1,0).addOffset(0,1)
+                .addOffset(0,2).addOffset(1,2).setX(1100).setY(250).build();
     }
 
     private void initGrounds() {
