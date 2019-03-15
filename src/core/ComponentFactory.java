@@ -1,25 +1,17 @@
+
 package core;
 
 import javafx.scene.Group;
 
-public class GameComponent {
-
-    private Piece[] pieces;
-    private Ground[] grounds;
+public class ComponentFactory {
     private Group root;
 
-    public GameComponent(Group root){
+    public ComponentFactory(Group root){
         this.root = root;
-        pieces = new Piece[2];
-        grounds = new Ground[4];
     }
 
-    public void init(){
-        initPieces();
-        initGrounds();
-    }
-
-    private void initPieces() {
+    public void createPieces() {
+        Piece pieces[] = new Piece[2];
         Piece p = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(1,1).addOffset(1,0)
                 .addOffset(1,0).setX(600).setY(50).build();
         Piece p2 = (new Piece.PieceBuilder(root)).addOffset(1, 1).addOffset(0,0).addOffset(1,2)
@@ -28,7 +20,8 @@ public class GameComponent {
         pieces[1] = p2;
     }
 
-    private void initGrounds() {
+    private void createGrounds() {
+        Ground grounds[] = new Ground[4];
         Ground g1 = (new Ground.GroundBuilder(root))
                     .setX(100)
                     .setY(100)
@@ -59,21 +52,5 @@ public class GameComponent {
         grounds[1] = g2;
         grounds[2] = g3;
         grounds[3] = g4;
-    }
-
-    public Piece[] getPieces() {
-        return pieces;
-    }
-
-    public void setPieces(Piece[] pieces) {
-        this.pieces = pieces;
-    }
-
-    public Ground[] getGrounds() {
-        return grounds;
-    }
-
-    public void setGrounds(Ground[] grounds) {
-        this.grounds = grounds;
     }
 }

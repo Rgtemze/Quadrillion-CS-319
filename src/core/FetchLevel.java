@@ -5,10 +5,10 @@ import javafx.scene.Group;
 
 public class FetchLevel {
     private int levelNo;
-    private GameComponent gameComp;
+    private ComponentFactory gameComp;
     public FetchLevel( Group root, int levelNo ) {
         this.levelNo = levelNo;
-        gameComp = new GameComponent(root);
+        gameComp = new ComponentFactory(root);
     }
 
     public Level createLevel( ) {

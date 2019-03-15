@@ -1,10 +1,10 @@
 package ui;
 
-import core.GameComponent;
+import core.ComponentFactory;
 
 public class ComposeLevel extends Page {
 
-    private GameComponent gameComp;
+    private ComponentFactory gameComp;
 
     private void uploadLevel() {
 
