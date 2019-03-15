@@ -43,7 +43,17 @@ public class Ground extends Drawable{
 
     @Override
     public void rotate() {
-
+        int[][] currentBoard = isFront ? frontBoard : backBoard;
+        int t;
+        for(int i = 0; i < NUMBER_OF_EDGE/2; i++){
+            for(int j = i; j < NUMBER_OF_EDGE-i-1; j++){
+                t = currentBoard[i][j];
+                currentBoard[i][j] = currentBoard[NUMBER_OF_EDGE-j-1][i];
+                currentBoard[NUMBER_OF_EDGE-j-1][i] = currentBoard[NUMBER_OF_EDGE-i-1][NUMBER_OF_EDGE-j-1];
+                currentBoard[NUMBER_OF_EDGE-i-1][NUMBER_OF_EDGE-j-1] = currentBoard[j][NUMBER_OF_EDGE-i-1];
+                currentBoard[j][NUMBER_OF_EDGE-i-1] = t;
+            }
+        }
     }
 
     @Override

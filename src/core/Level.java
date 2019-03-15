@@ -55,9 +55,6 @@ public class Level {
                 }
             }
         }
-        for(int i = 0; i < combination.length; i++){
-            System.out.println(Arrays.toString(combination[i]));
-        }
         System.out.println("Min X: " + minX + ", Min Y: " + minY);
 
     }
@@ -102,5 +99,16 @@ public class Level {
 
     public boolean isOccupied(int x, int y) {
         return combination[x][y] == 1;
+    }
+
+    public void setOccupation(int x, int y, int occupation) {
+        combination[x][y] = occupation;
+    }
+
+    public void printOccupation(){
+
+        for(int i = 0; i < combination.length; i++){
+            System.out.println(Arrays.toString(combination[i]));
+        }
     }
 }

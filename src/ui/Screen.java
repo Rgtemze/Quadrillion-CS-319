@@ -7,7 +7,6 @@ import javafx.stage.Stage;
 
 public class Screen extends Application {
 
-
     private static Scene gameScene;
 
     public static void switchPage(Page page) {
@@ -17,14 +16,6 @@ public class Screen extends Application {
     public static void main( String[] args ) {
         launch(args);
 
-    }
-
-    public static double getSceneWidth(){
-        return gameScene.getWidth();
-    }
-
-    public static double getSceneHeight(){
-        return gameScene.getHeight();
     }
 
     @Override
@@ -40,4 +31,13 @@ public class Screen extends Application {
         primaryStage.setScene(gameScene);
         primaryStage.show();
     }
+
+    public static double getSceneWidth(){
+        return gameScene.getWidth();
+    }
+
+    public static double getSceneHeight(){
+        return gameScene.getHeight();
+    }
+
 }

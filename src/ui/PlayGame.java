@@ -3,7 +3,7 @@ package ui;
 import core.Level;
 
 public class PlayGame extends Page {
-    private boolean isGamePused;
+    private boolean isGamePaused;
     private Level currentLevel;
     private int numberOfMoves;
     private int timeElapsed;

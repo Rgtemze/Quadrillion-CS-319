@@ -1,7 +1,9 @@
 package core;
 
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
@@ -15,6 +17,7 @@ public class Piece extends Drawable {
     private ArrayList<Circle> circles;
 
     private Level level;
+    private boolean isEmbedded;
 
     private Piece(PieceBuilder builder) {
         this.circleOffsets = builder.circleOffsets;
@@ -22,6 +25,7 @@ public class Piece extends Drawable {
         location.x = builder.x;
         location.y = builder.y;
         circles = new ArrayList<>();
+        isEmbedded = false;
     }
 
     public void setLevel(Level level){
@@ -50,6 +54,7 @@ public class Piece extends Drawable {
             circles.add(c);
             root.getChildren().add(c);
 
+            c.setOnMouseReleased(new DragDropped());
             c.setOnMouseDragged(new DragHandler());
             c.setOnMouseClicked(new ClickHandler());
         }
@@ -75,7 +80,8 @@ public class Piece extends Drawable {
             if (event.getButton() == MouseButton.MIDDLE) {
                 rotate();
             } else if (event.getButton() == MouseButton.SECONDARY) {
-                flip();
+                //flip();
+                rotate();
             }
         }
     }
@@ -84,24 +90,53 @@ public class Piece extends Drawable {
 
         @Override
         public void handle(MouseEvent event) {
-            boolean hasNotValid = false;
+            boolean ejected = false;
             for (Circle c : circles) {
                 c.setCenterX(c.getCenterX() + event.getX() - location.getX());
                 c.setCenterY(c.getCenterY() + event.getY() - location.getY());
-                int x = (int) Math.floor((c.getCenterX() - RADIUS - level.getMinX()) / Ground.EDGE_LENGTH);
-                int y = (int) Math.floor((c.getCenterY() - RADIUS -  level.getMinY()) / Ground.EDGE_LENGTH);
+                int x = (int) Math.round((c.getCenterX() - RADIUS - level.getMinX()) / Ground.EDGE_LENGTH);
+                int y = (int) Math.round((c.getCenterY() - RADIUS -  level.getMinY()) / Ground.EDGE_LENGTH);
+
+                if(isEmbedded){
+                    level.setOccupation(y, x, 0);
+                    ejected = true;
+                }
+            }
+            if(ejected){
+                isEmbedded = false;
+            }
+            location = new Point((int) event.getX(), (int) event.getY());
+        }
+    }
+
+    private class DragDropped implements EventHandler<MouseEvent> {
+
+        @Override
+        public void handle(MouseEvent event) {
+            boolean hasNotValid = false;
+            for (Circle c : circles) {
+                int x = (int) Math.round((c.getCenterX() - RADIUS - level.getMinX()) / Ground.EDGE_LENGTH);
+                int y = (int) Math.round((c.getCenterY() - RADIUS -  level.getMinY()) / Ground.EDGE_LENGTH);
 
                 if( y < 0 || x < 0 || y >= 16 || x >= 16 || level.isOccupied(y,x)){
                     hasNotValid = true;
                 }
             }
-            location = new Point((int) event.getX(), (int) event.getY());
             if(!hasNotValid) {
                 System.out.println("found");
+                for (Circle c : circles) {
+                    int x = (int) Math.round((c.getCenterX() - RADIUS - level.getMinX()) / Ground.EDGE_LENGTH);
+                    int y = (int) Math.round((c.getCenterY() - RADIUS -  level.getMinY()) / Ground.EDGE_LENGTH);
+                    level.setOccupation(y, x, 1);
+                    System.out.println("x" + x + ", y" + y);
+                    c.setCenterX(x * Ground.EDGE_LENGTH + level.getMinX() + Ground.EDGE_LENGTH / 2);
+                    c.setCenterY(y * Ground.EDGE_LENGTH + level.getMinY() + Ground.EDGE_LENGTH / 2);
+                }
+                isEmbedded = true;
             }
+            level.printOccupation();
         }
     }
-
     public static class PieceBuilder{
 
         private Group root;
@@ -132,4 +167,5 @@ public class Piece extends Drawable {
             return new Piece(this);
         }
     }
+
 }

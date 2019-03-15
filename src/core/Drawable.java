@@ -25,7 +25,7 @@ public abstract class Drawable {
     public abstract void draw();
 
     /*
-        Removes components that are drawed
+        Removes components that are drawn
      */
     public abstract void remove();
 
