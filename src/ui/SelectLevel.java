@@ -1,6 +1,6 @@
 package ui;
 
-import core.FetchLevel;
+import core.LevelManager;
 import core.Level;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
@@ -16,6 +16,7 @@ public class SelectLevel extends Page {
 
     @Override
     public void prepareDesign() {
+
         double rectWidth = 120;
         double rectHeight = 120;
         int rectNo = (int)((Screen.getSceneWidth()-2*rectWidth)/rectWidth);
@@ -36,14 +37,17 @@ public class SelectLevel extends Page {
                         System.out.println("Selam");
 
                         PlayGame play = new PlayGame();
-                        FetchLevel fetcher = new FetchLevel(play.root, finalI);
-                        Level l = fetcher.createLevel();
-                        play.setLevel(l);
+                        LevelManager manager = new LevelManager(play.root);
+                        manager.createLevel(false, finalI);
+                        manager.draw();
                         Screen.switchPage(play);
                     }
                 });
                 root.getChildren().add(rect);
             }
         }
+        addButton("Menu",0,0, event -> {Screen.switchPage(new MainMenu());});
+
+
     }
 }

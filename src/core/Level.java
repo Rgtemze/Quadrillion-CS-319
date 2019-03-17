@@ -1,5 +1,6 @@
 package core;
 
+import data.GroundData;
 import data.Record;
 
 import java.util.Arrays;
@@ -95,6 +96,19 @@ public class Level {
     void seeLeaderBoard() {
 
 
+    }
+
+    public GroundData[] get4GroundData(){
+        GroundData[] groundComb = new GroundData[grounds.length];
+        for(int i = 0; i < grounds.length; i++){
+            groundComb[i] = grounds[i].getResult();
+        }
+        return groundComb;
+    }
+
+    public boolean isValid(){
+
+        return false;
     }
 
     public boolean isOccupied(int x, int y) {

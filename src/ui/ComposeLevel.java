@@ -1,26 +1,23 @@
 package ui;
 
-import core.ComponentFactory;
+import core.LevelManager;
+import core.Level;
+import data.GroundData;
 
 public class ComposeLevel extends Page {
-
-    private ComponentFactory gameComp;
-
-    private void uploadLevel() {
-
+    private Level currentLevel;
+    private LevelManager fetcher;
+    public ComposeLevel(){
+        fetcher = new LevelManager(root);
+        fetcher.createLevel(true);
+        fetcher.draw();
     }
 
-    public void drawGrounds() {
-
-    }
-
-    public void isValidComb() {
-
-
-    }
 
     @Override
     public void prepareDesign() {
+        addButton("Menu",0,0, event -> {Screen.switchPage(new MainMenu());});
+        addButton("Check",0,30, event -> {fetcher.uploadLevel();});
 
     }
 }

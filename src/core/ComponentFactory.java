@@ -2,24 +2,18 @@ package core;
 
 import javafx.scene.Group;
 
-public class GameComponent {
+public class ComponentFactory {
 
     private Piece[] pieces;
     private Ground[] grounds;
     private Group root;
 
-    public GameComponent(Group root){
+    public ComponentFactory(Group root){
         this.root = root;
-        pieces = new Piece[8];
-        grounds = new Ground[4];
     }
 
-    public void init(){
-        initPieces();
-        initGrounds();
-    }
-
-    private void initPieces() {
+    public Piece[] createPieces() {
+        Piece[] pieces = new Piece[8];
         pieces[0] = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(1,1).addOffset(1,0)
                 .addOffset(1,0).setX(700).setY(50).build();
         pieces[1] = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(1,1).addOffset(1,2)
@@ -36,12 +30,15 @@ public class GameComponent {
                 .addOffset(1,1).addOffset(2,1).setX(1100).setY(50).build();
         pieces[7] = (new Piece.PieceBuilder(root)).addOffset(0,0).addOffset(1,0).addOffset(0,1)
                 .addOffset(0,2).addOffset(1,2).setX(1100).setY(250).build();
+        return pieces;
     }
 
-    private void initGrounds() {
+    public Ground[] createGrounds(boolean isMovable) {
+        Ground[] grounds = new Ground[4];
         Ground g1 = (new Ground.GroundBuilder(root))
                     .setX(100)
                     .setY(100)
+                    .setMovable(isMovable)
                     .setOccupied(true, 1, 2)
                     .setOccupied(true, 3, 3)
                     .build();
@@ -49,18 +46,21 @@ public class GameComponent {
         Ground g2 = (new Ground.GroundBuilder(root))
                 .setX(340)
                 .setY(160)
+                .setMovable(isMovable)
                 .setOccupied(true, 1, 2)
                 .setOccupied(true, 3, 3)
                 .build();
         Ground g3 = (new Ground.GroundBuilder(root))
                 .setX(100)
                 .setY(340)
+                .setMovable(isMovable)
                 .setOccupied(true, 1, 2)
                 .setOccupied(true, 3, 3)
                 .build();
         Ground g4 = (new Ground.GroundBuilder(root))
                 .setX(340)
                 .setY(400)
+                .setMovable(isMovable)
                 .setOccupied(true, 1, 2)
                 .setOccupied(true, 3, 3)
                 .build();
@@ -69,21 +69,6 @@ public class GameComponent {
         grounds[1] = g2;
         grounds[2] = g3;
         grounds[3] = g4;
-    }
-
-    public Piece[] getPieces() {
-        return pieces;
-    }
-
-    public void setPieces(Piece[] pieces) {
-        this.pieces = pieces;
-    }
-
-    public Ground[] getGrounds() {
         return grounds;
-    }
-
-    public void setGrounds(Ground[] grounds) {
-        this.grounds = grounds;
     }
 }

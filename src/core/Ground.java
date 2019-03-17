@@ -1,5 +1,6 @@
 package core;
 
+import data.GroundData;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
@@ -21,15 +22,22 @@ public class Ground extends Drawable{
     private final static int WIDTH = EDGE_LENGTH * NUMBER_OF_EDGE;
     private final static int HEIGHT = EDGE_LENGTH * NUMBER_OF_EDGE;
     private ArrayList<Circle> circles;
+    private boolean isMovable;
     private Rectangle rect;
+
+
+    private GroundData result;
+
     private Ground(GroundBuilder builder) {
         location.x = builder.x;
+        isMovable = builder.isMovable;
         location.y = builder.y;
         frontBoard = builder.frontBoard;
         backBoard = builder.backBoard;
         this.root = builder.root;
         circles = new ArrayList<>();
         rect = new Rectangle();
+        result = new GroundData();
     }
 
     public int[][] getActiveBoard() {
@@ -46,7 +54,7 @@ public class Ground extends Drawable{
         int[][] currentBoard = isFront ? frontBoard : backBoard;
         int t;
         for(int i = 0; i < NUMBER_OF_EDGE/2; i++){
-            for(int j = i; j < NUMBER_OF_EDGE-i-1; j++){
+            for(int j = i; j < NUMBER_OF_EDGE - i - 1; j++){
                 t = currentBoard[i][j];
                 currentBoard[i][j] = currentBoard[NUMBER_OF_EDGE-j-1][i];
                 currentBoard[NUMBER_OF_EDGE-j-1][i] = currentBoard[NUMBER_OF_EDGE-i-1][NUMBER_OF_EDGE-j-1];
@@ -54,6 +62,7 @@ public class Ground extends Drawable{
                 currentBoard[j][NUMBER_OF_EDGE-i-1] = t;
             }
         }
+        result.rotation = (result.rotation + 1) % 4;
     }
 
     @Override
@@ -64,7 +73,7 @@ public class Ground extends Drawable{
         rect.setHeight(HEIGHT);
         rect.setStroke(Paint.valueOf("beige"));
         root.getChildren().add(rect);
-
+        DragHandler handler = new DragHandler();
         //Draw circle slots
         for(int i = 0; i < NUMBER_OF_EDGE; i++){
             for(int j = 0; j < NUMBER_OF_EDGE; j++){
@@ -77,8 +86,14 @@ public class Ground extends Drawable{
                 circles.add(c);
                 root.getChildren().add(c);
 
-                c.setOnMouseDragged(new DragHandler());
+                if(isMovable) {
+                    c.setOnMouseDragged(handler);
+                }
             }
+        }
+
+        if(isMovable) {
+            rect.setOnMouseDragged(handler);
         }
     }
 
@@ -120,6 +135,7 @@ public class Ground extends Drawable{
         }
     }
     public static class GroundBuilder{
+        private boolean isMovable;
         private Group root;
         private int x;
         private int y;
@@ -141,6 +157,11 @@ public class Ground extends Drawable{
             return this;
         }
 
+        public GroundBuilder setMovable(boolean isMovable){
+            this.isMovable = isMovable;
+            return this;
+        }
+
         public GroundBuilder setOccupied(boolean isFront, int x, int y){
 
             if(isFront){
@@ -156,5 +177,11 @@ public class Ground extends Drawable{
         }
 
 
+    }
+
+    public GroundData getResult() {
+        result.location = location;
+        result.isFront = isFront;
+        return result;
     }
 }

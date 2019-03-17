@@ -1,4 +1,4 @@
-package core;
+package ui;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -40,6 +40,17 @@ public class MainMenu extends Page {
         });
 
         playCasual.setAlignment(Pos.BOTTOM_CENTER);
+
+        Button composeLevel = new Button("Compose Level");
+        composeLevel.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println("Here");
+                Screen.switchPage(new ComposeLevel());
+            }
+        });
+        composeLevel.setLayoutY(40);
         root.getChildren().add(playCasual);
+        root.getChildren().add(composeLevel);
     }
 }
