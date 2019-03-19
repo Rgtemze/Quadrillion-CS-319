@@ -128,13 +128,16 @@ public class Piece extends Drawable {
                     int x = (int) Math.round((c.getCenterX() - RADIUS - level.getMinX()) / Ground.EDGE_LENGTH);
                     int y = (int) Math.round((c.getCenterY() - RADIUS -  level.getMinY()) / Ground.EDGE_LENGTH);
                     level.setOccupation(y, x, 1);
-                    System.out.println("x" + x + ", y" + y);
                     c.setCenterX(x * Ground.EDGE_LENGTH + level.getMinX() + Ground.EDGE_LENGTH / 2);
                     c.setCenterY(y * Ground.EDGE_LENGTH + level.getMinY() + Ground.EDGE_LENGTH / 2);
+
                 }
                 isEmbedded = true;
             }
+            location.x = (int) circles.get(0).getCenterX();
+            location.y = (int) circles.get(0).getCenterY();
             level.printOccupation();
+            System.out.println();
         }
     }
     public static class PieceBuilder{

@@ -3,6 +3,7 @@ package core;
 import data.GroundData;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
@@ -51,6 +52,7 @@ public class Ground extends Drawable{
 
     @Override
     public void rotate() {
+        remove();
         int[][] currentBoard = isFront ? frontBoard : backBoard;
         int t;
         for(int i = 0; i < NUMBER_OF_EDGE/2; i++){
@@ -62,6 +64,7 @@ public class Ground extends Drawable{
                 currentBoard[j][NUMBER_OF_EDGE-i-1] = t;
             }
         }
+        draw();
         result.rotation = (result.rotation + 1) % 4;
     }
 
@@ -88,18 +91,31 @@ public class Ground extends Drawable{
 
                 if(isMovable) {
                     c.setOnMouseDragged(handler);
+                    c.setOnMouseClicked(event->{
+                        if(event.getButton() == MouseButton.MIDDLE)
+                        rotate();
+
+                    });
                 }
             }
         }
 
         if(isMovable) {
             rect.setOnMouseDragged(handler);
+            rect.setOnMouseClicked(event->{
+                if(event.getButton() == MouseButton.MIDDLE)
+                    rotate();
+
+            });
         }
     }
 
     @Override
     public void remove() {
-
+        root.getChildren().remove(rect);
+        for(Circle c: circles){
+            root.getChildren().remove(c);
+        }
     }
 
     private class DragHandler implements EventHandler<MouseEvent> {

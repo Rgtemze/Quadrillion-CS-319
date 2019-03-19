@@ -13,23 +13,31 @@ public class ComponentFactory {
     }
 
     public Piece[] createPieces() {
-        Piece[] pieces = new Piece[8];
+        Piece[] pieces = new Piece[12];
         pieces[0] = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(1,1).addOffset(1,0)
                 .addOffset(1,0).setX(700).setY(50).build();
         pieces[1] = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(1,1).addOffset(1,2)
-                .addOffset(1,0).addOffset(1,3).setX(700).setY(250).build();
+                .addOffset(1,0).addOffset(1,3).setX(700).setY(350).build();
         pieces[2] = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(2,1).addOffset(1,0)
-                .addOffset(1,1).setX(700).setY(450).build();
+                .addOffset(1,1).setX(700).setY(650).build();
         pieces[3] = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(1,0).addOffset(2,0)
                 .addOffset(1,1).addOffset(1,2).setX(900).setY(50).build();
-        pieces[4] = (new Piece.PieceBuilder(root)).addOffset(1, 1).addOffset(0,0).addOffset(1,2)
-                .addOffset(0,1).addOffset(1,3).setX(900).setY(250).build();
+        pieces[4] = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(1,1).addOffset(1,2)
+                .addOffset(0,1).addOffset(1,3).setX(900).setY(350).build();
         pieces[5] = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(1,0).addOffset(1,1)
-                .addOffset(2,1).addOffset(2,2).setX(900).setY(450).build();
+                .addOffset(2,1).addOffset(2,2).setX(900).setY(650).build();
         pieces[6] = (new Piece.PieceBuilder(root)).addOffset(0,0).addOffset(1,0).addOffset(0,1)
                 .addOffset(1,1).addOffset(2,1).setX(1100).setY(50).build();
         pieces[7] = (new Piece.PieceBuilder(root)).addOffset(0,0).addOffset(1,0).addOffset(0,1)
-                .addOffset(0,2).addOffset(1,2).setX(1100).setY(250).build();
+                .addOffset(0,2).addOffset(1,2).setX(1100).setY(350).build();
+        pieces[8] = (new Piece.PieceBuilder(root)).addOffset(0,0).addOffset(1,0).addOffset(1,1)
+                .addOffset(2,1).addOffset(1,2).setX(1100).setY(650).build();
+        pieces[9] = (new Piece.PieceBuilder(root)).addOffset(0,0).addOffset(0,1).addOffset(0,2)
+                .addOffset(1,2).addOffset(2,2).setX(1300).setY(50).build();
+        pieces[10] = (new Piece.PieceBuilder(root)).addOffset(0,0).addOffset(0,1).addOffset(1,1)
+                .addOffset(2,1).addOffset(2,2).setX(1300).setY(350).build();
+        pieces[11] = (new Piece.PieceBuilder(root)).addOffset(0,0).addOffset(0,1).addOffset(0,2)
+                .addOffset(0,3).addOffset(1,1).setX(1300).setY(650).build();
         return pieces;
     }
 
@@ -39,30 +47,29 @@ public class ComponentFactory {
                     .setX(100)
                     .setY(100)
                     .setMovable(isMovable)
-                    .setOccupied(true, 1, 2)
-                    .setOccupied(true, 3, 3)
+                    .setOccupied(true, 0, 0)
+                    .setOccupied(true, 2, 1)
                     .build();
 
         Ground g2 = (new Ground.GroundBuilder(root))
                 .setX(340)
                 .setY(160)
                 .setMovable(isMovable)
-                .setOccupied(true, 1, 2)
-                .setOccupied(true, 3, 3)
+                .setOccupied(true, 3, 0)
+                .setOccupied(true, 1, 1)
                 .build();
         Ground g3 = (new Ground.GroundBuilder(root))
                 .setX(100)
                 .setY(340)
                 .setMovable(isMovable)
-                .setOccupied(true, 1, 2)
-                .setOccupied(true, 3, 3)
+                .setOccupied(true, 2, 0)
                 .build();
         Ground g4 = (new Ground.GroundBuilder(root))
                 .setX(340)
                 .setY(400)
                 .setMovable(isMovable)
-                .setOccupied(true, 1, 2)
-                .setOccupied(true, 3, 3)
+                .setOccupied(true, 1, 0)
+                .setOccupied(true, 3, 0)
                 .build();
 
         grounds[0] = g1;

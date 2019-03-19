@@ -12,4 +12,13 @@ public class GroundData {
         isFront = true;
         location = new Point();
     }
+
+    @Override
+    public String toString() {
+        return "GroundData{" +
+                "rotation=" + rotation +
+                "\n, isFront=" + isFront +
+                "\n, location=" + location +
+                "\n}";
+    }
 }

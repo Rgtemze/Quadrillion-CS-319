@@ -4,6 +4,8 @@ import data.GroundData;
 import database.DatabaseConnection;
 import javafx.scene.Group;
 
+import java.util.Arrays;
+
 public class LevelManager {
     private ComponentFactory gameComp;
     private Level currentLevel;
@@ -32,7 +34,7 @@ public class LevelManager {
     }
     public void uploadLevel() {
         GroundData[] results = currentLevel.get4GroundData();
-
+        System.out.print(Arrays.toString(results));
 
 
     }

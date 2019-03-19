@@ -30,27 +30,8 @@ public class MainMenu extends Page {
 
     @Override
     public void prepareDesign() {
-
-        Button playCasual = new Button("Play Casual");
-        playCasual.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                Screen.switchPage(new SelectLevel());
-            }
-        });
-
-        playCasual.setAlignment(Pos.BOTTOM_CENTER);
-
-        Button composeLevel = new Button("Compose Level");
-        composeLevel.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                System.out.println("Here");
-                Screen.switchPage(new ComposeLevel());
-            }
-        });
-        composeLevel.setLayoutY(40);
-        root.getChildren().add(playCasual);
-        root.getChildren().add(composeLevel);
+        addButton("Play Casual", 0,0,event -> Screen.switchPage(new SelectLevel()));
+        addButton("Compose Level",0,40,event -> Screen.switchPage(new ComposeLevel()));
+        addButton("Play Ranked",0,80,event -> Screen.switchPage(new PlayRanked()));
     }
 }
