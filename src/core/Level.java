@@ -137,7 +137,7 @@ public class Level {
     public void printOccupation(){
 
         for(int i = 0; i < combination.length; i++){
-            System.out.println(Arrays.toString(combination[i]));
+            System.out.println(i + " " + Arrays.toString(combination[i]));
         }
     }
 }
