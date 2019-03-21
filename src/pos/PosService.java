@@ -37,6 +37,22 @@ public class PosService {
         request.setPaymentChannel(PaymentChannel.WEB.name());
         request.setPaymentGroup(PaymentGroup.PRODUCT.name());
 
+        Address shippingAddress = new Address();
+        shippingAddress.setContactName("Jane Doe");
+        shippingAddress.setCity("Istanbul");
+        shippingAddress.setCountry("Turkey");
+        shippingAddress.setAddress("Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1");
+        shippingAddress.setZipCode("34742");
+        request.setShippingAddress(shippingAddress);
+
+        Address billingAddress = new Address();
+        billingAddress.setContactName("Jane Doe");
+        billingAddress.setCity("Istanbul");
+        billingAddress.setCountry("Turkey");
+        billingAddress.setAddress("Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1");
+        billingAddress.setZipCode("34742");
+        request.setBillingAddress(billingAddress);
+
         PaymentCard paymentCard = new PaymentCard();
         paymentCard.setCardHolderName(pInfo.getName() + " " + pInfo.getSurname());
         paymentCard.setCardNumber(pInfo.getCardNo());
@@ -71,11 +87,12 @@ public class PosService {
         firstBasketItem.setItemType(BasketItemType.PHYSICAL.name());
         firstBasketItem.setPrice(new BigDecimal("1"));
         basketItems.add(firstBasketItem);
+        request.setBasketItems(basketItems);
 
 
         Payment payment = Payment.create(request, options);
-        System.out.println(payment);
-        System.out.print(payment.getStatus());
+        System.out.println(payment.getErrorMessage());
+        //System.out.println(payment.getStatus());
 
         return payment.getStatus().equalsIgnoreCase(Status.SUCCESS.getValue());
     }

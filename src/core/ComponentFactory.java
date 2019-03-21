@@ -15,7 +15,7 @@ public class ComponentFactory {
     public Piece[] createPieces() {
         Piece[] pieces = new Piece[12];
         pieces[0] = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(1,1).addOffset(1,0)
-                .addOffset(1,0).setX(700).setY(50).build();
+                .setX(700).setY(50).build();
         pieces[1] = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(1,1).addOffset(1,2)
                 .addOffset(1,0).addOffset(1,3).setX(700).setY(350).build();
         pieces[2] = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(2,1).addOffset(1,0)

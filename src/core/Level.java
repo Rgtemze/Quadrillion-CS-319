@@ -90,7 +90,7 @@ public class Level {
     }
 
     void showHint( ) {
-
+        System.out.println("Hint shown.");
     }
 
     void seeLeaderBoard() {

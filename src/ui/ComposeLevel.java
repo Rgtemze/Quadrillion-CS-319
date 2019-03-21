@@ -8,8 +8,8 @@ public class ComposeLevel extends Page {
     private Level currentLevel;
     private LevelManager fetcher;
     public ComposeLevel(){
-        fetcher = new LevelManager(root);
-        fetcher.createLevel(true);
+        fetcher = LevelManager.getInstance();
+        fetcher.createLevel(true, root);
         fetcher.draw();
     }
 

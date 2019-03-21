@@ -13,8 +13,12 @@ public class Entity {
 
     }
 
-    private boolean doPayment(){
-        PosService.getInstance().buy(purchaseInfo);
-        return true;
+    public boolean doPayment(){
+        boolean result = PosService.getInstance().buy(purchaseInfo);
+
+        if(result) {
+            updateDatabase();
+        }
+        return result;
     }
 }

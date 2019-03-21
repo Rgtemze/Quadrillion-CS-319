@@ -2,18 +2,27 @@ package core;
 
 import data.GroundData;
 import database.DatabaseConnection;
+import interfaces.MoveObserver;
 import javafx.scene.Group;
 
 import java.util.Arrays;
 
 public class LevelManager {
-    private ComponentFactory gameComp;
     private Level currentLevel;
-    public LevelManager(Group root) {
-        gameComp = new ComponentFactory(root);
+    private static LevelManager instance = new LevelManager();
+    private int numberOfMoves;
+    private int timeElapsed;
+    private MoveObserver observer;
+
+    private LevelManager() {
+        numberOfMoves = 0;
+        timeElapsed = 0;
     }
 
-    public void createLevel(boolean isMovable, int levelID ) {
+    public static LevelManager getInstance(){
+        return instance;
+    }
+    public void createLevel(boolean isMovable, int levelID, Group root ) {
         /*DatabaseConnection conn = DatabaseConnection.getInstance();
 
         String columns = conn.executeSQL("SELECT * FROM combinations WHERE ID = '" + levelNo + "'", "ROTATIONS");
@@ -22,10 +31,13 @@ public class LevelManager {
         System.out.println(columns);
         System.out.println(locations);
         */
+        ComponentFactory gameComp = new ComponentFactory(root);
+
         currentLevel = new Level( gameComp.createGrounds(isMovable), gameComp.createPieces() );
     }
 
-    public void createLevel(boolean isMovable){
+    public void createLevel(boolean isMovable, Group root){
+        ComponentFactory gameComp = new ComponentFactory(root);
         currentLevel = new Level(gameComp.createGrounds(isMovable), gameComp.createPieces());
     }
 
@@ -44,4 +56,20 @@ public class LevelManager {
     }
 
 
+    public void setNumberOfMoves(int numberOfMoves) {
+        this.numberOfMoves = numberOfMoves;
+        observer.notifyMoveChanged(numberOfMoves);
+    }
+
+    public void setTimeElapsed(int timeElapsed) {
+        this.timeElapsed = timeElapsed;
+    }
+
+    public void showHint(){
+        currentLevel.showHint();
+    }
+
+    public void setObserver(MoveObserver observer){
+        this.observer = observer;
+    }
 }

@@ -1,11 +1,17 @@
 package core;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Orientation;
 import javafx.scene.Group;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
 import java.awt.*;
@@ -18,6 +24,7 @@ public class Piece extends Drawable {
 
     private Level level;
     private boolean isEmbedded;
+    private int numberOfMoves;
 
     private Piece(PieceBuilder builder) {
         this.circleOffsets = builder.circleOffsets;
@@ -58,6 +65,8 @@ public class Piece extends Drawable {
             c.setOnMouseDragged(new DragHandler());
             c.setOnMouseClicked(new ClickHandler());
         }
+
+
     }
 
     @Override
@@ -91,19 +100,27 @@ public class Piece extends Drawable {
         @Override
         public void handle(MouseEvent event) {
             boolean ejected = false;
+            Circle source = (Circle) event.getSource();
+            int offSetX = (int) Math.abs(source.getCenterX() - location.x);
+            int offSetY = (int) Math.abs(source.getCenterY() - location.y);
+            System.out.println("Source X: " + source.getCenterX());
+            System.out.println("Location X: " + location.x);
             for (Circle c : circles) {
                 c.setCenterX(c.getCenterX() + event.getX() - location.getX());
                 c.setCenterY(c.getCenterY() + event.getY() - location.getY());
                 int x = (int) Math.round((c.getCenterX() - RADIUS - level.getMinX()) / Ground.EDGE_LENGTH);
                 int y = (int) Math.round((c.getCenterY() - RADIUS -  level.getMinY()) / Ground.EDGE_LENGTH);
-
+                //System.out.println("X: " + x + ", Y: " + y);
                 if(isEmbedded){
                     level.setOccupation(y, x, 0);
                     ejected = true;
                 }
             }
+            System.out.println();
+            //source.setFill(Paint.valueOf("red"));
             if(ejected){
                 isEmbedded = false;
+                //increaseNoOfMoves();
             }
             location = new Point((int) event.getX(), (int) event.getY());
         }
@@ -133,12 +150,20 @@ public class Piece extends Drawable {
 
                 }
                 isEmbedded = true;
+                increaseNoOfMoves();
+
             }
+            Circle source = (Circle) event.getSource();
             location.x = (int) circles.get(0).getCenterX();
             location.y = (int) circles.get(0).getCenterY();
-            level.printOccupation();
+            //level.printOccupation();
             System.out.println();
         }
+    }
+
+    private void increaseNoOfMoves(){
+        numberOfMoves++;
+        LevelManager.getInstance().setNumberOfMoves(numberOfMoves);
     }
     public static class PieceBuilder{
 

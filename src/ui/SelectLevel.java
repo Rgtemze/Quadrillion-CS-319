@@ -37,8 +37,8 @@ public class SelectLevel extends Page {
                         System.out.println("Selam");
 
                         PlayGame play = new PlayGame();
-                        LevelManager manager = new LevelManager(play.root);
-                        manager.createLevel(false, finalI);
+                        LevelManager manager = LevelManager.getInstance();
+                        manager.createLevel(false, finalI, play.root);
                         manager.draw();
                         Screen.switchPage(play);
                     }
