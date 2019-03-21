@@ -1,5 +1,5 @@
 ## Quadrillion
-## Group 1H
+## Group 1H 
 ## Group Name: COGENE
 
 Osman Orhan Uysal
@@ -35,7 +35,7 @@ different sub-boards having some unavailable slots. The challange is to fill all
 
 * Players may upload new board combinations to the game server to challenge other players.
 
-* For each board combination, players can be rated based on the time it took to solve the game and they can be showcased on the leaderboard.
+* For each board combination, players can be rated based on the time it took to solve the game and they can be showcased on the leaderboard. 
 
 ## References
 
