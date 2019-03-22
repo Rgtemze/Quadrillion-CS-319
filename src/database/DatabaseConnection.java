@@ -1,6 +1,10 @@
 package database;
 
+import data.GroundData;
+
 import java.sql.*;
+import java.util.Arrays;
+
 public class DatabaseConnection {
     private static DatabaseConnection instance = new DatabaseConnection();
     private  Connection conn = null;
@@ -31,7 +35,6 @@ public class DatabaseConnection {
     }
 
     private void connectDatabase() {
-
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             String dbUrl = "jdbc:mysql://localhost/quadrillion?useLegacyDatetimeCode=false&serverTimezone=Turkey";
@@ -49,21 +52,54 @@ public class DatabaseConnection {
         }
     }
 
-    public String executeSQL(String sql, String column){
+    public GroundData[] getLevel(int id){
+        GroundData[] groundDatas = new GroundData[4];
 
-
-        Statement st = null;
         try {
-            st = conn.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM combinations");
+            Statement st = conn.createStatement();
+
+            ResultSet rs = st.executeQuery(String.format("SELECT * FROM level WHERE ID = '%d'", id));
 
             if(rs.next()){
-                return rs.getString(column);
+                String[] rotations = rs.getString("ROTATIONS").split(";");
+                String[] locations = rs.getString("LOCATIONS").split(";");
+                String[] isfronts = rs.getString("ISFRONT").split(";");
+                System.out.println(Arrays.toString(locations));
+                for(int i = 0; i < 4; i++){
+                    String[] loc = locations[i].split(",");
+                    groundDatas[i] = new GroundData();
+                    GroundData gd = groundDatas[i];
+                    gd.location.x = Integer.parseInt(loc[0]);
+                    gd.location.y = Integer.parseInt(loc[1]);
+                    gd.rotation = Integer.parseInt(rotations[i]);
+                    gd.isFront = isfronts[i].equals("1");
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return groundDatas;
+    }
 
+    public String executeSQL(String sql){
+        try {
+            Statement st = conn.createStatement();
+            st.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        /*
+        try {
+            st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            if(rs.next()){
+                return rs.getString("ROTATIONS");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        */
 
         return null;
     }

@@ -25,14 +25,20 @@ public class Piece extends Drawable {
     private Level level;
     private boolean isEmbedded;
     private int numberOfMoves;
+    private Paint color;
+
+    private Point initialLocation;
 
     private Piece(PieceBuilder builder) {
         this.circleOffsets = builder.circleOffsets;
         this.root = builder.root;
         location.x = builder.x;
         location.y = builder.y;
+        color = builder.color;
+        initialLocation = location;
         circles = new ArrayList<>();
         isEmbedded = false;
+
     }
 
     public void setLevel(Level level){
@@ -42,13 +48,10 @@ public class Piece extends Drawable {
     public static final int RADIUS = 30;
     @Override
     public void rotate() {
-        remove();
-
         for(Point point: circleOffsets){
             point.setLocation(point.getY(), -point.getX());
         }
-
-        draw();
+        recalculatePoints();
     }
 
     @Override
@@ -58,6 +61,7 @@ public class Piece extends Drawable {
             c.setCenterX(location.getX() + point.getX() * RADIUS * 2);
             c.setCenterY(location.getY() + point.getY() * RADIUS * 2);
             c.setRadius(RADIUS);
+            c.setFill(color);
             circles.add(c);
             root.getChildren().add(c);
 
@@ -65,8 +69,6 @@ public class Piece extends Drawable {
             c.setOnMouseDragged(new DragHandler());
             c.setOnMouseClicked(new ClickHandler());
         }
-
-
     }
 
     @Override
@@ -95,16 +97,20 @@ public class Piece extends Drawable {
         }
     }
 
+    private void recalculatePoints(){
+        for(int i = 0; i < circleOffsets.size(); i++){
+            Circle c = circles.get(i);
+            Point point = circleOffsets.get(i);
+            c.setCenterX(location.getX() + point.getX() * RADIUS * 2);
+            c.setCenterY(location.getY() + point.getY() * RADIUS * 2);
+        }
+    }
+
     private class DragHandler implements EventHandler<MouseEvent> {
 
         @Override
         public void handle(MouseEvent event) {
             boolean ejected = false;
-            Circle source = (Circle) event.getSource();
-            int offSetX = (int) Math.abs(source.getCenterX() - location.x);
-            int offSetY = (int) Math.abs(source.getCenterY() - location.y);
-            System.out.println("Source X: " + source.getCenterX());
-            System.out.println("Location X: " + location.x);
             for (Circle c : circles) {
                 c.setCenterX(c.getCenterX() + event.getX() - location.getX());
                 c.setCenterY(c.getCenterY() + event.getY() - location.getY());
@@ -151,22 +157,23 @@ public class Piece extends Drawable {
                 }
                 isEmbedded = true;
                 increaseNoOfMoves();
-
+                location.x = (int) circles.get(0).getCenterX();
+                location.y = (int) circles.get(0).getCenterY();
+            } else {
+                location = initialLocation;
+                recalculatePoints();
             }
-            Circle source = (Circle) event.getSource();
-            location.x = (int) circles.get(0).getCenterX();
-            location.y = (int) circles.get(0).getCenterY();
             //level.printOccupation();
-            System.out.println();
         }
     }
 
     private void increaseNoOfMoves(){
         numberOfMoves++;
-        LevelManager.getInstance().setNumberOfMoves(numberOfMoves);
+        LevelManager.getInstance().incrementMoves();
     }
     public static class PieceBuilder{
 
+        private Paint color;
         private Group root;
         private ArrayList<Point> circleOffsets;
         private int x;
@@ -174,6 +181,7 @@ public class Piece extends Drawable {
 
         public PieceBuilder(Group root){
             this.root = root;
+            color = Paint.valueOf("black");
             circleOffsets = new ArrayList<>();
         }
 
@@ -188,6 +196,11 @@ public class Piece extends Drawable {
 
         public PieceBuilder setY(int y){
             this.y = y;
+            return this;
+        }
+
+        public PieceBuilder setColor(Paint color){
+            this.color = color;
             return this;
         }
 

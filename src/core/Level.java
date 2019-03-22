@@ -30,6 +30,19 @@ public class Level {
         adjustPieces();
     }
 
+    public Level( Ground[] grounds) {
+        this.grounds = grounds;
+        combination = new int[16][16];
+
+        for(int i = 0; i < 16; i++){
+            for(int j = 0; j < 16; j++){
+                combination[i][j] = 1;
+            }
+        }
+
+        combineGrounds();
+    }
+
     private void adjustPieces() {
         for(Piece p : pieces){
             p.setLevel(this);
@@ -84,6 +97,8 @@ public class Level {
         for(Ground g : grounds){
             g.draw();
         }
+
+        if(pieces != null)
         for(Piece p : pieces){
             p.draw();
         }

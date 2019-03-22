@@ -1,6 +1,7 @@
 package pos;
 
 import data.PurchaseInfo;
+import database.DatabaseConnection;
 
 public class Entity {
     private PurchaseInfo purchaseInfo;
@@ -10,7 +11,7 @@ public class Entity {
     }
 
     private void updateDatabase(){
-
+        DatabaseConnection db = DatabaseConnection.getInstance();
     }
 
     public boolean doPayment(){

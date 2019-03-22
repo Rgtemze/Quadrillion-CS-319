@@ -68,12 +68,14 @@ public class PlayGame extends Page implements MoveObserver {
                 alert.setHeaderText(null);
                 alert.setContentText("You do not have enough hints.\nWould you like to buy some?");
                 alert.showAndWait();
-
                 PurchaseInfo pinfo = new PurchaseInfo("John", "Doe","5528790000000008",
                         "123","12.2030", "1.2");
                 Entity entity = new Entity(pinfo);
                 boolean res = entity.doPayment();
-                System.out.println("Status: " + res);
+                if(res){
+                    user.addHint();
+                }
+
             }
 
 
@@ -86,7 +88,7 @@ public class PlayGame extends Page implements MoveObserver {
     }
 
     private void showHint() {
-
+        LevelManager.getInstance().showHint();
     }
 
     public void prepareGame() {
@@ -102,6 +104,7 @@ public class PlayGame extends Page implements MoveObserver {
 
     @Override
     public void notifyMoveChanged(int numberOfMoves) {
+        this.numberOfMoves = numberOfMoves;
         moves.setText("Number of Moves: " + numberOfMoves);
     }
 }

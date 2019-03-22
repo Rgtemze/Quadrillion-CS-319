@@ -23,22 +23,18 @@ public class LevelManager {
         return instance;
     }
     public void createLevel(boolean isMovable, int levelID, Group root ) {
-        /*DatabaseConnection conn = DatabaseConnection.getInstance();
+        DatabaseConnection db = DatabaseConnection.getInstance();
 
-        String columns = conn.executeSQL("SELECT * FROM combinations WHERE ID = '" + levelNo + "'", "ROTATIONS");
-        String locations = conn.executeSQL("SELECT * FROM combinations WHERE ID = '" + levelNo + "'", "LOCATIONS");
+        GroundData[] gdatas = db.getLevel(levelID);
 
-        System.out.println(columns);
-        System.out.println(locations);
-        */
         ComponentFactory gameComp = new ComponentFactory(root);
 
-        currentLevel = new Level( gameComp.createGrounds(isMovable), gameComp.createPieces() );
+        currentLevel = new Level( gameComp.createGrounds(isMovable, gdatas), gameComp.createPieces() );
     }
 
     public void createLevel(boolean isMovable, Group root){
         ComponentFactory gameComp = new ComponentFactory(root);
-        currentLevel = new Level(gameComp.createGrounds(isMovable), gameComp.createPieces());
+        currentLevel = new Level(gameComp.createGrounds(isMovable));
     }
 
     public void draw(){
@@ -46,8 +42,19 @@ public class LevelManager {
     }
     public void uploadLevel() {
         GroundData[] results = currentLevel.get4GroundData();
-        System.out.print(Arrays.toString(results));
-
+        // System.out.print(Arrays.toString(results));
+        DatabaseConnection db = DatabaseConnection.getInstance();
+        String rotations = "", locations = "", isFront = "";
+        for(GroundData result : results){
+            rotations += String.format("%d;",result.rotation);
+            locations += String.format("%d,%d;", result.location.x, result.location.y);
+            isFront += String.format("%s;", (result.isFront) ? "1" : "0");
+        }
+        rotations = rotations.substring(0, rotations.length() - 1);
+        locations = locations.substring(0, locations.length() - 1);
+        isFront = isFront.substring(0, isFront.length() - 1);
+        db.executeSQL(String.format("INSERT INTO level (ROTATIONS, LOCATIONS, ISFRONT) VALUES ('%s', '%s', '%s')"
+                ,rotations, locations, isFront));
 
     }
 
@@ -56,8 +63,8 @@ public class LevelManager {
     }
 
 
-    public void setNumberOfMoves(int numberOfMoves) {
-        this.numberOfMoves = numberOfMoves;
+    public void incrementMoves() {
+        numberOfMoves++;
         observer.notifyMoveChanged(numberOfMoves);
     }
 
