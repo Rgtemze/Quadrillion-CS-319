@@ -2,14 +2,14 @@ package data;
 
 public class User {
 
-    private int userID;
+    private String nick;
 
     private int totalHints;
 
     private static User instance = new User();
 
     private User(){
-
+        nick = "Rgtemze";
     }
 
     public static User getInstance(){
@@ -28,4 +28,11 @@ public class User {
         totalHints++;
     }
 
+    public int getHint() {
+        return totalHints;
+    }
+
+    public String getNickName() {
+        return nick;
+    }
 }
