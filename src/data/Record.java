@@ -6,6 +6,16 @@ public class Record {
     private int times; // in miliseconds
     private int moves;
 
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    private int score;
+
     public String getUserID() {
         return userID;
     }
@@ -36,5 +46,16 @@ public class Record {
 
     public void setMoves(int moves) {
         this.moves = moves;
+    }
+
+    @Override
+    public String toString() {
+        return "Record{" +
+                "\nuserID='" + userID  +
+                ", \nlevelID=" + levelID +
+                ", \ntimes=" + times +
+                ", \nmoves=" + moves +
+                ", \nscore=" + score +
+                "\n}";
     }
 }

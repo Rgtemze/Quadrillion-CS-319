@@ -13,17 +13,48 @@ import pos.PosService;
 
 public class PlayGame extends Page implements MoveObserver {
     private boolean isGamePaused;
-    private int numberOfMoves;
-    private long timeElapsed;
-    private Label moves, time;
-
+    protected int numberOfMoves;
+    protected long timeElapsed;
+    protected Label moves, time;
+    LevelManager manager;
 
     public PlayGame(){
-        LevelManager.getInstance().setObserver(this);
+        manager = LevelManager.getInstance();
+        manager.setObserver(this);
     }
     @Override
     public void prepareDesign() {
         addButton("Menu",0,0, event -> {Screen.switchPage(new MainMenu());});
+
+        addCounters();
+
+        addButton("Get Hint", 0,40, event ->{
+
+            User user = User.getInstance();
+            if(user.hasHint()){
+                user.useHint();
+                LevelManager.getInstance().showHint();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Not Enough Hints");
+                alert.setHeaderText(null);
+                alert.setContentText("You do not have enough hints.\nWould you like to buy some?");
+                alert.showAndWait();
+                PurchaseInfo pinfo = new PurchaseInfo("John", "Doe","5528790000000008",
+                        "123","12.2030", "1.2");
+                Entity entity = new Entity(pinfo);
+                boolean res = entity.doPayment();
+                if(res){
+                    user.addHint();
+                }
+
+            }
+
+
+        });
+    }
+
+    protected void addCounters(){
         time = new Label();
         time.setLayoutX(100);
         time.setLayoutY(0);
@@ -55,31 +86,6 @@ public class PlayGame extends Page implements MoveObserver {
         timer.start();
 
         moves.setText("Number of Moves: 0");
-
-        addButton("Get Hint", 0,20, event ->{
-
-            User user = User.getInstance();
-            if(user.hasHint()){
-                user.useHint();
-                LevelManager.getInstance().showHint();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Not Enough Hints");
-                alert.setHeaderText(null);
-                alert.setContentText("You do not have enough hints.\nWould you like to buy some?");
-                alert.showAndWait();
-                PurchaseInfo pinfo = new PurchaseInfo("John", "Doe","5528790000000008",
-                        "123","12.2030", "1.2");
-                Entity entity = new Entity(pinfo);
-                boolean res = entity.doPayment();
-                if(res){
-                    user.addHint();
-                }
-
-            }
-
-
-        });
     }
 
 

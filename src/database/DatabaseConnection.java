@@ -1,6 +1,8 @@
 package database;
 
 import data.GroundData;
+import data.Record;
+import data.User;
 
 import java.sql.*;
 import java.util.Arrays;
@@ -39,8 +41,6 @@ public class DatabaseConnection {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             String dbUrl = "jdbc:mysql://localhost/quadrillion?useLegacyDatetimeCode=false&serverTimezone=Turkey";
             conn = DriverManager.getConnection(dbUrl, "root", "12345678q");
-
-
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
@@ -101,6 +101,33 @@ public class DatabaseConnection {
         }
         */
 
+        return null;
+    }
+
+    public Record[] getLeaderboard(int levelID){
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(String.format("SELECT * FROM leaderboards " +
+                    "WHERE LEVEL_ID = %d ORDER BY TOTAL_SCORE DESC", levelID));
+
+            rs.last();
+            int noOfRows = rs.getRow();
+            rs.beforeFirst();
+            Record[] lboard = new Record[noOfRows];
+            int i = 0;
+            while(rs.next()){
+                Record rec = new Record();
+                rec.setUserID(User.getInstance().getNickName());
+                rec.setLevelID(levelID);
+                rec.setMoves(rs.getInt("MOVES"));
+                rec.setTimes(rs.getInt("TIME_ELAPSED"));
+                rec.setScore(rs.getInt("TOTAL_SCORE"));
+                lboard[i++] = rec;
+            }
+            return lboard;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }

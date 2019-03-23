@@ -29,7 +29,6 @@ public class SelectLevel extends Page {
                 rect.setStroke(Paint.valueOf("black"));
                 rect.setWidth(100);
                 rect.setHeight(100);
-                System.out.println("Selam2 ");
                 int finalI = i;
                 rect.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
@@ -40,6 +39,7 @@ public class SelectLevel extends Page {
                         LevelManager manager = LevelManager.getInstance();
                         manager.createLevel(false, finalI, play.root);
                         manager.draw();
+                        manager.showLeaderboard();
                         Screen.switchPage(play);
                     }
                 });

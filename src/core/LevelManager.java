@@ -1,6 +1,8 @@
 package core;
 
 import data.GroundData;
+import data.Record;
+import data.User;
 import database.DatabaseConnection;
 import interfaces.MoveObserver;
 import javafx.scene.Group;
@@ -9,22 +11,30 @@ import java.util.Arrays;
 
 public class LevelManager {
     private Level currentLevel;
+    private int levelID;
     private static LevelManager instance = new LevelManager();
     private int numberOfMoves;
     private int timeElapsed;
     private MoveObserver observer;
 
     private LevelManager() {
+        reset();
+    }
+
+    private void reset(){
         numberOfMoves = 0;
         timeElapsed = 0;
+        currentLevel = null;
+        levelID = -1;
     }
 
     public static LevelManager getInstance(){
         return instance;
     }
     public void createLevel(boolean isMovable, int levelID, Group root ) {
+        reset();
+        this.levelID = levelID;
         DatabaseConnection db = DatabaseConnection.getInstance();
-
         GroundData[] gdatas = db.getLevel(levelID);
 
         ComponentFactory gameComp = new ComponentFactory(root);
@@ -33,6 +43,7 @@ public class LevelManager {
     }
 
     public void createLevel(boolean isMovable, Group root){
+        reset();
         ComponentFactory gameComp = new ComponentFactory(root);
         currentLevel = new Level(gameComp.createGrounds(isMovable));
     }
@@ -58,6 +69,16 @@ public class LevelManager {
 
     }
 
+    public void uploadResults(){
+        if(levelID == -1){
+            return;
+        }
+        DatabaseConnection db = DatabaseConnection.getInstance();
+        db.executeSQL(String.format("INSERT INTO leaderboards (USER_NICK, LEVEL_ID, TIME_ELAPSED, MOVES, TOTAL_SCORE) " +
+                "VALUE ('%s',%d,%d,%d,%d)",
+                User.getInstance().getNickName(), levelID, timeElapsed, numberOfMoves, 1000 / (numberOfMoves * timeElapsed)));
+    }
+
     public boolean isValidComb() {
         return currentLevel.isValid();
     }
@@ -78,5 +99,10 @@ public class LevelManager {
 
     public void setObserver(MoveObserver observer){
         this.observer = observer;
+    }
+
+    public void showLeaderboard(){
+        Record[] lboard = DatabaseConnection.getInstance().getLeaderboard(levelID);
+        System.out.println(Arrays.toString(lboard));
     }
 }

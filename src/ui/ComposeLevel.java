@@ -17,7 +17,7 @@ public class ComposeLevel extends Page {
     @Override
     public void prepareDesign() {
         addButton("Menu",0,0, event -> {Screen.switchPage(new MainMenu());});
-        addButton("Check",0,30, event -> {fetcher.uploadLevel();});
+        addButton("Check",0,40, event -> {fetcher.uploadLevel();});
 
     }
 }
