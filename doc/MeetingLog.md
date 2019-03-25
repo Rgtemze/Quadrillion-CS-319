@@ -55,6 +55,7 @@ Drafts of UML diagrams were improved and finalized after reviewed by all group m
                                                       08/03/2019
                                                       
 The content of the Project Analysis Report was checked and design issues about is were finished; it was ready to submit.
+
 The work distrubition of the Project Design Report among group members was done and some the meeting time was spent on it.
                                                     
 
