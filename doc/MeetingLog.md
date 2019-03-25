@@ -1,4 +1,5 @@
                                                       20/02/2019
+                                                      
 Class diagram was discussed, and reviweved, necessary changes were done.
 
 Additional features and some details about the game were discussed.
@@ -44,6 +45,7 @@ Drafts for the UML diagrams were prepared, so they were almost finalized, review
 Drafts of all UML diagrams and other required parts such as use case descriptions were added to the group work space on Google Drive to be submitted as Project Analysis Report.
 
 Some details were discussed.
+
  * Should player be provided by purchase hint option during the game, what are the new arrangements need in this case (pause of time counter etc.)?
  * Usage of a databese is decided.
  * Should purchase hint option is provided for both game style (single-player and ranked game)?
@@ -57,7 +59,12 @@ Drafts of UML diagrams were improved and finalized after reviewed by all group m
 The content of the Project Analysis Report was checked and design issues about is were finished; it was ready to submit.
 
 The work distrubition of the Project Design Report among group members was done and some the meeting time was spent on it.
+
+ * The sample Project Design Report on the course website was analyzed and the work distrubition was done accordingly.
+ * Each group member started to work on their assigned part of the report.
                                                     
+                                                      13/03/2019
+                                                      
 
 
 
