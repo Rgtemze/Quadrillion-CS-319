@@ -2,8 +2,15 @@ package ui;
 
 import core.LevelManager;
 import core.Level;
+import data.Record;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
@@ -47,7 +54,7 @@ public class SelectLevel extends Page {
             }
         }
         addButton("Menu",0,0, event -> {Screen.switchPage(new MainMenu());});
-
-
     }
+
+
 }

@@ -24,6 +24,7 @@ public class PlayRanked extends PlayGame {
         LevelManager manager = LevelManager.getInstance();
         manager.setTimeElapsed((int) timeElapsed);
         manager.uploadResults();
+        manager.showLeaderboard();
     }
 
     public void openRandomLevel() {
