@@ -20,7 +20,7 @@ public class PosService {
     public static PosService getInstance() {
         return instance;
     }
-    public boolean buy(PurchaseInfo pInfo){
+    public String buy(PurchaseInfo pInfo){
         Options options = new Options();
         options.setApiKey("sandbox-T1CUxk3s1eJowvyw2kzVp0nF93pm9BUq");
         options.setSecretKey("sandbox-RU1m7uOZHODivNNOnsVg6VcfGvxM4dHK");
@@ -92,8 +92,8 @@ public class PosService {
 
         Payment payment = Payment.create(request, options);
         System.out.println(payment.getErrorMessage());
-        //System.out.println(payment.getStatus());
+        System.out.println(payment.getStatus());
 
-        return payment.getStatus().equalsIgnoreCase(Status.SUCCESS.getValue());
+        return payment.getErrorMessage();
     }
 }

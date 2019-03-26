@@ -1,5 +1,6 @@
 package pos;
 
+import com.iyzipay.model.Status;
 import data.PurchaseInfo;
 import data.User;
 import database.DatabaseConnection;
@@ -19,10 +20,10 @@ public class Entity {
                 "WHERE NICKNAME = '%s'; ", user.getHint(), user.getNickName()));
     }
 
-    public boolean doPayment(){
-        boolean result = PosService.getInstance().buy(purchaseInfo);
+    public String doPayment(){
+        String result = PosService.getInstance().buy(purchaseInfo);
 
-        if(result) {
+        if(result == null) {
             User.getInstance().addHint();
             updateDatabase();
         }
