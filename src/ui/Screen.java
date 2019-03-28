@@ -21,12 +21,9 @@ public class Screen extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        //PosService pos = new PosService();
-        //pos.pay();
 
         Login login = new Login();
-        MainMenu mm = new MainMenu();
-        gameScene = new Scene(mm.getRoot(), width, height);
+        gameScene = new Scene(login.getRoot(), width, height);
 
         primaryStage.setTitle("Quadrillion");
         primaryStage.setScene(gameScene);

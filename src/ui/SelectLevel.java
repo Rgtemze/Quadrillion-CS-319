@@ -31,8 +31,7 @@ public class SelectLevel extends Page {
         double rectWidth = 120;
         double rectHeight = 120;
         int rectNo = (int)((Screen.getWidth() - 2 * rectWidth) / rectWidth);
-        int levelCount = 30;
-        //int levelCount = DatabaseConnection.getInstance().getLevelCount();
+        int levelCount = DatabaseConnection.getInstance().getLevelCount();
         int levelIndex = 0;
         for(int i = 0; i < 3 && levelIndex < levelCount; i++){
             for(int j = 0; j < rectNo && levelIndex < levelCount; j++) {
@@ -50,19 +49,15 @@ public class SelectLevel extends Page {
                 levelLabel.setLayoutY(rect.getY() + rect.getHeight() / 2);
                 levelLabel.setFont(new Font(30));
 
-                AnchorPane.setLeftAnchor(levelLabel, 0.0);
-                AnchorPane.setRightAnchor(levelLabel, 0.0);
-                levelLabel.setAlignment(Pos.CENTER);
-
                 int finalI = levelIndex;
                 rect.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
                         PlayGame play = new PlayGame();
                         LevelManager manager = LevelManager.getInstance();
-                        manager.createLevel(false, play.root);
+                        manager.createLevel(false, finalI, play.root);
                         manager.draw();
-                        //manager.showLeaderboard();
+                        manager.showLeaderboard();
                         Screen.switchPage(play);
                     }
                 });
