@@ -47,6 +47,11 @@ public class Ground extends Drawable{
     }
 
     public void flip() {
+        for(int i = 0; i < NUMBER_OF_EDGE; i++){
+            for (int j = 0; j < NUMBER_OF_EDGE; j++){
+                backBoard[i][j] = frontBoard[NUMBER_OF_EDGE-i][j];
+            }
+        }
         isFront = !isFront;
     }
 
