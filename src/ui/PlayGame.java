@@ -29,41 +29,44 @@ public class PlayGame extends Page implements MoveObserver {
         manager.setObserver(this);
         stopCountingTime = false;
     }
+
+    protected void showSubmissionDialog(){
+        if(!manager.isGameWon()){
+            Alert notFin = new Alert(Alert.AlertType.CONFIRMATION);
+            notFin.setTitle("Warning");
+            notFin.setHeaderText("Level not complete");
+            notFin.setContentText("Do you want to continue playing?");
+
+            ((Button) notFin.getDialogPane().lookupButton(ButtonType.OK)).setText("Yes");
+            ((Button) notFin.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No");
+            Optional<ButtonType> opt = notFin.showAndWait();
+
+            if(opt.get() == ButtonType.OK){
+                notFin.close();
+            }
+            else if(opt.get() == ButtonType.CANCEL){
+                //TODO: show leaderboard
+                Screen.switchPage(new MainMenu());
+            }
+        }
+        else{
+            Alert fin = new Alert(Alert.AlertType.INFORMATION);
+            fin.setHeaderText("You have completed this level");
+            fin.setTitle("Congratulations");
+            Optional<ButtonType> opt = fin.showAndWait();
+            if(opt.get() == ButtonType.OK){
+                manager.showLeaderboard();
+                Screen.switchPage(new SelectLevel());
+            }
+        }
+    }
+
     @Override
     public void prepareDesign() {
         addButton("Menu",0,0, event -> {Screen.switchPage(new MainMenu());});
         addButton("Submit", 0, 80, event -> {
-            if(!manager.isGameWon()){
-                Alert notFin = new Alert(Alert.AlertType.CONFIRMATION);
-                notFin.setTitle("Warning");
-                notFin.setHeaderText("Level not complete");
-                notFin.setContentText("Do you want to continue playing?");
-
-
-                ((Button) notFin.getDialogPane().lookupButton(ButtonType.OK)).setText("Yes");
-                ((Button) notFin.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No");
-                Optional<ButtonType> opt = notFin.showAndWait();
-
-                if(opt.get() == ButtonType.OK){
-                    notFin.close();
-                }
-                else if(opt.get() == ButtonType.CANCEL){
-                    //TODO: show leaderboard
-                    Screen.switchPage(new MainMenu());
-                }
-            }
-            else{
-                Alert fin = new Alert(Alert.AlertType.INFORMATION);
-                fin.setHeaderText("You have completed this level");
-                fin.setTitle("Congratulations");
-                Optional<ButtonType> opt = fin.showAndWait();
-                if(opt.get() == ButtonType.OK){
-                    //TODO: show leaderboard
-                    Screen.switchPage(new SelectLevel());
-                }
-            }
+            showSubmissionDialog();
         });
-
         addCounters();
         User user = User.getInstance();
 
