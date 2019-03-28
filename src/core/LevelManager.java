@@ -48,9 +48,11 @@ public class LevelManager {
     }
 
     public void createLevel(boolean isMovable, Group root){
+        // Reset the LevelManager attributes.
         reset();
         ComponentFactory gameComp = new ComponentFactory(root);
         currentLevel = new Level(gameComp.createGrounds(isMovable));
+
     }
 
     public void draw(){

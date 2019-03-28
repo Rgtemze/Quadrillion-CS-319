@@ -8,6 +8,7 @@ public class PlayRanked extends PlayGame {
     public PlayRanked() {
         super();
 
+        //TODO: User should be assigned with a random level
         LevelManager manager = LevelManager.getInstance();
         manager.createLevel(false, 0, root);
         manager.draw();

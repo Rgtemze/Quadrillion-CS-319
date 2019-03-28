@@ -49,10 +49,6 @@ public class SelectLevel extends Page {
                 levelLabel.setLayoutY(rect.getY() + rect.getHeight() / 2);
                 levelLabel.setFont(new Font(30));
 
-                AnchorPane.setLeftAnchor(levelLabel, 0.0);
-                AnchorPane.setRightAnchor(levelLabel, 0.0);
-                levelLabel.setAlignment(Pos.CENTER);
-
                 int finalI = levelIndex;
                 rect.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
