@@ -52,7 +52,6 @@ public class LevelManager {
         reset();
         ComponentFactory gameComp = new ComponentFactory(root);
         currentLevel = new Level(gameComp.createGrounds(isMovable));
-
     }
 
     public void draw(){
@@ -60,7 +59,7 @@ public class LevelManager {
     }
     public void uploadLevel() {
         GroundData[] results = currentLevel.get4GroundData();
-        // System.out.print(Arrays.toString(results));
+        //System.out.print(Arrays.toString(results));
         DatabaseConnection db = DatabaseConnection.getInstance();
         String rotations = "", locations = "", isFront = "";
         for(GroundData result : results){

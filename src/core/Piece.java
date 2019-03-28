@@ -81,17 +81,19 @@ public class Piece extends Drawable {
 
     @Override
     public void flip() {
-
+        for(Point point: circleOffsets){
+            point.setLocation(-point.getX(), point.getY());
+        }
+        recalculatePoints();
     }
 
     private class ClickHandler implements EventHandler<MouseEvent>{
 
         @Override
         public void handle(MouseEvent event) {
-            if (event.getButton() == MouseButton.MIDDLE) {
-                rotate();
-            } else if (event.getButton() == MouseButton.SECONDARY) {
-                //flip();
+            if (event.getButton() == MouseButton.SECONDARY) {
+                flip();
+            } else if (event.getButton() == MouseButton.MIDDLE) {
                 if(!isEmbedded)
                     rotate();
             }
