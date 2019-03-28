@@ -1,6 +1,7 @@
 package ui;
 
 import core.LevelManager;
+import database.DatabaseConnection;
 
 public class PlayRanked extends PlayGame {
 
@@ -8,7 +9,9 @@ public class PlayRanked extends PlayGame {
     public PlayRanked() {
         super();
 
-        //TODO: User should be assigned with a random level
+        int levelCount = DatabaseConnection.getInstance().getLevelCount();
+
+        int randLevel = (int) (Math.random() * levelCount + 1);
         LevelManager manager = LevelManager.getInstance();
         manager.createLevel(false, 0, root);
         manager.draw();

@@ -49,29 +49,33 @@ public class ComponentFactory {
                 .setX(gd[0].location.x)
                 .setY(gd[0].location.y)
                 .setMovable(isMovable)
+                .setRotation(gd[0].rotation)
                 .setOccupied(true, 0, 0)
-                .setOccupied(true, 2, 1)
+                .setOccupied(true, 0, 2)
                 .build();
 
         Ground g2 = (new Ground.GroundBuilder(root))
                 .setX(gd[1].location.x)
                 .setY(gd[1].location.y)
                 .setMovable(isMovable)
-                .setOccupied(true, 3, 0)
-                .setOccupied(true, 1, 1)
+                .setRotation(gd[1].rotation)
+                .setOccupied(true, 0, 1)
                 .build();
         Ground g3 = (new Ground.GroundBuilder(root))
                 .setX(gd[2].location.x)
                 .setY(gd[2].location.y)
                 .setMovable(isMovable)
-                .setOccupied(true, 2, 0)
+                .setRotation(gd[2].rotation)
+                .setOccupied(true, 0, 0)
+                .setOccupied(true, 1, 2)
                 .build();
         Ground g4 = (new Ground.GroundBuilder(root))
                 .setX(gd[3].location.x)
                 .setY(gd[3].location.y)
                 .setMovable(isMovable)
-                .setOccupied(true, 1, 0)
-                .setOccupied(true, 3, 0)
+                .setRotation(gd[3].rotation)
+                .setOccupied(true, 0, 0)
+                .setOccupied(true, 2, 1)
                 .build();
 
         grounds[0] = g1;
@@ -87,28 +91,28 @@ public class ComponentFactory {
                     .setY(100)
                     .setMovable(isMovable)
                     .setOccupied(true, 0, 0)
-                    .setOccupied(true, 2, 1)
+                    .setOccupied(true, 0, 2)
                     .build();
 
         Ground g2 = (new Ground.GroundBuilder(root))
                 .setX(340)
                 .setY(160)
                 .setMovable(isMovable)
-                .setOccupied(true, 3, 0)
-                .setOccupied(true, 1, 1)
+                .setOccupied(true, 0, 1)
                 .build();
         Ground g3 = (new Ground.GroundBuilder(root))
                 .setX(100)
                 .setY(340)
                 .setMovable(isMovable)
-                .setOccupied(true, 2, 0)
+                .setOccupied(true, 0, 0)
+                .setOccupied(true, 1, 2)
                 .build();
         Ground g4 = (new Ground.GroundBuilder(root))
                 .setX(340)
                 .setY(400)
                 .setMovable(isMovable)
-                .setOccupied(true, 1, 0)
-                .setOccupied(true, 3, 0)
+                .setOccupied(true, 0, 0)
+                .setOccupied(true, 2, 1)
                 .build();
 
         grounds[0] = g1;

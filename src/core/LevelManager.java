@@ -143,4 +143,8 @@ public class LevelManager {
 
         dialog.showAndWait();
     }
+
+    public boolean isGameWon() {
+        return currentLevel.isGameWon();
+    }
 }

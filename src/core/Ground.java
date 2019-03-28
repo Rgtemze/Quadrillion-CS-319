@@ -39,6 +39,10 @@ public class Ground extends Drawable{
         circles = new ArrayList<>();
         rect = new Rectangle();
         result = new GroundData();
+        int rotation = builder.rotation;
+        while(rotation-- > 0){
+            rotatePure();
+        }
     }
 
     public int[][] getActiveBoard() {
@@ -50,9 +54,7 @@ public class Ground extends Drawable{
         isFront = !isFront;
     }
 
-    @Override
-    public void rotate() {
-        remove();
+    private void rotatePure(){
         int[][] currentBoard = isFront ? frontBoard : backBoard;
         int t;
         for(int i = 0; i < NUMBER_OF_EDGE/2; i++){
@@ -64,6 +66,12 @@ public class Ground extends Drawable{
                 currentBoard[j][NUMBER_OF_EDGE-i-1] = t;
             }
         }
+    }
+
+    @Override
+    public void rotate() {
+        remove();
+        rotatePure();
         draw();
         result.rotation = (result.rotation + 1) % 4;
     }
@@ -157,6 +165,7 @@ public class Ground extends Drawable{
         private int y;
         private int[][] frontBoard;
         private int[][] backBoard;
+        private int rotation;
         public GroundBuilder(Group root){
             this.root = root;
             frontBoard = new int[4][4];
@@ -170,6 +179,10 @@ public class Ground extends Drawable{
 
         public GroundBuilder setY(int y){
             this.y = y;
+            return this;
+        }
+        public GroundBuilder setRotation(int rotation){
+            this.rotation = rotation;
             return this;
         }
 
