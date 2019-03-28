@@ -92,7 +92,8 @@ public class Piece extends Drawable {
                 rotate();
             } else if (event.getButton() == MouseButton.SECONDARY) {
                 //flip();
-                rotate();
+                if(!isEmbedded)
+                    rotate();
             }
         }
     }
@@ -118,6 +119,7 @@ public class Piece extends Drawable {
                 int y = (int) Math.round((c.getCenterY() - RADIUS -  level.getMinY()) / Ground.EDGE_LENGTH);
                 //System.out.println("X: " + x + ", Y: " + y);
                 if(isEmbedded){
+                    System.out.println("x: " + x + " y: " + y + " isEmbeded: " + isEmbedded);
                     level.setOccupation(y, x, 0);
                     ejected = true;
                 }

@@ -7,8 +7,8 @@ import javafx.stage.Stage;
 public class Screen extends Application {
 
     private static Scene gameScene;
-    private static int width = 1600;
-    private static int height = 800;
+    private static int width = 1850;
+    private static int height = 900;
     public static void switchPage(Page page) {
         gameScene.setRoot(page.getRoot());
     }
@@ -25,7 +25,8 @@ public class Screen extends Application {
         //pos.pay();
 
         Login login = new Login();
-        gameScene = new Scene(login.getRoot(), width, height);
+        MainMenu mm = new MainMenu();
+        gameScene = new Scene(mm.getRoot(), width, height);
 
         primaryStage.setTitle("Quadrillion");
         primaryStage.setScene(gameScene);
