@@ -50,7 +50,7 @@ public class LevelManager {
     public void createLevel(boolean isMovable, Group root){
         reset();
         ComponentFactory gameComp = new ComponentFactory(root);
-        currentLevel = new Level(gameComp.createGrounds(isMovable));
+        currentLevel = new Level(gameComp.createGrounds(isMovable), gameComp.createPieces());
     }
 
     public void draw(){
@@ -140,5 +140,9 @@ public class LevelManager {
         dialog.getDialogPane().setContent(grid);
 
         dialog.showAndWait();
+    }
+
+    public boolean isGameWon() {
+        return currentLevel.isGameWon();
     }
 }

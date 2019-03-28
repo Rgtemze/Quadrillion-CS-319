@@ -11,7 +11,6 @@ public class Level {
     private Ground[] grounds;
     private int[][] combination;
     private Record[] leaderboard;
-    private boolean isGameFinished;
     private int minX;
     private int minY;
 
@@ -78,7 +77,12 @@ public class Level {
     * which is a win state.
     */
     public boolean isGameWon() {
-        return isGameFinished;
+        for (int i = 0; i < 16; i++){
+            for(int j = 0; j < 16; j++){
+                if(combination[i][j] == 0) return false;
+            }
+        }
+        return true;
     }
 
     public int getMinX() {
