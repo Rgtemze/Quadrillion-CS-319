@@ -3,7 +3,12 @@ package database;
 import data.GroundData;
 import data.Record;
 import data.User;
+import ui.MainMenu;
+import ui.Screen;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.Arrays;
 
@@ -18,18 +23,76 @@ public class DatabaseConnection {
 
         return instance;
     }
-    public boolean signIn(String userID, String pass) throws SQLException {
+    private String getSHA(String input)
+    {
 
-        Statement st = null;
-        st = conn.createStatement();
+        try {
 
-        return true;
+            // Static getInstance method is called with hashing SHA
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+
+            // digest() method called
+            // to calculate message digest of an input
+            // and return array of byte
+            byte[] messageDigest = md.digest(input.getBytes());
+
+            // Convert byte array into signum representation
+            BigInteger no = new BigInteger(1, messageDigest);
+
+            // Convert message digest into hex value
+            String hashtext = no.toString(16);
+
+            while (hashtext.length() < 32) {
+                hashtext = "0" + hashtext;
+            }
+
+            return hashtext;
+        }
+
+        // For specifying wrong message digest algorithms
+        catch (NoSuchAlgorithmException e) {
+            System.out.println("Exception thrown"
+                    + " for incorrect algorithm: " + e);
+
+            return null;
+        }
     }
 
-    public boolean createUser(String userID, String pass) throws SQLException {
+
+    public boolean signIn(String userID, String pass){
+
         try {
             Statement st = null;
             st = conn.createStatement();
+            ResultSet rs = st.executeQuery(String.format("SELECT * FROM users WHERE NICKNAME = '%s' AND PASS = '%s'", userID, getSHA(pass)));
+            boolean result;
+            if(result = rs.next()){
+                String nickName = rs.getString("NICKNAME");
+                int hint = rs.getInt("HINT");
+                User u = User.getInstance();
+                u.setNickName(nickName);
+                u.setHint(hint);
+                Screen.switchPage(new MainMenu());
+            }
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean createUser(String userID, String pass){
+        try {
+            Statement st = null;
+            st = conn.createStatement();
+            ResultSet rs = st.executeQuery(String.format("SELECT * FROM users WHERE NICKNAME = '%s'", userID));
+            if(rs.next()){
+                return false;
+            }
+            st.execute(String.format("INSERT INTO users (NICKNAME,PASS,HINT) VALUES ('%s','%s',%d)", userID, getSHA(pass), 0));
+            User u = User.getInstance();
+            u.setNickName(userID);
+            u.setHint(0);
         } catch(SQLException e){
             e.printStackTrace();
         }
@@ -129,5 +192,20 @@ public class DatabaseConnection {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public int getLevelCount() {
+        Statement st = null;
+        try {
+            st = conn.createStatement();
+
+            ResultSet rs = st.executeQuery("SELECT COUNT(*) AS total FROM level");
+            if(rs.next()){
+                return rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

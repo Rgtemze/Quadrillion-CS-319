@@ -31,8 +31,15 @@ public class User {
     public int getHint() {
         return totalHints;
     }
+    public void setHint(int totalHints) {
+        this.totalHints = totalHints;
+    }
 
     public String getNickName() {
         return nick;
+    }
+
+    public void setNickName(String nick) {
+        this.nick = nick;
     }
 }

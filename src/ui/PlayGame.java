@@ -102,13 +102,13 @@ public class PlayGame extends Page implements MoveObserver {
                         String error = entity.doPayment();
 
                         Alert resultAlert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Payment Result");
+                        resultAlert.setTitle("Payment Result");
                         if(error == null) {
-                            alert.setContentText("You successfully bought hints.");
+                            resultAlert.setContentText("You successfully bought hints.");
                         } else {
-                            alert.setContentText("An error occured: " + error);
+                            resultAlert.setContentText("An error occured: " + error);
                         }
-                        alert.showAndWait();
+                        resultAlert.showAndWait();
 
                     });
                 }
