@@ -131,6 +131,7 @@ public class PlayGame extends Page implements MoveObserver {
                                 "123", "12.2030", "1.2");*/
                         Entity entity = new Entity(pinfo);
                         String error = entity.doPayment();
+                        #//TODO Check internet
 
                         Alert resultAlert = new Alert(Alert.AlertType.INFORMATION);
                         resultAlert.setTitle("Payment Result");

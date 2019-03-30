@@ -127,7 +127,7 @@ public class Level {
 
     public boolean isValid(){
 
-        return false;
+        return true;
     }
 
     public boolean isOccupied(int x, int y) {
