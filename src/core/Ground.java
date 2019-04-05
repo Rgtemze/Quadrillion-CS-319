@@ -112,13 +112,14 @@ public class Ground extends Drawable{
                 }
             }
         }
-
+        // TODO: Click on circles.
         if(isMovable) {
             rect.setOnMouseDragged(handler);
             rect.setOnMouseClicked(event->{
                 if(event.getButton() == MouseButton.MIDDLE)
                     rotate();
-
+                if(event.getButton() == MouseButton.SECONDARY)
+                    flip();
             });
         }
     }

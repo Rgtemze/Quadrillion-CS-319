@@ -2,7 +2,9 @@ package core;
 
 import data.GroundData;
 import data.Record;
+import ui.MainMenu;
 
+import java.awt.*;
 import java.util.Arrays;
 
 public class Level {
@@ -126,8 +128,42 @@ public class Level {
     }
 
     public boolean isValid(){
+        for(int i = 0; i < grounds.length-1; i++){
+            Point loc1 = grounds[i].location;
+            for (int j = i+1; j < grounds.length; j++){
+                Point loc2 = grounds[j].location;
+                if (isIntersect(loc1.x, loc1.y, loc2.x, loc2.y)) {
+                    return false;
+                }
+            }
+        }
 
-        return false;
+        label:
+        for(int i = 0; i < grounds.length-1; i++){
+            Point loc1 = grounds[i].location;
+            for (int j = i+1; j < grounds.length; j++){
+                Point loc2 = grounds[j].location;
+                if (isConnected(loc1.x, loc1.y, loc2.x, loc2.y)) {
+                    continue label;
+                }
+            }
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isIntersect(int x1, int y1, int x2, int y2){
+        int distx = Math.abs(x1 - x2);
+        int disty = Math.abs(y1 - y2);
+
+        return distx < 240 && disty < 240;
+    }
+
+    private boolean isConnected(int x1, int y1, int x2, int y2){
+        int distx = Math.abs(x1 - x2);
+        int disty = Math.abs(y1 - y2);
+
+        return (distx <= 180 && disty == 240) || (distx == 240 && disty <= 180);
     }
 
     public boolean isOccupied(int x, int y) {

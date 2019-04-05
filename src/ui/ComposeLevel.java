@@ -22,8 +22,20 @@ public class ComposeLevel extends Page {
     public void prepareDesign() {
         addButton("Menu",0,0, event -> {Screen.switchPage(new MainMenu());});
         addButton("Check",0,40, event -> {
-            if(fetcher.isValidComb())
-                fetcher.uploadLevel();
+            if(fetcher.isValidComb()) {
+                try {
+                    fetcher.uploadLevel();
+                    Alert valid = new Alert(Alert.AlertType.INFORMATION);
+                    valid.setTitle("Congrulations");
+                    valid.setHeaderText("Level is valid");
+                    valid.setContentText("Thanks for improving Quadrillion");
+                    valid.showAndWait();
+                    Screen.switchPage(new MainMenu());
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             else{
                 Alert notValid = new Alert(Alert.AlertType.CONFIRMATION);
                 notValid.setTitle("Error");
