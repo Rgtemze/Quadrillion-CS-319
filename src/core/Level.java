@@ -120,6 +120,7 @@ public class Level {
     }
 
     public GroundData[] get4GroundData(){
+        relocateGrounds();
         GroundData[] groundComb = new GroundData[grounds.length];
         for(int i = 0; i < grounds.length; i++){
             groundComb[i] = grounds[i].getResult();
@@ -164,6 +165,22 @@ public class Level {
         int disty = Math.abs(y1 - y2);
 
         return (distx <= 180 && disty == 240) || (distx == 240 && disty <= 180);
+    }
+
+    private void relocateGrounds(){
+        int minx = Integer.MAX_VALUE;
+        int miny = Integer.MAX_VALUE;
+        final int OFFSET = 100;
+        for (Ground ground : grounds) {
+            if (ground.location.x < minx)
+                minx = ground.location.x;
+            if (ground.location.y < miny)
+                miny = ground.location.y;
+        }
+        for (Ground ground : grounds){
+            ground.location.x -= minx - OFFSET;
+            ground.location.y -= miny - OFFSET;
+        }
     }
 
     public boolean isOccupied(int x, int y) {
