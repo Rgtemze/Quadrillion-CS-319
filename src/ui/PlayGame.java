@@ -4,6 +4,7 @@ import com.iyzipay.model.Status;
 import core.LevelManager;
 import data.PurchaseInfo;
 import data.User;
+import database.DatabaseConnection;
 import interfaces.MoveObserver;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Insets;
@@ -74,6 +75,7 @@ public class PlayGame extends Page implements MoveObserver {
 
             if(user.hasHint()){
                 user.useHint();
+                DatabaseConnection.getInstance().updateHint();
                 LevelManager.getInstance().showHint();
             } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);

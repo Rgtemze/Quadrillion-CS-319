@@ -7,8 +7,8 @@ import javafx.stage.Stage;
 public class Screen extends Application {
 
     private static Scene gameScene;
-    private static int width = 1850;
-    private static int height = 900;
+    private static int width = 1600;
+    private static int height = 800;
     public static void switchPage(Page page) {
         gameScene.setRoot(page.getRoot());
     }

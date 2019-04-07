@@ -14,10 +14,7 @@ public class Entity {
 
     private void updateDatabase(){
         DatabaseConnection db = DatabaseConnection.getInstance();
-        User user = User.getInstance();
-        db.executeSQL(String.format("UPDATE users " +
-                "SET HINT = '%d' " +
-                "WHERE NICKNAME = '%s'; ", user.getHint(), user.getNickName()));
+        db.updateHint();
     }
 
     public String doPayment(){

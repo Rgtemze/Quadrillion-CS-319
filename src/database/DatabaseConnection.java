@@ -99,11 +99,19 @@ public class DatabaseConnection {
         return true;
     }
 
+    public void updateHint(){
+
+        User user = User.getInstance();
+        executeSQL(String.format("UPDATE users " +
+                "SET HINT = '%d' " +
+                "WHERE NICKNAME = '%s'; ", user.getHint(), user.getNickName()));
+    }
+
     private void connectDatabase() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             String dbUrl = "jdbc:mysql://localhost/quadrillion?useLegacyDatetimeCode=false&serverTimezone=Turkey";
-            conn = DriverManager.getConnection(dbUrl, "root", "mehmetalper");
+            conn = DriverManager.getConnection(dbUrl, "root", "12345678q");
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {

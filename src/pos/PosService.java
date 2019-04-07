@@ -64,8 +64,8 @@ public class PosService {
 
         Buyer buyer = new Buyer();
         buyer.setId("BY789");
-        buyer.setName("Malper");
-        buyer.setSurname("Karadagli");
+        buyer.setName(pInfo.getName());
+        buyer.setSurname(pInfo.getSurname());
         buyer.setGsmNumber("+905350000000");
         buyer.setEmail("email@email.com");
         buyer.setIdentityNumber("74300864791");
