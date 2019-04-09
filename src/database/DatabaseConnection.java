@@ -188,7 +188,7 @@ public class DatabaseConnection {
             int i = 0;
             while(rs.next()){
                 Record rec = new Record();
-                rec.setUserID(User.getInstance().getNickName());
+                rec.setUserID(rs.getString("USER_NICK"));
                 rec.setLevelID(levelID);
                 rec.setMoves(rs.getInt("MOVES"));
                 rec.setTimes(rs.getInt("TIME_ELAPSED"));

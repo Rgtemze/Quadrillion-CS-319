@@ -33,7 +33,7 @@ public class SelectLevel extends Page {
         int rectNo = (int)((Screen.getWidth() - 2 * rectWidth) / rectWidth);
         int levelCount = DatabaseConnection.getInstance().getLevelCount();
         int levelIndex = 0;
-        for(int i = 0; i < 3 && levelIndex < levelCount; i++){
+        for(int i = 0; i < levelCount / rectNo + 1 && levelIndex < levelCount; i++){
             for(int j = 0; j < rectNo && levelIndex < levelCount; j++) {
 
                 Rectangle rect = new Rectangle();
