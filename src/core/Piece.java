@@ -65,8 +65,11 @@ public class Piece extends Drawable {
             circles.add(c);
             root.getChildren().add(c);
 
-            c.setOnMouseReleased(new DragDropped());
-            c.setOnMouseDragged(new DragHandler());
+            if(point.x == 0 && point.y == 0) {
+                c.setStroke(Paint.valueOf("black"));
+                c.setOnMouseReleased(new DragDropped());
+                c.setOnMouseDragged(new DragHandler());
+            }
             c.setOnMouseClicked(new ClickHandler());
         }
     }

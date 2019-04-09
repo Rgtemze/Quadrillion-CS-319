@@ -174,16 +174,20 @@ public class PlayGame extends Page implements MoveObserver {
         AnimationTimer timer = new AnimationTimer() {
 
             private long startTime ;
-
+            private long excessTime;
             @Override
             public void start() {
                 startTime = System.currentTimeMillis();
+                excessTime = 0;
                 super.start();
             }
 
             @Override
             public void handle(long timestamp) {
                 long now = System.currentTimeMillis();
+                if(stopCountingTime) {
+                    excessTime++;
+                }
                 timeElapsed = (now - startTime) / 1000;
                 time.setText("Time Elapsed: " + timeElapsed + " sec");
             }
