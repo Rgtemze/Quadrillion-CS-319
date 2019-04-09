@@ -138,18 +138,26 @@ public class Level {
                 }
             }
         }
+        System.out.println("Not intersect");
+        int[] conn = new int[4];
+        for(int i = 0; i < 4; i++)
+            conn[i] = i;
 
-        label:
         for(int i = 0; i < grounds.length-1; i++){
             Point loc1 = grounds[i].location;
             for (int j = i+1; j < grounds.length; j++){
                 Point loc2 = grounds[j].location;
                 if (isConnected(loc1.x, loc1.y, loc2.x, loc2.y)) {
-                    continue label;
+                    System.out.println("Grounds " + i + loc1 + " and " + j + loc2 + "connected");
+                    conn[i] = Math.min(conn[i], conn[j]);
+                    conn[j] = Math.min(conn[i], conn[j]);
                 }
             }
-            return false;
         }
+
+        for(int i = 0; i < 4; i++)
+            if (conn[i] != 0) return false;
+
         return true;
     }
 
