@@ -3,6 +3,7 @@ package ui;
 import core.LevelManager;
 import core.Level;
 import data.GroundData;
+import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -11,17 +12,22 @@ import java.util.Optional;
 
 public class ComposeLevel extends Page {
     private LevelManager fetcher;
+    private Group pen;
     public ComposeLevel(){
         fetcher = LevelManager.getInstance();
-        fetcher.createLevel(true, root);
+        pen = new Group();
+        root.add(pen,0,0);
+        fetcher.createLevel(true, pen);
         fetcher.draw();
+        prepareDesign();
+
     }
 
 
     @Override
     public void prepareDesign() {
-        addButton("Menu",0,0, event -> {Screen.switchPage(new MainMenu());});
-        addButton("Check",0,40, event -> {
+        Button menu = addButton("Menu",0,0, event -> {Screen.switchPage(new MainMenu());});
+        Button check = addButton("Check",0,60, event -> {
             if(fetcher.isValidComb()) {
                 try {
                     fetcher.uploadLevel();
@@ -55,5 +61,6 @@ public class ComposeLevel extends Page {
                 }
             }
         });
+        pen.getChildren().addAll(menu, check);
     }
 }

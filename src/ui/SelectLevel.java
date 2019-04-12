@@ -7,10 +7,8 @@ import database.DatabaseConnection;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
+import javafx.scene.Group;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -20,8 +18,11 @@ import javafx.scene.text.Font;
 
 public class SelectLevel extends Page {
     private int selectedLevel;
-
-    public void openLevel() {
+    private Group pen;
+    public SelectLevel() {
+        pen = new Group();
+        root.add(pen,0,0);
+        prepareDesign();
 
     }
 
@@ -55,17 +56,18 @@ public class SelectLevel extends Page {
                     public void handle(MouseEvent event) {
                         PlayGame play = new PlayGame();
                         LevelManager manager = LevelManager.getInstance();
-                        manager.createLevel(false, finalI, play.root);
+                        manager.createLevel(false, finalI, play.getPen());
                         manager.draw();
                         manager.showLeaderboard();
                         Screen.switchPage(play);
                     }
                 });
-                root.getChildren().addAll(rect, levelLabel);
+                pen.getChildren().addAll(rect, levelLabel);
                 levelIndex++;
             }
         }
-        addButton("Menu",0,0, event -> {Screen.switchPage(new MainMenu());});
+        Button menu = addButton("Menu",0,0, event -> {Screen.switchPage(new MainMenu());});
+        pen.getChildren().add(menu);
     }
 
 

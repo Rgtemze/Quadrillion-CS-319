@@ -8,6 +8,7 @@ import database.DatabaseConnection;
 import interfaces.MoveObserver;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
@@ -22,13 +23,22 @@ public class PlayGame extends Page implements MoveObserver {
     protected int numberOfMoves;
     protected long timeElapsed;
     protected Label moves, time, hints;
-    LevelManager manager;
+    private LevelManager manager;
     boolean stopCountingTime;
+    protected Group pen;
 
     public PlayGame(){
         manager = LevelManager.getInstance();
         manager.setObserver(this);
+        pen = new Group();
+        root.add(pen,0,0);
         stopCountingTime = false;
+        prepareDesign();
+
+    }
+
+    public Group getPen(){
+        return pen;
     }
 
     protected void showSubmissionDialog(){
@@ -64,14 +74,15 @@ public class PlayGame extends Page implements MoveObserver {
 
     @Override
     public void prepareDesign() {
-        addButton("Menu",0,0, event -> {Screen.switchPage(new MainMenu());});
-        addButton("Submit", 0, 80, event -> {
+        Button menu = addButton("Menu",0,0, event -> {Screen.switchPage(new MainMenu());});
+        Button submit = addButton("Submit", 0, 60, event -> {
             showSubmissionDialog();
         });
+
         addCounters();
         User user = User.getInstance();
 
-        addButton("Get Hint", 0,40, event ->{
+        Button hint = addButton("Get Hint", 0,120, event ->{
 
             if(user.hasHint()){
                 user.useHint();
@@ -156,7 +167,7 @@ public class PlayGame extends Page implements MoveObserver {
         hints = new Label("Number of Hints: " + user.getHint());
         hints.setLayoutX(100);
         hints.setLayoutY(60);
-        root.getChildren().add(hints);
+        pen.getChildren().addAll(hints, menu, submit, hint);
     }
 
     protected void addCounters(){
@@ -164,12 +175,12 @@ public class PlayGame extends Page implements MoveObserver {
         time.setLayoutX(100);
         time.setLayoutY(0);
         time.setFont(new Font("Arial", 30));
-        root.getChildren().add(time);
+        pen.getChildren().add(time);
         moves = new Label();
         moves.setLayoutX(100);
         moves.setLayoutY(30);
         moves.setFont(new Font("Arial", 30));
-        root.getChildren().add(moves);
+        pen.getChildren().add(moves);
 
         AnimationTimer timer = new AnimationTimer() {
 

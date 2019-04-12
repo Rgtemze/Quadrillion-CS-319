@@ -15,15 +15,8 @@ import java.io.FileNotFoundException;
 
 public class Login extends Page {
 
-
-    //using MySql, users can login.
-    public void login() {
-
-    }
-
-    //using MySql, users can also register.
-    public void register() {
-
+    public Login(){
+        prepareDesign();
     }
 
     @Override
@@ -32,22 +25,16 @@ public class Login extends Page {
         Label welcome = new Label("Welcome to Quadrillion!");
         welcome.setStyle("-fx-font-family: \"Dokdo\";");
         welcome.setFont(new Font(60));
-        welcome.setLayoutX(Screen.getWidth() / 2 + 50);
-        welcome.setLayoutY(100);
 
 
         TextField userName = new TextField();
         userName.setPromptText("User Name");
-        userName.setLayoutX(Screen.getWidth() / 2 + 5);
-        userName.setLayoutY(200);
         userName.setMinSize(BTN_WIDTH, BTN_HEIGHT);
         userName.setFont(new Font(30));
 
 
         PasswordField pass = new PasswordField();
         pass.setPromptText("Password");
-        pass.setLayoutX(Screen.getWidth() / 2 + 5);
-        pass.setLayoutY(290);
         pass.setMinSize(BTN_WIDTH, BTN_HEIGHT);
         pass.setFont(new Font(30));
 
@@ -80,9 +67,14 @@ public class Login extends Page {
                 createAlert("Please fill both username and password fields!").show();
             }
         });
-
-
-        root.getChildren().addAll(welcome, userName,  pass, login, signUp);
+        root.setAlignment(Pos.CENTER);
+        root.add(welcome, 0,0);
+        root.setVgap(50);
+        root.add(userName, 0,1);
+        root.setVgap(20);
+        root.add(pass, 0,2);
+        root.add(login, 0,3);
+        root.add(signUp, 0,4);
     }
 
     private Alert createAlert(String text){
