@@ -29,6 +29,7 @@ public abstract class Page {
         btn.setLayoutY(y);
         btn.setMinSize(width, height);
         btn.setFont(new Font(size));
+        btn.getStyleClass().add("record-sales");
         return btn;
     }
 
@@ -37,6 +38,7 @@ public abstract class Page {
         btn.setOnMouseClicked(handler);
         btn.setLayoutX(x);
         btn.setLayoutY(y);
+        btn.getStyleClass().add("record-sales");
         root.getChildren().add(btn);
     }
 }

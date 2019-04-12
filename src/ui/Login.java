@@ -9,6 +9,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import ui.Page;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 public class Login extends Page {
 
 
@@ -26,7 +30,8 @@ public class Login extends Page {
     public void prepareDesign() {
 
         Label welcome = new Label("Welcome to Quadrillion!");
-        welcome.setFont(new Font(25));
+        welcome.setStyle("-fx-font-family: \"Dokdo\";");
+        welcome.setFont(new Font(60));
         welcome.setLayoutX(Screen.getWidth() / 2 + 50);
         welcome.setLayoutY(100);
 
