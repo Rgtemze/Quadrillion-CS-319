@@ -93,7 +93,6 @@ public class PlayGame extends Page implements MoveObserver {
                 alert.setTitle("Not Enough Hints");
                 alert.setHeaderText(null);
                 alert.setContentText("You do not have enough hints.\nWould you like to buy some?");
-                //alert.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
                 Optional<ButtonType> opt = alert.showAndWait();
                 if(opt.get() == ButtonType.OK) {
@@ -167,6 +166,8 @@ public class PlayGame extends Page implements MoveObserver {
         hints = new Label("Number of Hints: " + user.getHint());
         hints.setLayoutX(100);
         hints.setLayoutY(60);
+
+
         pen.getChildren().addAll(hints, menu, submit, hint);
     }
 

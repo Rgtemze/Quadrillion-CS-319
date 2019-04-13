@@ -2,6 +2,9 @@ package core;
 
 import data.GroundData;
 import data.Record;
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import ui.MainMenu;
 
 import java.awt.*;
@@ -29,6 +32,8 @@ public class Level {
 
         combineGrounds();
         adjustPieces();
+
+
     }
 
     public Level( Ground[] grounds) {
@@ -205,4 +210,7 @@ public class Level {
             System.out.println(i + " " + Arrays.toString(combination[i]));
         }
     }
+
+
+
 }

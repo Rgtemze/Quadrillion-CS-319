@@ -7,9 +7,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollBar;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
@@ -20,6 +18,7 @@ import java.util.ArrayList;
 public class Piece extends Drawable {
 
     private ArrayList<Point> circleOffsets;
+    private ArrayList<Point> initialCircleOffsets;
     private ArrayList<Circle> circles;
 
     private Level level;
@@ -29,8 +28,10 @@ public class Piece extends Drawable {
 
     private Point initialLocation;
 
+    private static KeyboardHandler kb;
     private Piece(PieceBuilder builder) {
         this.circleOffsets = builder.circleOffsets;
+        this.initialCircleOffsets = copyOffsetList(circleOffsets);
         this.root = builder.root;
         location.x = builder.x;
         location.y = builder.y;
@@ -39,8 +40,26 @@ public class Piece extends Drawable {
         circles = new ArrayList<>();
         isEmbedded = false;
 
+        if(kb == null) {
+            kb = new KeyboardHandler();
+            root.setOnKeyPressed(kb);
+        }
     }
 
+    private class KeyboardHandler implements EventHandler<KeyEvent>{
+
+        @Override
+        public void handle(KeyEvent event) {
+            if(isEmbedded) return;
+
+            if (event.getCode() == KeyCode.R) {
+                rotate();
+
+            } else if(event.getCode() == KeyCode.F){
+                flip();
+            }
+        }
+    }
     public void setLevel(Level level){
         this.level = level;
     }
@@ -62,6 +81,7 @@ public class Piece extends Drawable {
             c.setCenterY(location.getY() + point.getY() * RADIUS * 2);
             c.setRadius(RADIUS);
             c.setFill(color);
+
             circles.add(c);
             root.getChildren().add(c);
 
@@ -70,7 +90,6 @@ public class Piece extends Drawable {
                 c.setOnMouseReleased(new DragDropped());
                 c.setOnMouseDragged(new DragHandler());
             }
-            c.setOnMouseClicked(new ClickHandler());
         }
     }
 
@@ -90,18 +109,6 @@ public class Piece extends Drawable {
         recalculatePoints();
     }
 
-    private class ClickHandler implements EventHandler<MouseEvent>{
-
-        @Override
-        public void handle(MouseEvent event) {
-            if (event.getButton() == MouseButton.SECONDARY) {
-                flip();
-            } else if (event.getButton() == MouseButton.MIDDLE) {
-                if(!isEmbedded)
-                    rotate();
-            }
-        }
-    }
 
     private void recalculatePoints(){
         for(int i = 0; i < circleOffsets.size(); i++){
@@ -117,6 +124,9 @@ public class Piece extends Drawable {
         @Override
         public void handle(MouseEvent event) {
             boolean ejected = false;
+
+            kb = new KeyboardHandler();
+            root.setOnKeyPressed(kb);
             for (Circle c : circles) {
                 c.setCenterX(c.getCenterX() + event.getX() - location.getX());
                 c.setCenterY(c.getCenterY() + event.getY() - location.getY());
@@ -143,6 +153,7 @@ public class Piece extends Drawable {
 
         @Override
         public void handle(MouseEvent event) {
+            if(event.getButton() != MouseButton.PRIMARY) {return;}
             boolean hasNotValid = false;
             for (Circle c : circles) {
                 int x = (int) Math.round((c.getCenterX() - RADIUS - level.getMinX()) / Ground.EDGE_LENGTH);
@@ -168,10 +179,20 @@ public class Piece extends Drawable {
                 location.y = (int) circles.get(0).getCenterY();
             } else {
                 location = initialLocation;
+                circleOffsets = copyOffsetList(initialCircleOffsets);
                 recalculatePoints();
             }
             //level.printOccupation();
         }
+    }
+
+    private ArrayList<Point> copyOffsetList(ArrayList<Point> offset){
+        ArrayList<Point> result = new ArrayList<>();
+
+        for(Point p: offset){
+            result.add(new Point(p.x, p.y));
+        }
+        return result;
     }
 
     private void increaseNoOfMoves(){

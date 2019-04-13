@@ -39,7 +39,7 @@ public class ComponentFactory {
         pieces[10] = (new Piece.PieceBuilder(root)).addOffset(0,0).addOffset(0,1).addOffset(1,1)
                 .addOffset(2,1).addOffset(2,2).setX(1600).setY(350).setColor(Paint.valueOf("turquoise")).build();
         pieces[11] = (new Piece.PieceBuilder(root)).addOffset(0,0).addOffset(0,1).addOffset(0,2)
-                .addOffset(0,3).addOffset(1,1).setX(1600).setY(650).build();
+                .addOffset(0,3).addOffset(1,1).setX(1600).setY(650).setColor(Paint.valueOf("lightgreen")).build();
         return pieces;
     }
 
