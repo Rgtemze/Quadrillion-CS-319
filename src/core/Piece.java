@@ -85,11 +85,11 @@ public class Piece extends Drawable {
             circles.add(c);
             root.getChildren().add(c);
 
-            if(point.x == 0 && point.y == 0) {
+            //if(point.x == 0 && point.y == 0) {
                 c.setStroke(Paint.valueOf("black"));
                 c.setOnMouseReleased(new DragDropped());
                 c.setOnMouseDragged(new DragHandler());
-            }
+            //}
         }
     }
 
@@ -125,15 +125,20 @@ public class Piece extends Drawable {
         public void handle(MouseEvent event) {
             boolean ejected = false;
 
+            final Circle target = (Circle) event.getTarget();
+            int targetX = (int) target.getCenterX();
+            int targetY = (int) target.getCenterY();
             kb = new KeyboardHandler();
             root.setOnKeyPressed(kb);
             for (Circle c : circles) {
-                c.setCenterX(c.getCenterX() + event.getX() - location.getX());
-                c.setCenterY(c.getCenterY() + event.getY() - location.getY());
-                int x = (int) Math.round((c.getCenterX() - RADIUS - level.getMinX()) / Ground.EDGE_LENGTH);
-                int y = (int) Math.round((c.getCenterY() - RADIUS -  level.getMinY()) / Ground.EDGE_LENGTH);
-                //System.out.println("X: " + x + ", Y: " + y);
+
+                c.setCenterX(c.getCenterX() + event.getX() - targetX);
+                c.setCenterY(c.getCenterY() + event.getY() - targetY);
+                System.out.println(event.getX() - target.getCenterX());
+                System.out.println(event.getY() - target.getCenterY());
                 if(isEmbedded){
+                    int x = (int) Math.round((c.getCenterX() - RADIUS - level.getMinX()) / Ground.EDGE_LENGTH);
+                    int y = (int) Math.round((c.getCenterY() - RADIUS -  level.getMinY()) / Ground.EDGE_LENGTH);
                     System.out.println("x: " + x + " y: " + y + " isEmbeded: " + isEmbedded);
                     level.setOccupation(y, x, 0);
                     ejected = true;
@@ -145,7 +150,7 @@ public class Piece extends Drawable {
                 isEmbedded = false;
                 //increaseNoOfMoves();
             }
-            location = new Point((int) event.getX(), (int) event.getY());
+            location = new Point((int) circles.get(0).getCenterX(), (int) circles.get(0).getCenterY());
         }
     }
 
@@ -153,6 +158,7 @@ public class Piece extends Drawable {
 
         @Override
         public void handle(MouseEvent event) {
+            if(isEmbedded) return;
             if(event.getButton() != MouseButton.PRIMARY) {return;}
             boolean hasNotValid = false;
             for (Circle c : circles) {

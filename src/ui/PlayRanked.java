@@ -15,6 +15,7 @@ public class PlayRanked extends PlayGame {
         super();
         int levelCount = DatabaseConnection.getInstance().getLevelCount();
         int randLevel = (int) (Math.random() * levelCount);
+        pen.getChildren().clear();
         manager.createLevel(false, randLevel, getPen());
         manager.draw();
         prepareDesign();
@@ -24,9 +25,9 @@ public class PlayRanked extends PlayGame {
     @Override
     public void prepareDesign(){
         Button menu = addButton("Menu",0,0, event -> {Screen.switchPage(new MainMenu());});
-        Button check = addButton("Check",0,40, event -> {uploadResults();});
+        Button check = addButton("Check",0,60, event -> {uploadResults();});
         pen.getChildren().addAll(menu, check);
-        addCounters();
+        addCounters(pen);
     }
 
     public void uploadResults() {

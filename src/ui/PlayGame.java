@@ -28,6 +28,7 @@ public class PlayGame extends Page implements MoveObserver {
     protected Group pen;
 
     public PlayGame(){
+        System.out.println("Here");
         manager = LevelManager.getInstance();
         manager.setObserver(this);
         pen = new Group();
@@ -79,7 +80,7 @@ public class PlayGame extends Page implements MoveObserver {
             showSubmissionDialog();
         });
 
-        addCounters();
+        addCounters(pen);
         User user = User.getInstance();
 
         Button hint = addButton("Get Hint", 0,120, event ->{
@@ -171,7 +172,7 @@ public class PlayGame extends Page implements MoveObserver {
         pen.getChildren().addAll(hints, menu, submit, hint);
     }
 
-    protected void addCounters(){
+    protected void addCounters(Group pen){
         time = new Label();
         time.setLayoutX(100);
         time.setLayoutY(0);
