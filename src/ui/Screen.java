@@ -1,7 +1,10 @@
 package ui;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 public class Screen extends Application {
@@ -13,11 +16,20 @@ public class Screen extends Application {
         gameScene.setRoot(page.getRoot());
     }
 
+
+
     public static void main( String[] args ) {
         launch(args);
-
     }
-
+    protected static Button addButton(String text, int x, int y, EventHandler handler) {
+        Button btn = new Button(text);
+        btn.setOnMouseClicked(handler);
+        btn.setAlignment(Pos.CENTER);
+        btn.setLayoutX(x);
+        btn.setLayoutY(y);
+        btn.getStyleClass().add("record-sales");
+        return btn;
+    }
     @Override
     public void start(Stage primaryStage) throws Exception {
 

@@ -28,6 +28,7 @@ public class ComposeLevel extends Page {
     public void prepareDesign() {
         Button menu = addButton("Menu",0,0, event -> {Screen.switchPage(new MainMenu());});
         Button check = addButton("Check",0,60   , event -> {
+            
             if(fetcher.isValidComb()) {
                 try {
                     fetcher.uploadLevel();

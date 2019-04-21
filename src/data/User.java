@@ -10,6 +10,7 @@ public class User {
 
     private User(){
         nick = "Rgtemze";
+        totalHints = 30;
     }
 
     public static User getInstance(){

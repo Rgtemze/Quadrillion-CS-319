@@ -26,6 +26,10 @@ public class Piece extends Drawable {
     private int numberOfMoves;
     private Paint color;
 
+    private int id;
+
+    private static int piece_ids = 2;
+
     private Point initialLocation;
 
     private static KeyboardHandler kb;
@@ -39,11 +43,16 @@ public class Piece extends Drawable {
         initialLocation = location;
         circles = new ArrayList<>();
         isEmbedded = false;
+        this.id = builder.id;
 
         if(kb == null) {
             kb = new KeyboardHandler();
             root.setOnKeyPressed(kb);
         }
+    }
+
+    public Level getLevel() {
+        return level;
     }
 
     private class KeyboardHandler implements EventHandler<KeyEvent>{
@@ -93,6 +102,14 @@ public class Piece extends Drawable {
         }
     }
 
+    public ArrayList<Point> getCircleOffsets() {
+        return circleOffsets;
+    }
+
+    public void setCircleOffsets(ArrayList<Point> circleOffsets) {
+        this.circleOffsets = circleOffsets;
+    }
+
     @Override
     public void remove() {
         for(Circle c: circles){
@@ -110,7 +127,7 @@ public class Piece extends Drawable {
     }
 
 
-    private void recalculatePoints(){
+    public void recalculatePoints(){
         for(int i = 0; i < circleOffsets.size(); i++){
             Circle c = circles.get(i);
             Point point = circleOffsets.get(i);
@@ -154,6 +171,10 @@ public class Piece extends Drawable {
         }
     }
 
+    public void setLocation( Point p ) {
+        location = p;
+    }
+
     private class DragDropped implements EventHandler<MouseEvent> {
 
         @Override
@@ -174,7 +195,7 @@ public class Piece extends Drawable {
                 for (Circle c : circles) {
                     int x = (int) Math.round((c.getCenterX() - RADIUS - level.getMinX()) / Ground.EDGE_LENGTH);
                     int y = (int) Math.round((c.getCenterY() - RADIUS -  level.getMinY()) / Ground.EDGE_LENGTH);
-                    level.setOccupation(y, x, 1);
+                    level.setOccupation(y, x, id);
                     c.setCenterX(x * Ground.EDGE_LENGTH + level.getMinX() + Ground.EDGE_LENGTH / 2);
                     c.setCenterY(y * Ground.EDGE_LENGTH + level.getMinY() + Ground.EDGE_LENGTH / 2);
 
@@ -205,6 +226,15 @@ public class Piece extends Drawable {
         numberOfMoves++;
         LevelManager.getInstance().incrementMoves();
     }
+
+    public ArrayList<Point> getInitialCircleOffsets() {
+        return initialCircleOffsets;
+    }
+
+    public int getId() {
+        return id;
+    }
+
     public static class PieceBuilder{
 
         private Paint color;
@@ -212,6 +242,7 @@ public class Piece extends Drawable {
         private ArrayList<Point> circleOffsets;
         private int x;
         private int y;
+        private int id;
 
         public PieceBuilder(Group root){
             this.root = root;
@@ -230,6 +261,11 @@ public class Piece extends Drawable {
 
         public PieceBuilder setY(int y){
             this.y = y;
+            return this;
+        }
+
+        public PieceBuilder setId(int id){
+            this.id = id;
             return this;
         }
 

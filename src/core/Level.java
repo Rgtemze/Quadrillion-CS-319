@@ -2,10 +2,6 @@ package core;
 
 import data.GroundData;
 import data.Record;
-import javafx.event.EventHandler;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import ui.MainMenu;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -32,8 +28,7 @@ public class Level {
 
         combineGrounds();
         adjustPieces();
-
-
+        HintManager.getInstance().createPieceStates( pieces );
     }
 
     public Level( Ground[] grounds) {
@@ -116,6 +111,7 @@ public class Level {
     }
 
     void showHint( ) {
+        HintManager.getInstance().showHint( combination, pieces );
         System.out.println("Hint shown.");
     }
 

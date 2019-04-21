@@ -137,6 +137,7 @@ public class Ground extends Drawable{
 
         @Override
         public void handle(MouseEvent event) {
+
             int previousX = location.x;
             int previousY = location.y;
 

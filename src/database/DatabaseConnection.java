@@ -110,8 +110,8 @@ public class DatabaseConnection {
     private void connectDatabase() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            String dbUrl = "jdbc:mysql://localhost/quadrillion?useLegacyDatetimeCode=false&serverTimezone=Turkey";
-            conn = DriverManager.getConnection(dbUrl, "root", "12345678q");
+            String dbUrl = "jdbc:mysql://localhost:8889/quadrillion?useLegacyDatetimeCode=false&serverTimezone=Turkey";
+            conn = DriverManager.getConnection(dbUrl, "root", "root");
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
@@ -131,7 +131,7 @@ public class DatabaseConnection {
 
             ResultSet rs = st.executeQuery(String.format("SELECT * FROM level WHERE ID = '%d'", id));
 
-            if(rs.next()){
+            if(rs.next()) {
                 String[] rotations = rs.getString("ROTATIONS").split(";");
                 String[] locations = rs.getString("LOCATIONS").split(";");
                 String[] isfronts = rs.getString("ISFRONT").split(";");

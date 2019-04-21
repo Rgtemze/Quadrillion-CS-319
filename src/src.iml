@@ -8,7 +8,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="com.iyzipay:iyzipay-java:2.0.61" level="project" />
-    <orderEntry type="library" name="mysql:mysql-connector-java:8.0.15" level="project" />
+    <orderEntry type="library" exported="" name="com.iyzipay:iyzipay-java:2.0.61" level="project" />
+    <orderEntry type="library" exported="" name="mysql:mysql-connector-java:8.0.15" level="project" />
+    <orderEntry type="library" exported="" name="javafx-sdk-11.0" level="application" />
   </component>
 </module>
