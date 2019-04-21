@@ -1,6 +1,7 @@
 package core;
 
 import data.GroundData;
+import interfaces.MoveObserver;
 import javafx.scene.Group;
 import javafx.scene.paint.Paint;
 
@@ -9,6 +10,7 @@ public class ComponentFactory {
     private Piece[] pieces;
     private Ground[] grounds;
     private Group root;
+    private MoveObserver observer;
 
     public ComponentFactory(Group root){
         this.root = root;

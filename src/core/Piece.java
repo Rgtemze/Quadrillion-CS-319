@@ -1,5 +1,6 @@
 package core;
 
+import interfaces.MoveObserver;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
@@ -26,8 +27,8 @@ public class Piece extends Drawable {
     private int numberOfMoves;
     private Paint color;
 
+    private MoveObserver observer;
     private Point initialLocation;
-
     private static KeyboardHandler kb;
     private Piece(PieceBuilder builder) {
         this.circleOffsets = builder.circleOffsets;
@@ -44,6 +45,10 @@ public class Piece extends Drawable {
             kb = new KeyboardHandler();
             root.setOnKeyPressed(kb);
         }
+    }
+
+    public void setObserver(MoveObserver observer) {
+        this.observer = observer;
     }
 
     private class KeyboardHandler implements EventHandler<KeyEvent>{
@@ -203,7 +208,7 @@ public class Piece extends Drawable {
 
     private void increaseNoOfMoves(){
         numberOfMoves++;
-        LevelManager.getInstance().incrementMoves();
+        observer.notifyMoveChanged(numberOfMoves);
     }
     public static class PieceBuilder{
 

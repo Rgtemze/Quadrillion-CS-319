@@ -1,5 +1,6 @@
 package ui;
 
+import core.LevelManager;
 import data.User;
 import database.DatabaseConnection;
 import javafx.geometry.Insets;
@@ -15,7 +16,7 @@ import java.io.FileNotFoundException;
 
 public class Login extends Page {
 
-    public Login(){
+    public Login() {
         prepareDesign();
     }
 
@@ -47,6 +48,11 @@ public class Login extends Page {
 
                 if(!result){
                     createAlert("Username and password do not match!").show();
+                } else {
+                    // Successful login operation
+                    user.setNickName(userName.getText());
+                    user.setHint(0);
+                    Screen.switchPage(new MainMenu());
                 }
             } else {
                 createAlert("Please fill both username and password fields!").show();

@@ -1,5 +1,7 @@
 package ui;
 
+import core.LevelManager;
+import data.User;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
@@ -10,9 +12,12 @@ import javafx.scene.text.Font;
 
 public abstract class Page {
     protected GridPane root;
-
+    protected static LevelManager manager = new LevelManager();
+    protected static User user = new User();
     protected final int BTN_WIDTH = 200;
     protected final int BTN_HEIGHT = 70;
+
+
 
     public Page() {
         root = new GridPane();

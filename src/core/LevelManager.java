@@ -14,15 +14,14 @@ import javafx.scene.layout.GridPane;
 
 import java.util.Arrays;
 
-public class LevelManager {
+public class LevelManager implements MoveObserver{
     private Level currentLevel;
     private int levelID;
-    private static LevelManager instance = new LevelManager();
     private int numberOfMoves;
     private int timeElapsed;
     private MoveObserver observer;
 
-    private LevelManager() {
+    public LevelManager() {
         reset();
     }
 
@@ -33,9 +32,6 @@ public class LevelManager {
         levelID = -1;
     }
 
-    public static LevelManager getInstance(){
-        return instance;
-    }
     public void createLevel(boolean isMovable, int levelID, Group root ) {
         reset();
         this.levelID = levelID;
@@ -44,7 +40,7 @@ public class LevelManager {
 
         ComponentFactory gameComp = new ComponentFactory(root);
 
-        currentLevel = new Level( gameComp.createGrounds(isMovable, gdatas), gameComp.createPieces() );
+        currentLevel = new Level( gameComp.createGrounds(isMovable, gdatas), gameComp.createPieces(), this);
     }
 
     public void createLevel(boolean isMovable, Group root){
@@ -75,24 +71,18 @@ public class LevelManager {
 
     }
 
-    public void uploadResults(){
+    public void uploadResults(User user){
         if(levelID == -1 || numberOfMoves == 0 || timeElapsed == 0){
             return;
         }
         DatabaseConnection db = DatabaseConnection.getInstance();
         db.executeSQL(String.format("INSERT INTO leaderboards (USER_NICK, LEVEL_ID, TIME_ELAPSED, MOVES, TOTAL_SCORE) " +
                 "VALUE ('%s',%d,%d,%d,%d)",
-                User.getInstance().getNickName(), levelID, timeElapsed, numberOfMoves, 1000 / (numberOfMoves * timeElapsed)));
+                user.getNickName(), levelID, timeElapsed, numberOfMoves, 1000 / (numberOfMoves * timeElapsed)));
     }
 
     public boolean isValidComb() {
         return currentLevel.isValid();
-    }
-
-
-    public void incrementMoves() {
-        numberOfMoves++;
-        observer.notifyMoveChanged(numberOfMoves);
     }
 
     public void setTimeElapsed(int timeElapsed) {
@@ -145,5 +135,11 @@ public class LevelManager {
 
     public boolean isGameWon() {
         return currentLevel.isGameWon();
+    }
+
+    @Override
+    public void notifyMoveChanged(int numberOfMoves) {
+        numberOfMoves++;
+        observer.notifyMoveChanged(numberOfMoves);
     }
 }

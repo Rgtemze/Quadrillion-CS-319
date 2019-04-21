@@ -2,6 +2,7 @@ package core;
 
 import data.GroundData;
 import data.Record;
+import interfaces.MoveObserver;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -18,10 +19,12 @@ public class Level {
     private Record[] leaderboard;
     private int minX;
     private int minY;
+    private MoveObserver observer;
 
-    public Level( Ground[] grounds, Piece[] pieces ) {
+    public Level( Ground[] grounds, Piece[] pieces, MoveObserver observer) {
         this.pieces = pieces;
         this.grounds = grounds;
+        this.observer = observer;
         combination = new int[16][16];
 
         for(int i = 0; i < 16; i++){
@@ -32,8 +35,6 @@ public class Level {
 
         combineGrounds();
         adjustPieces();
-
-
     }
 
     public Level( Ground[] grounds) {
@@ -52,6 +53,7 @@ public class Level {
     private void adjustPieces() {
         for(Piece p : pieces){
             p.setLevel(this);
+            p.setObserver(observer);
         }
     }
 

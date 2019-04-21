@@ -55,7 +55,6 @@ public class SelectLevel extends Page {
                     @Override
                     public void handle(MouseEvent event) {
                         PlayGame play = new PlayGame();
-                        LevelManager manager = LevelManager.getInstance();
                         manager.createLevel(false, finalI, play.getPen());
                         manager.draw();
                         manager.showLeaderboard();

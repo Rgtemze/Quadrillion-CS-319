@@ -23,13 +23,10 @@ public class PlayGame extends Page implements MoveObserver {
     protected int numberOfMoves;
     protected long timeElapsed;
     protected Label moves, time, hints;
-    private LevelManager manager;
     boolean stopCountingTime;
     protected Group pen;
 
     public PlayGame(){
-        System.out.println("Here");
-        manager = LevelManager.getInstance();
         manager.setObserver(this);
         pen = new Group();
         root.add(pen,0,0);
@@ -81,14 +78,13 @@ public class PlayGame extends Page implements MoveObserver {
         });
 
         addCounters(pen);
-        User user = User.getInstance();
 
         Button hint = addButton("Get Hint", 0,120, event ->{
 
             if(user.hasHint()){
                 user.useHint();
-                DatabaseConnection.getInstance().updateHint();
-                LevelManager.getInstance().showHint();
+                DatabaseConnection.getInstance().updateHint(user);
+                manager.showHint();
             } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Not Enough Hints");
@@ -134,7 +130,7 @@ public class PlayGame extends Page implements MoveObserver {
                     crediCardInfoAlert.setResultConverter(dialogButton -> {
                         if (dialogButton == ButtonType.OK) {
                             PurchaseInfo pinfo = new PurchaseInfo(name.getText(), surname.getText(), cardNo.getText()
-                            ,cvc.getText(), date.getText(), "1.2");
+                            ,cvc.getText(), date.getText(), "1.2", user);
                             return pinfo;
                         }
                         return null;
@@ -216,7 +212,7 @@ public class PlayGame extends Page implements MoveObserver {
     }
 
     private void showHint() {
-        LevelManager.getInstance().showHint();
+        manager.showHint();
     }
 
     public void prepareGame() {
