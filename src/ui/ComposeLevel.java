@@ -18,7 +18,9 @@ public class ComposeLevel extends Page{
         manager.createLevel(true, pen);
         manager.draw();
         prepareDesign();
-
+        scale.setX(SCALE_FACTORX);
+        scale.setY(SCALE_FACTORY);
+        pen.getTransforms().add(scale);
     }
 
 

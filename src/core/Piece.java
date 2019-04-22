@@ -69,7 +69,7 @@ public class Piece extends Drawable {
         this.level = level;
     }
 
-    public static final int RADIUS = 30;
+    public static final double RADIUS = 30;
     @Override
     public void rotate() {
         for(Point point: circleOffsets){

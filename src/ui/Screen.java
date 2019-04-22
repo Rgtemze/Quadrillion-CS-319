@@ -3,13 +3,15 @@ package ui;
 import core.LevelManager;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class Screen extends Application {
 
+    private static Stage stage;
     private static Scene gameScene;
-    private static int width = 1600;
-    private static int height = 800;
+    //private static int width = 1600;
+    //private static int height = 800;
     public static void switchPage(Page page) {
         gameScene.setRoot(page.getRoot());
     }
@@ -22,23 +24,24 @@ public class Screen extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-
+        stage = primaryStage;
         Login login = new Login();
-        gameScene = new Scene(login.getRoot(), width, height);
+        gameScene = new Scene(login.getRoot(), getWidth(), getHeight());
         gameScene.getStylesheets().add("/css/button_style.css");
 
 
         primaryStage.setTitle("Quadrillion");
         primaryStage.setScene(gameScene);
+        primaryStage.setFullScreen(true);
         primaryStage.show();
     }
 
     public static int getWidth(){
-        return width;
+        return (int)stage.getWidth();
     }
 
     public static int getHeight(){
-        return height;
+        return (int)stage.getHeight();
     }
 
 }

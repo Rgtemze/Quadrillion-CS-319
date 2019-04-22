@@ -18,7 +18,6 @@ public class PlayRanked extends PlayGame {
         manager.createLevel(false, randLevel, getPen());
         manager.draw();
         prepareDesign();
-
     }
 
     @Override

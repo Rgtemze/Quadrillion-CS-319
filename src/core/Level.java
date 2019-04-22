@@ -70,8 +70,8 @@ public class Level {
             for (int i = 0; i < ground.getActiveBoard().length; i++) {
 
                 for (int j = 0; j < ground.getActiveBoard().length; j++) {
-                    int slotIndexX = (int)(ground.location.getX() + i * Ground.EDGE_LENGTH - minX) / Ground.EDGE_LENGTH;
-                    int slotIndexY = (int)(ground.location.getY() + j * Ground.EDGE_LENGTH - minY) / Ground.EDGE_LENGTH;
+                    int slotIndexX = (int)((ground.location.getX() + i * Ground.EDGE_LENGTH - minX) / Ground.EDGE_LENGTH);
+                    int slotIndexY = (int)((ground.location.getY() + j * Ground.EDGE_LENGTH - minY) / Ground.EDGE_LENGTH);
                     //System.out.println("Slot X: " + slotIndexX + " Slot Y: " + slotIndexY);
                     combination[slotIndexY][slotIndexX] = ground.getActiveBoard()[i][j];
                 }
