@@ -52,6 +52,7 @@ public class Level {
 
     private void adjustPieces() {
         for(Piece p : pieces){
+
             p.setLevel(this);
             p.setObserver(observer);
         }
@@ -111,19 +112,19 @@ public class Level {
             g.draw();
         }
 
-        if(pieces != null)
-        for(Piece p : pieces){
-            p.draw();
+        if(pieces != null) {
+            int i = 0;
+            for (Piece p : pieces) {
+                p.draw();
+                if(i++ >= 3){
+                    p.setVisibility(false);
+                }
+            }
         }
     }
 
     void showHint( ) {
         System.out.println("Hint shown.");
-    }
-
-    void seeLeaderBoard() {
-
-
     }
 
     public GroundData[] get4GroundData(){
@@ -133,6 +134,19 @@ public class Level {
             groundComb[i] = grounds[i].getResult();
         }
         return groundComb;
+    }
+
+    public void adjustVisibility(int pivot){
+
+        // Calculate
+        for(int i = 0; i < pieces.length; i++){
+            if( i >= 3 * pivot && i < (pivot + 1) * 3){
+                pieces[i].setVisibility(true);
+            } else if(!pieces[i].isEmbedded()){
+                pieces[i].setVisibility(false);
+            }
+        }
+
     }
 
     public boolean isValid(){

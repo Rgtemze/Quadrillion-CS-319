@@ -14,7 +14,7 @@ import javafx.scene.layout.GridPane;
 
 import java.util.Arrays;
 
-public class LevelManager implements MoveObserver{
+public class LevelManager{
     private Level currentLevel;
     private int levelID;
     private int numberOfMoves;
@@ -32,7 +32,7 @@ public class LevelManager implements MoveObserver{
         levelID = -1;
     }
 
-    public void createLevel(boolean isMovable, int levelID, Group root ) {
+    public void createLevel(boolean isMovable, int levelID, Group root) {
         reset();
         this.levelID = levelID;
         DatabaseConnection db = DatabaseConnection.getInstance();
@@ -40,7 +40,7 @@ public class LevelManager implements MoveObserver{
 
         ComponentFactory gameComp = new ComponentFactory(root);
 
-        currentLevel = new Level( gameComp.createGrounds(isMovable, gdatas), gameComp.createPieces(), this);
+        currentLevel = new Level( gameComp.createGrounds(isMovable, gdatas), gameComp.createPieces(), this.observer);
     }
 
     public void createLevel(boolean isMovable, Group root){
@@ -137,9 +137,4 @@ public class LevelManager implements MoveObserver{
         return currentLevel.isGameWon();
     }
 
-    @Override
-    public void notifyMoveChanged(int numberOfMoves) {
-        numberOfMoves++;
-        observer.notifyMoveChanged(numberOfMoves);
-    }
 }

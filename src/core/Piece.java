@@ -29,7 +29,9 @@ public class Piece extends Drawable {
 
     private MoveObserver observer;
     private Point initialLocation;
-    private static KeyboardHandler kb;
+    private KeyboardHandler kb;
+    private static int pivot;
+
     private Piece(PieceBuilder builder) {
         this.circleOffsets = builder.circleOffsets;
         this.initialCircleOffsets = copyOffsetList(circleOffsets);
@@ -41,10 +43,8 @@ public class Piece extends Drawable {
         circles = new ArrayList<>();
         isEmbedded = false;
 
-        if(kb == null) {
-            kb = new KeyboardHandler();
-            root.setOnKeyPressed(kb);
-        }
+        kb = new KeyboardHandler();
+        root.setOnKeyPressed(kb);
     }
 
     public void setObserver(MoveObserver observer) {
@@ -55,11 +55,18 @@ public class Piece extends Drawable {
 
         @Override
         public void handle(KeyEvent event) {
+            if(event.getCode() == KeyCode.S){
+                pivot = Math.max(0, pivot - 1);
+            } else if(event.getCode() == KeyCode.W){
+                pivot = Math.min(3, pivot + 1);
+            }
+            level.adjustVisibility(pivot);
+
+            // If piece is already embedded rotation and flip should be avoided.
             if(isEmbedded) return;
 
             if (event.getCode() == KeyCode.R) {
                 rotate();
-
             } else if(event.getCode() == KeyCode.F){
                 flip();
             }
@@ -67,6 +74,12 @@ public class Piece extends Drawable {
     }
     public void setLevel(Level level){
         this.level = level;
+    }
+
+    public void setVisibility(boolean visible){
+        for(Circle c: circles){
+            c.setVisible(visible);
+        }
     }
 
     public static final int RADIUS = 30;
@@ -114,6 +127,9 @@ public class Piece extends Drawable {
         recalculatePoints();
     }
 
+    public boolean isEmbedded(){
+        return isEmbedded;
+    }
 
     private void recalculatePoints(){
         for(int i = 0; i < circleOffsets.size(); i++){
