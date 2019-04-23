@@ -23,7 +23,9 @@ public class SelectLevel extends Page {
         pen = new Group();
         root.add(pen,0,0);
         prepareDesign();
-
+        scale.setX(SCALE_FACTORX);
+        scale.setY(SCALE_FACTORY);
+        pen.getTransforms().add(scale);
     }
 
     @Override

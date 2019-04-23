@@ -76,13 +76,13 @@ public class Piece extends Drawable {
         this.level = level;
     }
 
+    public static final double RADIUS = 30;
     public void setVisibility(boolean visible){
         for(Circle c: circles){
             c.setVisible(visible);
         }
     }
 
-    public static final int RADIUS = 30;
     @Override
     public void rotate() {
         for(Point point: circleOffsets){
