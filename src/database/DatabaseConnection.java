@@ -101,8 +101,8 @@ public class DatabaseConnection {
     private void connectDatabase() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            String dbUrl = "jdbc:mysql://localhost/quadrillion?useLegacyDatetimeCode=false&serverTimezone=Turkey";
-            conn = DriverManager.getConnection(dbUrl, "root", "mehmetalper");
+            String dbUrl = "jdbc:mysql://localhost:8889/quadrillion?useLegacyDatetimeCode=false&serverTimezone=Turkey";
+            conn = DriverManager.getConnection(dbUrl, "root", "root");
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {

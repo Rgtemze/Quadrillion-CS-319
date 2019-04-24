@@ -55,13 +55,6 @@ public class Piece extends Drawable {
 
         @Override
         public void handle(KeyEvent event) {
-            if(event.getCode() == KeyCode.S){
-                pivot = Math.max(0, pivot - 1);
-            } else if(event.getCode() == KeyCode.W){
-                pivot = Math.min(3, pivot + 1);
-            }
-            level.adjustVisibility(pivot);
-
             // If piece is already embedded rotation and flip should be avoided.
             if(isEmbedded) return;
 
@@ -77,11 +70,6 @@ public class Piece extends Drawable {
     }
 
     public static final double RADIUS = 30;
-    public void setVisibility(boolean visible){
-        for(Circle c: circles){
-            c.setVisible(visible);
-        }
-    }
 
     @Override
     public void rotate() {

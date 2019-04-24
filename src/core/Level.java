@@ -113,12 +113,8 @@ public class Level {
         }
 
         if(pieces != null) {
-            int i = 0;
             for (Piece p : pieces) {
                 p.draw();
-                if(i++ >= 3){
-                    p.setVisibility(false);
-                }
             }
         }
     }
@@ -136,18 +132,6 @@ public class Level {
         return groundComb;
     }
 
-    public void adjustVisibility(int pivot){
-
-        // Calculate
-        for(int i = 0; i < pieces.length; i++){
-            if( i >= 3 * pivot && i < (pivot + 1) * 3){
-                pieces[i].setVisibility(true);
-            } else if(!pieces[i].isEmbedded()){
-                pieces[i].setVisibility(false);
-            }
-        }
-
-    }
 
     public boolean isValid(){
         for(int i = 0; i < grounds.length-1; i++){
