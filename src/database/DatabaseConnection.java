@@ -67,6 +67,7 @@ public class DatabaseConnection {
             ResultSet rs = st.executeQuery(String.format("SELECT * FROM users WHERE NICKNAME = '%s' AND PASS = '%s'", userID, getSHA(pass)));
             boolean result;
             if(result = rs.next()){
+                // This will be useds
                 String nickName = rs.getString("NICKNAME");
                 int hint = rs.getInt("HINT");
             }
@@ -75,6 +76,26 @@ public class DatabaseConnection {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public int getHintNum(String userID, String pass){
+
+        try {
+            Statement st = null;
+            st = conn.createStatement();
+            ResultSet rs = st.executeQuery(String.format("SELECT * FROM users WHERE NICKNAME = '%s' AND PASS = '%s'", userID, getSHA(pass)));
+            boolean result;
+            int hint = 0;
+            if(result = rs.next()){
+                // This will be useds
+                String nickName = rs.getString("NICKNAME");
+                hint = rs.getInt("HINT");
+            }
+            return hint;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public boolean createUser(String userID, String pass){

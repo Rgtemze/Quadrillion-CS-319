@@ -51,7 +51,7 @@ public class Login extends Page {
                 } else {
                     // Successful login operation
                     user.setNickName(userName.getText());
-                    user.setHint(0);
+                    user.setHint( db.getHintNum(userName.getText(), pass.getText()) );
                     Screen.switchPage(new MainMenu());
                 }
             } else {
