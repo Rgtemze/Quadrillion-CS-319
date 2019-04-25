@@ -58,6 +58,10 @@ public class Piece extends Drawable {
         this.observer = observer;
     }
 
+    public Level getLevel() {
+        return this.level;
+    }
+
     private class KeyboardHandler implements EventHandler<KeyEvent>{
 
         @Override
