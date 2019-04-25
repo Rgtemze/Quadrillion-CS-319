@@ -250,6 +250,7 @@ public class HintManager {
             p.setCircleOffsets( newOffsets );
             p.setLocation( new Point(   (int)(J * Ground.EDGE_LENGTH + p.getLevel().getMinX() + Ground.EDGE_LENGTH / 2),
                                         (int)(I * Ground.EDGE_LENGTH + p.getLevel().getMinY() + Ground.EDGE_LENGTH / 2)) );
+            p.setEmbedded();
             p.recalculatePoints();
 
         } else {
