@@ -6,15 +6,8 @@ public class User {
 
     private int totalHints;
 
-    private static User instance = new User();
-
     public User(){
-        nick = "Rgtemze";
-        totalHints = 30;
-    }
 
-    public static User getInstance(){
-        return instance;
     }
 
     public boolean hasHint() {
