@@ -1,5 +1,7 @@
 package ui;
 
+import core.ComponentFactory;
+import core.HintManager;
 import core.LevelManager;
 import core.Level;
 import data.GroundData;
@@ -29,17 +31,41 @@ public class ComposeLevel extends Page{
         Button menu = addButton("Menu",0,0, event -> {Screen.switchPage(new MainMenu());});
         Button check = addButton("Check",0,60   , event -> {
             if(manager.isValidComb()) {
-                try {
-                    manager.uploadLevel();
-                    Alert valid = new Alert(Alert.AlertType.INFORMATION);
-                    valid.setTitle("Congrulations");
-                    valid.setHeaderText("Level is valid");
-                    valid.setContentText("Thanks for improving Quadrillion");
-                    valid.showAndWait();
-                    Screen.switchPage(new MainMenu());
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
+                HintManager hint = HintManager.getInstance();
+                Level l = manager.getCurrentLevel();
+                l.combineGrounds();
+                ComponentFactory gameComp = new ComponentFactory(pen);
+
+                hint.createPieceStates( gameComp.createPieces() );
+                if( hint.check( l.getCombination() ) ) {
+                    Alert noSolution = new Alert(Alert.AlertType.CONFIRMATION);
+                    noSolution.setTitle("Sorry!");
+                    noSolution.setHeaderText("Level is valid, But no solution");
+                    noSolution.setContentText("But there is no solution for that level, Do you want to continue to compose level?");
+
+                    ((Button) noSolution.getDialogPane().lookupButton(ButtonType.OK)).setText("Yes");
+                    ((Button) noSolution.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No");
+
+                    Optional<ButtonType> opt = noSolution.showAndWait();
+
+                    if(opt.get() == ButtonType.OK){
+                        noSolution.close();
+                    }
+                    else if(opt.get() == ButtonType.CANCEL){
+                        Screen.switchPage(new MainMenu());
+                    }
+                } else {
+                    try {
+                        manager.uploadLevel();
+                        Alert valid = new Alert(Alert.AlertType.INFORMATION);
+                        valid.setTitle("Congrulations");
+                        valid.setHeaderText("Level is valid");
+                        valid.setContentText("Thanks for improving Quadrillion");
+                        valid.showAndWait();
+                        Screen.switchPage(new MainMenu());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             else{

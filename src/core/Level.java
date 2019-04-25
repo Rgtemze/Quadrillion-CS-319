@@ -129,6 +129,13 @@ public class Level {
         return groundComb;
     }
 
+    public int[][] getCombination() {
+        return combination;
+    }
+
+    public Piece[] getPieces() {
+        return pieces;
+    }
 
     public boolean isValid(){
         for(int i = 0; i < grounds.length-1; i++){
@@ -162,6 +169,8 @@ public class Level {
 
         return true;
     }
+
+
 
     private boolean isIntersect(int x1, int y1, int x2, int y2){
         int distx = Math.abs(x1 - x2);

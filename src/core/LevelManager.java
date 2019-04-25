@@ -102,6 +102,10 @@ public class LevelManager{
 
     }
 
+    public Level getCurrentLevel() {
+        return currentLevel;
+    }
+
     private void openDialog(Record[] leaderboard){
         Dialog<Void> dialog = new Dialog<>();
         dialog.setTitle("Leaderboard");

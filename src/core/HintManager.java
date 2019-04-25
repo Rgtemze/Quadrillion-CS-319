@@ -17,6 +17,7 @@ public class HintManager {
     // All states of all pieces
     private PieceStates[] states;
     private int available;
+    private boolean onlyCheck;
     private int[][] combination;
 
     void printl( ArrayList<Point> circleOffsets ) {
@@ -24,6 +25,28 @@ public class HintManager {
         for (int j = 0; j < circleOffsets.size(); j++)
             System.out.printf( "(%d, %d) ", circleOffsets.get(j).x, circleOffsets.get(j).y );
         System.out.println( );
+    }
+
+    public boolean check( int[][] board ) {
+        available = ((1<<12)-1)*4;
+        System.out.println( "In ShowHint with Board: " );
+        for(int i=0;i<16;i++) {
+            for (int j = 0; j < 16; j++) {
+                combination[i][j] = board[i][j];
+
+                if( board[i][j] > 1 )
+                    available &= ~(1<<board[i][j]);
+
+                System.out.print(board[i][j] + " ");
+            }
+            System.out.println(  );
+        }
+
+        System.out.println("On Check Start, available: " + available );
+        boolean sol = f( 0, 0 );
+        System.out.println("On Check End, Sol: " + sol);
+
+        return sol;
     }
 
     public class PieceStates {
