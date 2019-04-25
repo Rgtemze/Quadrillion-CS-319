@@ -32,6 +32,10 @@ public class PlayGame extends Page implements MoveObserver {
         root.add(pen,0,0);
         stopCountingTime = false;
         prepareDesign();
+        scale.setX(SCALE_FACTORX);
+        scale.setY(SCALE_FACTORY);
+        pen.getTransforms().add(scale);
+
 
     }
 

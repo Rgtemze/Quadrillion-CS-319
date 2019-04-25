@@ -2,7 +2,10 @@ package core;
 
 import data.GroundData;
 import interfaces.MoveObserver;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Paint;
 
 public class ComponentFactory {

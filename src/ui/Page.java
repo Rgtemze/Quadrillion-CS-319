@@ -9,6 +9,7 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
+import javafx.scene.transform.Scale;
 
 public abstract class Page {
     protected GridPane root;
@@ -16,7 +17,11 @@ public abstract class Page {
     protected static User user = new User();
     protected final int BTN_WIDTH = 200;
     protected final int BTN_HEIGHT = 70;
-
+    private final int DEFAULT_WIDTH = 1920;
+    private final int DEFAULT_HEIGHT = 1080;
+    public double SCALE_FACTORX = (double)Screen.getWidth()/DEFAULT_WIDTH;
+    public double SCALE_FACTORY = (double)Screen.getHeight()/DEFAULT_HEIGHT;
+    public Scale scale = new Scale();
 
 
     public Page() {

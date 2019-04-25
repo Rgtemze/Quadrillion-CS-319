@@ -1,5 +1,6 @@
 package core;
 
+import interfaces.MoveObserver;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
@@ -26,13 +27,17 @@ public class Piece extends Drawable {
     private int numberOfMoves;
     private Paint color;
 
+
+
     private int id;
 
     private static int piece_ids = 2;
 
+    private MoveObserver observer;
     private Point initialLocation;
+    private KeyboardHandler kb;
+    private static int pivot;
 
-    private static KeyboardHandler kb;
     private Piece(PieceBuilder builder) {
         this.circleOffsets = builder.circleOffsets;
         this.initialCircleOffsets = copyOffsetList(circleOffsets);
@@ -45,20 +50,19 @@ public class Piece extends Drawable {
         isEmbedded = false;
         this.id = builder.id;
 
-        if(kb == null) {
-            kb = new KeyboardHandler();
-            root.setOnKeyPressed(kb);
-        }
+        kb = new KeyboardHandler();
+        root.setOnKeyPressed(kb);
     }
 
-    public Level getLevel() {
-        return level;
+    public void setObserver(MoveObserver observer) {
+        this.observer = observer;
     }
 
     private class KeyboardHandler implements EventHandler<KeyEvent>{
 
         @Override
         public void handle(KeyEvent event) {
+            // If piece is already embedded rotation and flip should be avoided.
             if(isEmbedded) return;
 
             if (event.getCode() == KeyCode.R) {
@@ -73,7 +77,8 @@ public class Piece extends Drawable {
         this.level = level;
     }
 
-    public static final int RADIUS = 30;
+    public static final double RADIUS = 30;
+
     @Override
     public void rotate() {
         for(Point point: circleOffsets){
@@ -126,6 +131,9 @@ public class Piece extends Drawable {
         recalculatePoints();
     }
 
+    public boolean isEmbedded(){
+        return isEmbedded;
+    }
 
     public void recalculatePoints(){
         for(int i = 0; i < circleOffsets.size(); i++){
@@ -195,7 +203,7 @@ public class Piece extends Drawable {
                 for (Circle c : circles) {
                     int x = (int) Math.round((c.getCenterX() - RADIUS - level.getMinX()) / Ground.EDGE_LENGTH);
                     int y = (int) Math.round((c.getCenterY() - RADIUS -  level.getMinY()) / Ground.EDGE_LENGTH);
-                    level.setOccupation(y, x, id);
+                    level.setOccupation(y, x, 1);
                     c.setCenterX(x * Ground.EDGE_LENGTH + level.getMinX() + Ground.EDGE_LENGTH / 2);
                     c.setCenterY(y * Ground.EDGE_LENGTH + level.getMinY() + Ground.EDGE_LENGTH / 2);
 
@@ -224,9 +232,8 @@ public class Piece extends Drawable {
 
     private void increaseNoOfMoves(){
         numberOfMoves++;
-        LevelManager.getInstance().incrementMoves();
+        observer.notifyMoveChanged(numberOfMoves);
     }
-
     public ArrayList<Point> getInitialCircleOffsets() {
         return initialCircleOffsets;
     }

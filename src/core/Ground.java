@@ -18,10 +18,11 @@ public class Ground extends Drawable{
     private int[][] frontBoard;
     private int[][] backBoard;
     private boolean isFront = true;
-    public static final int EDGE_LENGTH = 2 * RADIUS;
+
+    public static final double EDGE_LENGTH = 2 * RADIUS;
     private final static int NUMBER_OF_EDGE = 4;
-    private final static int WIDTH = EDGE_LENGTH * NUMBER_OF_EDGE;
-    private final static int HEIGHT = EDGE_LENGTH * NUMBER_OF_EDGE;
+    private final static double WIDTH = EDGE_LENGTH * NUMBER_OF_EDGE;
+    private final static double HEIGHT = EDGE_LENGTH * NUMBER_OF_EDGE;
     private ArrayList<Circle> circles;
     private boolean isMovable;
     private Rectangle rect;
