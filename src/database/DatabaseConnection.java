@@ -69,10 +69,6 @@ public class DatabaseConnection {
             if(result = rs.next()){
                 String nickName = rs.getString("NICKNAME");
                 int hint = rs.getInt("HINT");
-                User u = User.getInstance();
-                u.setNickName(nickName);
-                u.setHint(hint);
-                Screen.switchPage(new MainMenu());
             }
             return result;
         } catch (SQLException e) {
@@ -90,18 +86,13 @@ public class DatabaseConnection {
                 return false;
             }
             st.execute(String.format("INSERT INTO users (NICKNAME,PASS,HINT) VALUES ('%s','%s',%d)", userID, getSHA(pass), 0));
-            User u = User.getInstance();
-            u.setNickName(userID);
-            u.setHint(0);
         } catch(SQLException e){
             e.printStackTrace();
         }
         return true;
     }
 
-    public void updateHint(){
-
-        User user = User.getInstance();
+    public void updateHint(User user){
         executeSQL(String.format("UPDATE users " +
                 "SET HINT = '%d' " +
                 "WHERE NICKNAME = '%s'; ", user.getHint(), user.getNickName()));

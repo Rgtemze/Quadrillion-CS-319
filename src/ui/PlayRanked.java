@@ -10,7 +10,6 @@ import java.util.Optional;
 
 public class PlayRanked extends PlayGame {
 
-    LevelManager manager = LevelManager.getInstance();
     public PlayRanked() {
         super();
         int levelCount = DatabaseConnection.getInstance().getLevelCount();
@@ -56,7 +55,7 @@ public class PlayRanked extends PlayGame {
             Optional<ButtonType> opt = fin.showAndWait();
             if(opt.get() == ButtonType.OK){
                 manager.setTimeElapsed((int) timeElapsed);
-                manager.uploadResults();
+                manager.uploadResults(user);
                 manager.showLeaderboard();
                 Screen.switchPage(new MainMenu());
             }

@@ -4,6 +4,7 @@ import com.iyzipay.model.Status;
 import data.PurchaseInfo;
 import data.User;
 import database.DatabaseConnection;
+import ui.Page;
 
 public class Entity {
     private PurchaseInfo purchaseInfo;
@@ -14,14 +15,13 @@ public class Entity {
 
     private void updateDatabase(){
         DatabaseConnection db = DatabaseConnection.getInstance();
-        db.updateHint();
+        db.updateHint(purchaseInfo.getUser());
     }
 
     public String doPayment(){
         String result = PosService.getInstance().buy(purchaseInfo);
-
         if(result == null) {
-            User.getInstance().addHint();
+            purchaseInfo.getUser().addHint();
             updateDatabase();
         }
         return result;

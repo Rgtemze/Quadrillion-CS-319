@@ -21,11 +21,11 @@ public class MainMenu extends Page {
 
     @Override
     public void prepareDesign() {
-        Label welcomeText = new Label(String.format("Enjoy the Quadrillion %s!", User.getInstance().getNickName()));
+        Label welcomeText = new Label(String.format("Enjoy the Quadrillion %s!", user.getNickName()));
         welcomeText.setStyle("-fx-font-family: \"Dokdo\";");
         welcomeText.setFont(new Font(50));
 
-        Label hintText = new Label(String.format("You have %d hints", User.getInstance().getHint()));
+        Label hintText = new Label(String.format("You have %d hints", user.getHint()));
         hintText.setStyle("-fx-font-family: \"Dokdo\";");
         hintText.setAlignment(Pos.CENTER_LEFT);
         hintText.setFont(new Font(50));

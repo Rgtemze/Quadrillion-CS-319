@@ -8,7 +8,7 @@ public class User {
 
     private static User instance = new User();
 
-    private User(){
+    public User(){
         nick = "Rgtemze";
         totalHints = 30;
     }

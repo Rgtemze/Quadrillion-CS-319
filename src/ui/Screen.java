@@ -1,5 +1,6 @@
 package ui;
 
+import core.LevelManager;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -37,6 +38,7 @@ public class Screen extends Application {
         Login login = new Login();
         gameScene = new Scene(login.getRoot(), width, height);
         gameScene.getStylesheets().add("/css/button_style.css");
+
 
         primaryStage.setTitle("Quadrillion");
         primaryStage.setScene(gameScene);

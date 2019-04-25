@@ -10,15 +10,13 @@ import javafx.scene.control.ButtonType;
 
 import java.util.Optional;
 
-public class ComposeLevel extends Page {
-    private LevelManager fetcher;
+public class ComposeLevel extends Page{
     private Group pen;
-    public ComposeLevel(){
-        fetcher = LevelManager.getInstance();
+    public ComposeLevel() {
         pen = new Group();
         root.add(pen,0,0);
-        fetcher.createLevel(true, pen);
-        fetcher.draw();
+        manager.createLevel(true, pen);
+        manager.draw();
         prepareDesign();
 
     }
@@ -28,10 +26,9 @@ public class ComposeLevel extends Page {
     public void prepareDesign() {
         Button menu = addButton("Menu",0,0, event -> {Screen.switchPage(new MainMenu());});
         Button check = addButton("Check",0,60   , event -> {
-            
-            if(fetcher.isValidComb()) {
+            if(manager.isValidComb()) {
                 try {
-                    fetcher.uploadLevel();
+                    manager.uploadLevel();
                     Alert valid = new Alert(Alert.AlertType.INFORMATION);
                     valid.setTitle("Congrulations");
                     valid.setHeaderText("Level is valid");
