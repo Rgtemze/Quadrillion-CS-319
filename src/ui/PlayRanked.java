@@ -23,43 +23,11 @@ public class PlayRanked extends PlayGame {
     @Override
     public void prepareDesign(){
         Button menu = addButton("Menu",0,0, event -> {Screen.switchPage(new MainMenu());});
-        Button check = addButton("Check",0,60, event -> {uploadResults();});
+        Button check = addButton("Check",0,60, event -> {uploadResults(true);});
         pen.getChildren().addAll(menu, check);
         addCounters(pen);
     }
 
-    public void uploadResults() {
-        if(!manager.isGameWon()) {
-
-            Alert notFin = new Alert(Alert.AlertType.CONFIRMATION);
-            notFin.setTitle("Warning");
-            notFin.setHeaderText("Level not complete");
-            notFin.setContentText("Do you want to continue playing?");
-
-            ((Button) notFin.getDialogPane().lookupButton(ButtonType.OK)).setText("Yes");
-            ((Button) notFin.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No");
-            Optional<ButtonType> opt = notFin.showAndWait();
-
-            if(opt.get() == ButtonType.OK){
-                notFin.close();
-            }
-            else if(opt.get() == ButtonType.CANCEL){
-                //TODO: show leaderboard
-                Screen.switchPage(new MainMenu());
-            }
-        } else {
-            Alert fin = new Alert(Alert.AlertType.INFORMATION);
-            fin.setHeaderText("You have completed this level");
-            fin.setTitle("Congratulations");
-            Optional<ButtonType> opt = fin.showAndWait();
-            if(opt.get() == ButtonType.OK){
-                manager.setTimeElapsed((int) timeElapsed);
-                manager.uploadResults(user);
-                manager.showLeaderboard();
-                Screen.switchPage(new MainMenu());
-            }
-        }
-    }
 
     public void openRandomLevel() {
 

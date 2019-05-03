@@ -24,7 +24,6 @@ public class Piece extends Drawable {
 
     private Level level;
     private boolean isEmbedded;
-    private int numberOfMoves;
     private Paint color;
 
 
@@ -35,7 +34,6 @@ public class Piece extends Drawable {
 
     private MoveObserver observer;
     private Point initialLocation;
-    private KeyboardHandler kb;
     private static int pivot;
 
     private Piece(PieceBuilder builder) {
@@ -50,8 +48,6 @@ public class Piece extends Drawable {
         isEmbedded = false;
         this.id = builder.id;
 
-        kb = new KeyboardHandler();
-        root.setOnKeyPressed(kb);
     }
 
     public void setObserver(MoveObserver observer) {
@@ -161,8 +157,7 @@ public class Piece extends Drawable {
             final Circle target = (Circle) event.getTarget();
             int targetX = (int) target.getCenterX();
             int targetY = (int) target.getCenterY();
-            kb = new KeyboardHandler();
-            root.setOnKeyPressed(kb);
+            root.setOnKeyPressed(new KeyboardHandler());
             for (Circle c : circles) {
 
                 c.setCenterX(c.getCenterX() + event.getX() - targetX);
@@ -195,6 +190,7 @@ public class Piece extends Drawable {
 
         @Override
         public void handle(MouseEvent event) {
+            root.setOnKeyPressed(null);
             if(isEmbedded) return;
             if(event.getButton() != MouseButton.PRIMARY) {return;}
             boolean hasNotValid = false;
@@ -246,8 +242,8 @@ public class Piece extends Drawable {
     }
 
     private void increaseNoOfMoves(){
-        numberOfMoves++;
-        observer.notifyMoveChanged(numberOfMoves);
+        if(observer != null)
+        observer.notifyMoveChanged();
     }
     public ArrayList<Point> getInitialCircleOffsets() {
         return initialCircleOffsets;

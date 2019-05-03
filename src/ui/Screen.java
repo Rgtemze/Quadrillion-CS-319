@@ -37,7 +37,7 @@ public class Screen extends Application {
 
         primaryStage.setTitle("Quadrillion");
         primaryStage.setScene(gameScene);
-        primaryStage.setFullScreen(true);
+        //primaryStage.setFullScreen(true);
         primaryStage.show();
     }
 

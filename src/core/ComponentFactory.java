@@ -22,25 +22,25 @@ public class ComponentFactory {
     public Piece[] createPieces() {
         Piece[] pieces = new Piece[12];
         pieces[0] = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(1,1).addOffset(1,0)
-                .setX(1000).setY(50).setId( 2 ).setColor(Paint.valueOf("red")).build();
+                .setX(1000).setY(100).setId( 2 ).setColor(Paint.valueOf("red")).build();
         pieces[1] = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(1,1).addOffset(1,2)
                 .addOffset(1,0).addOffset(1,3).setX(1000).setY(350).setId( 3 ).setColor(Paint.valueOf("blue")).build();
         pieces[2] = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(2,1).addOffset(1,0)
                 .addOffset(1,1).setX(1000).setY(650).setId( 4 ).setColor(Paint.valueOf("green")).build();
         pieces[3] = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(1,0).addOffset(2,0)
-                .addOffset(1,1).addOffset(1,2).setX(1200).setY(50).setId( 5 ).setColor(Paint.valueOf("yellow")).build();
+                .addOffset(1,1).addOffset(1,2).setX(1200).setY(100).setId( 5 ).setColor(Paint.valueOf("yellow")).build();
         pieces[4] = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(1,1).addOffset(1,2)
                 .addOffset(0,1).addOffset(1,3).setX(1200).setY(350).setId( 6 ).setColor(Paint.valueOf("cyan")).build();
         pieces[5] = (new Piece.PieceBuilder(root)).addOffset(0, 0).addOffset(1,0).addOffset(1,1)
                 .addOffset(2,1).addOffset(2,2).setX(1200).setY(650).setId( 7 ).setColor(Paint.valueOf("gray")).build();
         pieces[6] = (new Piece.PieceBuilder(root)).addOffset(0,0).addOffset(1,0).addOffset(0,1)
-                .addOffset(1,1).addOffset(2,1).setX(1400).setY(50).setId( 8 ).setColor(Paint.valueOf("magenta")).build();
+                .addOffset(1,1).addOffset(2,1).setX(1400).setY(100).setId( 8 ).setColor(Paint.valueOf("magenta")).build();
         pieces[7] = (new Piece.PieceBuilder(root)).addOffset(0,0).addOffset(1,0).addOffset(0,1)
                 .addOffset(0,2).addOffset(1,2).setX(1400).setY(350).setId( 9 ).setColor(Paint.valueOf("pink")).build();
         pieces[8] = (new Piece.PieceBuilder(root)).addOffset(0,0).addOffset(1,0).addOffset(1,1)
                 .addOffset(2,1).addOffset(1,2).setX(1400).setY(650).setId( 10 ).setColor(Paint.valueOf("purple")).build();
         pieces[9] = (new Piece.PieceBuilder(root)).addOffset(0,0).addOffset(0,1).addOffset(0,2)
-                .addOffset(1,2).addOffset(2,2).setX(1600).setY(50).setId( 11 ).setColor(Paint.valueOf("orange")).build();
+                .addOffset(1,2).addOffset(2,2).setX(1600).setY(100).setId( 11 ).setColor(Paint.valueOf("orange")).build();
         pieces[10] = (new Piece.PieceBuilder(root)).addOffset(0,0).addOffset(0,1).addOffset(1,1)
                 .addOffset(2,1).addOffset(2,2).setX(1600).setY(350).setId( 12 ).setColor(Paint.valueOf("turquoise")).build();
         pieces[11] = (new Piece.PieceBuilder(root)).addOffset(0,0).addOffset(0,1).addOffset(0,2)

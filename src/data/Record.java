@@ -5,6 +5,14 @@ public class Record {
     private int levelID;
     private int times; // in miliseconds
     private int moves;
+    private boolean isRanked;
+    public boolean getIsRanked() {
+        return isRanked;
+    }
+
+    public void setIsRanked(boolean isRanked) {
+        this.isRanked = isRanked;
+    }
 
     public int getScore() {
         return score;

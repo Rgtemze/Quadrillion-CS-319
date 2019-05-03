@@ -5,7 +5,6 @@ public class User {
     private String nick;
 
     private int totalHints;
-
     public User(){
 
     }

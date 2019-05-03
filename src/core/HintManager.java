@@ -16,7 +16,6 @@ public class HintManager {
     // All states of all pieces
     private PieceStates[] states;
     private int available;
-    private boolean onlyCheck;
     private int[][] combination;
 
     void printl( ArrayList<Point> circleOffsets ) {
@@ -48,7 +47,7 @@ public class HintManager {
         return sol;
     }
 
-    public class PieceStates {
+    private class PieceStates {
 
         // All states of a particular piece
         private ArrayList< ArrayList<Point> > s;
@@ -135,17 +134,13 @@ public class HintManager {
 
     private static HintManager instance = new HintManager();
 
-    HintManager() {
+    public HintManager() {
         combination = new int[16][16];
         states = new PieceStates[12];
 
         for(int i=0;i<12;i++)
             states[i] = new PieceStates();
         available = ((1<<12)-1)*4;
-    }
-
-    public static HintManager getInstance(){
-        return instance;
     }
 
 

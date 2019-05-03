@@ -59,7 +59,7 @@ public class SelectLevel extends Page {
                         PlayGame play = new PlayGame();
                         manager.createLevel(false, finalI, play.getPen());
                         manager.draw();
-                        manager.showLeaderboard();
+                        manager.showLeaderboard(user);
                         Screen.switchPage(play);
                     }
                 });

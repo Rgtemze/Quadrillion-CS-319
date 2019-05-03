@@ -122,8 +122,8 @@ public class DatabaseConnection {
     private void connectDatabase() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            String dbUrl = "jdbc:mysql://localhost:8889/quadrillion?useLegacyDatetimeCode=false&serverTimezone=Turkey";
-            conn = DriverManager.getConnection(dbUrl, "root", "root");
+            String dbUrl = "jdbc:mysql://localhost/quadrillion?useLegacyDatetimeCode=false&serverTimezone=Turkey";
+            conn = DriverManager.getConnection(dbUrl, "root", "12345678q");
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
@@ -171,27 +171,37 @@ public class DatabaseConnection {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        /*
+        return null;
+    }
+
+    public Record getHighScore(String nick, int levelID, boolean isRanked){
+
+        Statement st = null;
         try {
             st = conn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-
-            if(rs.next()){
-                return rs.getString("ROTATIONS");
+            ResultSet rs = st.executeQuery(String.format("SELECT * FROM leaderboards " +
+                    "WHERE LEVEL_ID = %d and USER_NICK = '%s' and ISRANKED = %d", levelID, nick, isRanked ? 1 : 0));
+            if (rs.next()) {
+                Record rec = new Record();
+                rec.setUserID(rs.getString("USER_NICK"));
+                rec.setLevelID(levelID);
+                rec.setMoves(rs.getInt("MOVES"));
+                rec.setTimes(rs.getInt("TIME_ELAPSED"));
+                rec.setScore(rs.getInt("TOTAL_SCORE"));
+                return rec;
+            } else {
+                return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        */
-
         return null;
     }
-
     public Record[] getLeaderboard(int levelID){
         try {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(String.format("SELECT * FROM leaderboards " +
-                    "WHERE LEVEL_ID = %d ORDER BY TOTAL_SCORE DESC", levelID));
+                    "WHERE LEVEL_ID = %d and ISRANKED = 1 ORDER BY TOTAL_SCORE DESC LIMIT 10", levelID));
 
             rs.last();
             int noOfRows = rs.getRow();

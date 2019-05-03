@@ -16,13 +16,15 @@ public class Level {
     private int minX;
     private int minY;
     private MoveObserver observer;
+    private boolean isCreatingLevel;
+    HintManager hintManager;
 
-    public Level( Ground[] grounds, Piece[] pieces, MoveObserver observer ) {
+    public Level( Ground[] grounds, Piece[] pieces, MoveObserver observer, boolean isCreatingLevel) {
         this.pieces = pieces;
         this.grounds = grounds;
         this.observer = observer;
         combination = new int[16][16];
-
+        this.isCreatingLevel = isCreatingLevel;
         for(int i = 0; i < 16; i++){
             for(int j = 0; j < 16; j++){
                 combination[i][j] = 1;
@@ -31,20 +33,8 @@ public class Level {
 
         combineGrounds();
         adjustPieces();
-        HintManager.getInstance().createPieceStates( pieces );
-    }
-
-    public Level( Ground[] grounds) {
-        this.grounds = grounds;
-        combination = new int[16][16];
-
-        for(int i = 0; i < 16; i++){
-            for(int j = 0; j < 16; j++){
-                combination[i][j] = 1;
-            }
-        }
-
-        combineGrounds();
+        hintManager = new HintManager();
+        hintManager.createPieceStates( pieces );
     }
 
     private void adjustPieces() {
@@ -108,7 +98,7 @@ public class Level {
             g.draw();
         }
 
-        if(pieces != null) {
+        if(!isCreatingLevel) {
             for (Piece p : pieces) {
                 p.draw();
             }
@@ -116,7 +106,7 @@ public class Level {
     }
 
     void showHint( ) {
-        HintManager.getInstance().showHint( combination, pieces );
+        hintManager.showHint( combination, pieces );
         System.out.println("Hint shown.");
     }
 
@@ -138,6 +128,14 @@ public class Level {
     }
 
     public boolean isValid(){
+
+        //First check if it has a solution
+        boolean hasSolution = hintManager.check(combination);
+
+        if(!hasSolution){
+            return false;
+        }
+
         for(int i = 0; i < grounds.length-1; i++){
             Point loc1 = grounds[i].location;
             for (int j = i+1; j < grounds.length; j++){
@@ -203,7 +201,7 @@ public class Level {
     }
 
     public boolean isOccupied(int x, int y) {
-        return combination[x][y] == 1;
+        return combination[x][y] != 0;
     }
 
     public void setOccupation(int x, int y, int occupation) {

@@ -10,12 +10,16 @@ import javafx.animation.AnimationTimer;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import pos.Entity;
 import pos.PosService;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Optional;
 
 public class PlayGame extends Page implements MoveObserver {
@@ -63,14 +67,8 @@ public class PlayGame extends Page implements MoveObserver {
             }
         }
         else{
-            Alert fin = new Alert(Alert.AlertType.INFORMATION);
-            fin.setHeaderText("You have completed this level");
-            fin.setTitle("Congratulations");
-            Optional<ButtonType> opt = fin.showAndWait();
-            if(opt.get() == ButtonType.OK){
-                manager.showLeaderboard();
-                Screen.switchPage(new SelectLevel());
-            }
+            uploadResults(false);
+            System.out.println("Results upload");
         }
     }
 
@@ -161,28 +159,58 @@ public class PlayGame extends Page implements MoveObserver {
                     });
                 }
             }
-            hints.setText("Number of Hints: " + user.getHint());
+            hints.setText("" + user.getHint());
 
         });
-        hints = new Label("Number of Hints: " + user.getHint());
-        hints.setLayoutX(100);
-        hints.setLayoutY(60);
+        hints = new Label("" + user.getHint());
+        hints.setLayoutX(470);
+        hints.setLayoutY(30);
+        hints.setFont(new Font("Arial", 30));
 
+        try {
+            FileInputStream input = new FileInputStream("resources/key.png");
+
+            Image image = new Image(input);
+            ImageView imageView = new ImageView(image);
+            imageView.setLayoutX(400);
+            imageView.setLayoutY(10);
+            pen.getChildren().add(imageView);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         pen.getChildren().addAll(hints, menu, submit, hint);
     }
 
     protected void addCounters(Group pen){
         time = new Label();
-        time.setLayoutX(100);
-        time.setLayoutY(0);
+        time.setLayoutX(170);
+        time.setLayoutY(30);
         time.setFont(new Font("Arial", 30));
         pen.getChildren().add(time);
         moves = new Label();
-        moves.setLayoutX(100);
+        moves.setLayoutX(320);
         moves.setLayoutY(30);
         moves.setFont(new Font("Arial", 30));
         pen.getChildren().add(moves);
+
+        try {
+            FileInputStream input = new FileInputStream("resources/time.png");
+            FileInputStream input2 = new FileInputStream("resources/move.png");
+
+            Image image = new Image(input);
+            Image image2 = new Image(input2);
+            ImageView imageView = new ImageView(image);
+            imageView.setLayoutX(100);
+            imageView.setLayoutY(10);
+
+            ImageView imageView2 = new ImageView(image2);
+            imageView2.setLayoutX(250);
+            imageView2.setLayoutY(10);
+            pen.getChildren().addAll(imageView, imageView2);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         AnimationTimer timer = new AnimationTimer() {
 
@@ -202,12 +230,12 @@ public class PlayGame extends Page implements MoveObserver {
                     excessTime++;
                 }
                 timeElapsed = (now - startTime) / 1000;
-                time.setText("Time Elapsed: " + timeElapsed + " sec");
+                time.setText(timeElapsed + " sec");
             }
         };
         timer.start();
 
-        moves.setText("Number of Moves: 0");
+        moves.setText("0");
     }
 
 
@@ -230,9 +258,48 @@ public class PlayGame extends Page implements MoveObserver {
         // to see hints
     }
 
+
+    public void uploadResults(boolean isRanked) {
+        if(!manager.isGameWon()) {
+
+            Alert notFin = new Alert(Alert.AlertType.CONFIRMATION);
+            notFin.setTitle("Warning");
+            notFin.setHeaderText("Level not complete");
+            notFin.setContentText("Do you want to continue playing?");
+
+            ((Button) notFin.getDialogPane().lookupButton(ButtonType.OK)).setText("Yes");
+            ((Button) notFin.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No");
+            Optional<ButtonType> opt = notFin.showAndWait();
+
+            if(opt.get() == ButtonType.OK){
+                notFin.close();
+            }
+            else if(opt.get() == ButtonType.CANCEL){
+                //TODO: show leaderboard
+                Screen.switchPage(new MainMenu());
+            }
+        } else {
+            Alert fin = new Alert(Alert.AlertType.INFORMATION);
+            fin.setHeaderText("You have completed this level");
+            fin.setTitle("Congratulations");
+            System.out.println("Congrats");
+            Optional<ButtonType> opt = fin.showAndWait();
+            if(opt.get() == ButtonType.OK){
+                System.out.println("Congrats ok");
+                manager.setTimeElapsed((int) timeElapsed);
+                manager.setMoves(numberOfMoves);
+                System.out.println(timeElapsed);
+                System.out.println(numberOfMoves);
+                manager.uploadResults(user, isRanked);
+                manager.showLeaderboard(user);
+                Screen.switchPage(new MainMenu());
+            }
+        }
+    }
+
     @Override
-    public void notifyMoveChanged(int numberOfMoves) {
-        this.numberOfMoves = numberOfMoves;
-        moves.setText("Number of Moves: " + numberOfMoves);
+    public void notifyMoveChanged() {
+        this.numberOfMoves++;
+        moves.setText("" + numberOfMoves);
     }
 }

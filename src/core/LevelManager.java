@@ -40,14 +40,14 @@ public class LevelManager{
 
         ComponentFactory gameComp = new ComponentFactory(root);
 
-        currentLevel = new Level( gameComp.createGrounds(isMovable, gdatas), gameComp.createPieces(), this.observer);
+        currentLevel = new Level( gameComp.createGrounds(isMovable, gdatas), gameComp.createPieces(), this.observer, false);
     }
 
     public void createLevel(boolean isMovable, Group root){
         // Reset the LevelManager attributes.
         reset();
         ComponentFactory gameComp = new ComponentFactory(root);
-        currentLevel = new Level(gameComp.createGrounds(isMovable));
+        currentLevel = new Level(gameComp.createGrounds(isMovable), gameComp.createPieces(), null, true);
     }
 
     public void draw(){
@@ -71,14 +71,24 @@ public class LevelManager{
 
     }
 
-    public void uploadResults(User user){
+    public void uploadResults(User user, boolean isRanked){
         if(levelID == -1 || numberOfMoves == 0 || timeElapsed == 0){
             return;
         }
         DatabaseConnection db = DatabaseConnection.getInstance();
-        db.executeSQL(String.format("INSERT INTO leaderboards (USER_NICK, LEVEL_ID, TIME_ELAPSED, MOVES, TOTAL_SCORE) " +
-                "VALUE ('%s',%d,%d,%d,%d)",
-                user.getNickName(), levelID, timeElapsed, numberOfMoves, 1000 / (numberOfMoves * timeElapsed)));
+        int score = 10000 / (numberOfMoves * timeElapsed);
+        Record highScore = db.getHighScore(user.getNickName(), levelID, isRanked);
+
+        System.out.println(score + "/" + highScore);
+        if(highScore == null) {
+            db.executeSQL(String.format("INSERT INTO leaderboards (USER_NICK, LEVEL_ID, TIME_ELAPSED, MOVES, TOTAL_SCORE, ISRANKED) " +
+                            "VALUE ('%s',%d,%d,%d,%d, %d)",
+                    user.getNickName(), levelID, timeElapsed, numberOfMoves, score, isRanked ? 1 : 0));
+        } else if(score > highScore.getScore()){
+            db.executeSQL(String.format("UPDATE leaderboards SET TIME_ELAPSED = %d, MOVES = %d, TOTAL_SCORE = %d WHERE " +
+                    "LEVEL_ID = %d and USER_NICK = '%s' and ISRANKED = %d;",
+                    timeElapsed, numberOfMoves, score, levelID, user.getNickName(),isRanked ? 1 : 0));
+        }
     }
 
     public boolean isValidComb() {
@@ -97,8 +107,12 @@ public class LevelManager{
         this.observer = observer;
     }
 
-    public void showLeaderboard(){
-        openDialog(DatabaseConnection.getInstance().getLeaderboard(levelID));
+    public void showLeaderboard(final User user){
+        DatabaseConnection db = DatabaseConnection.getInstance();
+        Record[] leaderboard = db.getLeaderboard(levelID);
+        Record highScoreRanked = db.getHighScore(user.getNickName(), levelID, true);
+        Record highScoreCasual = db.getHighScore(user.getNickName(), levelID, false);
+        openDialog(leaderboard, highScoreCasual, highScoreRanked);
 
     }
 
@@ -106,7 +120,7 @@ public class LevelManager{
         return currentLevel;
     }
 
-    private void openDialog(Record[] leaderboard){
+    private void openDialog(Record[] leaderboard, Record highScoreCasual, Record highScoreRanked){
         Dialog<Void> dialog = new Dialog<>();
         dialog.setTitle("Leaderboard");
         dialog.setHeaderText("Top records of this level");
@@ -124,14 +138,33 @@ public class LevelManager{
         grid.add(new Label("Time Elapsed"), 2, 0);
         grid.add(new Label("Score"), 3, 0);
 
-
-        for(int i = 0; i < leaderboard.length; i++) {
-            grid.add(new Label(leaderboard[i].getUserID()), 0, i + 1);
-            grid.add(new Label(leaderboard[i].getMoves() + ""), 1, i + 1);
-            grid.add(new Label(leaderboard[i].getTimes() + "sec"), 2, i + 1);
-            grid.add(new Label(leaderboard[i].getScore() + ""), 3, i + 1);
+        int rowIndex;
+        for(rowIndex = 0; rowIndex < leaderboard.length; rowIndex++) {
+            grid.add(new Label(leaderboard[rowIndex].getUserID()), 0, rowIndex + 1);
+            grid.add(new Label(leaderboard[rowIndex].getMoves() + ""), 1, rowIndex + 1);
+            grid.add(new Label(leaderboard[rowIndex].getTimes() + "sec"), 2, rowIndex + 1);
+            grid.add(new Label(leaderboard[rowIndex].getScore() + ""), 3, rowIndex + 1);
         }
 
+
+        grid.add(new Label("..."), 0, rowIndex + 1);
+
+        // Show highscore of the user in Casual Mode
+        if(highScoreCasual != null) {
+            rowIndex++;
+            grid.add(new Label(highScoreCasual.getUserID()), 0, rowIndex + 1);
+            grid.add(new Label(highScoreCasual.getMoves() + ""), 1, rowIndex + 1);
+            grid.add(new Label(highScoreCasual.getTimes() + "sec"), 2, rowIndex + 1);
+            grid.add(new Label(highScoreCasual.getScore() + " (Your highest score in casual mode)"), 3, rowIndex + 1);
+        }
+        // Show highscore of the user in Ranked Mode
+        if(highScoreRanked != null) {
+            rowIndex++;
+            grid.add(new Label(highScoreRanked.getUserID()), 0, rowIndex + 1);
+            grid.add(new Label(highScoreRanked.getMoves() + ""), 1, rowIndex + 1);
+            grid.add(new Label(highScoreRanked.getTimes() + "sec"), 2, rowIndex + 1);
+            grid.add(new Label(highScoreRanked.getScore() + " (Your highest score in ranked mode)"), 3, rowIndex + 1);
+        }
         dialog.getDialogPane().setContent(grid);
 
         dialog.showAndWait();
@@ -141,4 +174,7 @@ public class LevelManager{
         return currentLevel.isGameWon();
     }
 
+    public void setMoves(int numberOfMoves) {
+        this.numberOfMoves = numberOfMoves;
+    }
 }
