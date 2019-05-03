@@ -211,7 +211,9 @@ public class HintManager {
             }
             System.out.println(  );
         }
-
+        if( available == 0 ) {
+            return false;
+        }
         System.out.println("FULLY BRUTE FORCE HINT BEGIN, available: " + available );
         boolean sol = f( 0, 0 );
         System.out.println("FULLY BRUTE FORCE HINT END, Sol: " + sol);
