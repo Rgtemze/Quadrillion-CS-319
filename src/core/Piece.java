@@ -241,7 +241,7 @@ public class Piece extends Drawable {
         return result;
     }
 
-    private void increaseNoOfMoves(){
+    public void increaseNoOfMoves(){
         if(observer != null)
         observer.notifyMoveChanged();
     }

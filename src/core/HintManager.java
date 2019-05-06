@@ -249,6 +249,7 @@ public class HintManager {
                                         (int)(I * Ground.EDGE_LENGTH + p.getLevel().getMinY() + Ground.EDGE_LENGTH / 2)) );
             p.setEmbedded();
             p.recalculatePoints();
+            p.increaseNoOfMoves();
 
         } else {
             Alert valid = new Alert(Alert.AlertType.INFORMATION);
