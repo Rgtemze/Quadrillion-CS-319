@@ -28,13 +28,17 @@ public class PlayGame extends Page implements MoveObserver {
     protected long timeElapsed;
     protected Label moves, time, hints;
     boolean stopCountingTime;
+    private long firstTime;
     protected Group pen;
-
+    AnimationTimer timer;
+    private boolean isFirst;
     public PlayGame(){
+        stopCountingTime = false;
         manager.setObserver(this);
+        firstTime = 0;
+        isFirst = true;
         pen = new Group();
         root.add(pen,0,0);
-        stopCountingTime = false;
         prepareDesign();
         scale.setX(SCALE_FACTORX);
         scale.setY(SCALE_FACTORY);
@@ -56,9 +60,11 @@ public class PlayGame extends Page implements MoveObserver {
 
             ((Button) notFin.getDialogPane().lookupButton(ButtonType.OK)).setText("Yes");
             ((Button) notFin.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No");
+            stopCountingTime = true;
             Optional<ButtonType> opt = notFin.showAndWait();
 
             if(opt.get() == ButtonType.OK){
+                stopCountingTime = false;
                 notFin.close();
             }
             else if(opt.get() == ButtonType.CANCEL){
@@ -88,6 +94,7 @@ public class PlayGame extends Page implements MoveObserver {
                 DatabaseConnection.getInstance().updateHint(user);
                 manager.showHint();
             } else {
+                stopCountingTime = true;
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Not Enough Hints");
                 alert.setHeaderText(null);
@@ -104,6 +111,8 @@ public class PlayGame extends Page implements MoveObserver {
                     grid.setVgap(10);
                     grid.setPadding(new Insets(20, 150, 10, 10));
                     crediCardInfoAlert.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+                    crediCardInfoAlert.setTitle("Purchase Hint");
+                    crediCardInfoAlert.setHeaderText("The below fields are all required");
 
                     TextField name = new TextField();
                     name.setPromptText("Name");
@@ -158,6 +167,7 @@ public class PlayGame extends Page implements MoveObserver {
 
                     });
                 }
+                stopCountingTime = false;
             }
             hints.setText("" + user.getHint());
 
@@ -212,29 +222,28 @@ public class PlayGame extends Page implements MoveObserver {
             e.printStackTrace();
         }
 
-        AnimationTimer timer = new AnimationTimer() {
+        if(timer == null) {
+            timer = new AnimationTimer() {
 
-            private long startTime ;
-            private long excessTime;
-            @Override
-            public void start() {
-                startTime = System.currentTimeMillis();
-                excessTime = 0;
-                super.start();
-            }
+                private long startTime;
+                private long excessTime;
 
-            @Override
-            public void handle(long timestamp) {
-                long now = System.currentTimeMillis();
-                if(stopCountingTime) {
-                    excessTime++;
+                @Override
+                public void start() {
+                    startTime = System.currentTimeMillis();
+                    super.start();
                 }
-                timeElapsed = (now - startTime) / 1000;
-                time.setText(timeElapsed + " sec");
-            }
-        };
-        timer.start();
 
+                @Override
+                public void handle(long timestamp) {
+                    long now = System.currentTimeMillis();
+                    timeElapsed = (now - startTime) / 1000;
+                    firstTime = now;
+                    time.setText(timeElapsed + " sec");
+                }
+            };
+            timer.start();
+        }
         moves.setText("0");
     }
 
@@ -269,9 +278,12 @@ public class PlayGame extends Page implements MoveObserver {
 
             ((Button) notFin.getDialogPane().lookupButton(ButtonType.OK)).setText("Yes");
             ((Button) notFin.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No");
+            stopCountingTime = true;
             Optional<ButtonType> opt = notFin.showAndWait();
-
+            System.out.println("stop 1:" + stopCountingTime);
             if(opt.get() == ButtonType.OK){
+                System.out.println("stop 2:" + stopCountingTime);
+                stopCountingTime = false;
                 notFin.close();
             }
             else if(opt.get() == ButtonType.CANCEL){
@@ -279,6 +291,11 @@ public class PlayGame extends Page implements MoveObserver {
                 Screen.switchPage(new MainMenu());
             }
         } else {
+
+            System.out.println(timeElapsed);
+            System.out.println(numberOfMoves);
+            timer.stop();
+            stopCountingTime = true;
             Alert fin = new Alert(Alert.AlertType.INFORMATION);
             fin.setHeaderText("You have completed this level");
             fin.setTitle("Congratulations");
@@ -288,8 +305,6 @@ public class PlayGame extends Page implements MoveObserver {
                 System.out.println("Congrats ok");
                 manager.setTimeElapsed((int) timeElapsed);
                 manager.setMoves(numberOfMoves);
-                System.out.println(timeElapsed);
-                System.out.println(numberOfMoves);
                 manager.uploadResults(user, isRanked);
                 manager.showLeaderboard(user);
                 Screen.switchPage(new MainMenu());

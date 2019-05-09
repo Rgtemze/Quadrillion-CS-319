@@ -18,7 +18,7 @@ public class User {
     }
 
     public void addHint() {
-        totalHints++;
+        totalHints += 10;
     }
 
     public int getHint() {
